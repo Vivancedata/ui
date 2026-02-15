@@ -19,14 +19,16 @@ export interface SkeletonProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof skeletonVariants> {}
 
-function Skeleton({ className, variant, ...props }: SkeletonProps) {
-  return (
+const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
+  ({ className, variant, ...props }, ref) => (
     <div
+      ref={ref}
       className={cn(skeletonVariants({ variant }), className)}
       {...props}
     />
-  );
-}
+  )
+);
+Skeleton.displayName = "Skeleton";
 
 // Pre-built skeleton patterns
 const SkeletonText = React.forwardRef<

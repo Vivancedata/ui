@@ -28,6 +28,8 @@ const buttonVariants = cva(
           "glass text-foreground hover:bg-[var(--glass-bg)] active:scale-[0.98]",
         // Glow variants
         glow: "bg-primary text-primary-foreground glow-primary hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] active:scale-[0.98]",
+        // CTA primary variant
+        primary: "cta-primary",
       },
       size: {
         default: "h-10 px-4 py-2",
