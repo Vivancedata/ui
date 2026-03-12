@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo, ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 import { cn } from "../lib/utils";
 
-export interface CommandItem {
+const EMPTY_CATEGORIES: Record<string, string> = {};
+
+export interface CommandPaletteItem {
   id: string;
   title: string;
   description?: string;
@@ -16,10 +18,10 @@ export interface CommandItem {
 
 interface CommandPaletteProps {
   className?: string;
-  commands: CommandItem[];
+  commands: CommandPaletteItem[];
   categories?: Record<string, string>;
   placeholder?: string;
-  onSearch?: (query: string) => CommandItem[];
+  onSearch?: (query: string) => CommandPaletteItem[];
   triggerLabel?: string;
   shortcutKey?: string;
 }
@@ -27,7 +29,7 @@ interface CommandPaletteProps {
 export function CommandPalette({
   className,
   commands,
-  categories = {},
+  categories = EMPTY_CATEGORIES,
   placeholder = "Search commands...",
   onSearch,
   triggerLabel = "Search",
@@ -38,6 +40,27 @@ export function CommandPalette({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  const closePalette = useCallback(() => {
+    setIsOpen(false);
+    setQuery("");
+    setSelectedIndex(0);
+  }, []);
+
+  const openPalette = useCallback(() => {
+    setIsOpen(true);
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+  }, []);
+
+  const runCommand = useCallback(
+    (command: CommandPaletteItem) => {
+      command.action();
+      closePalette();
+    },
+    [closePalette]
+  );
 
   const filteredCommands = useMemo(() => {
     if (!query.trim()) return commands;
@@ -60,7 +83,11 @@ export function CommandPalette({
     (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === shortcutKey) {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        if (isOpen) {
+          closePalette();
+        } else {
+          openPalette();
+        }
         return;
       }
 
@@ -68,8 +95,7 @@ export function CommandPalette({
 
       switch (e.key) {
         case "Escape":
-          setIsOpen(false);
-          setQuery("");
+          closePalette();
           break;
         case "ArrowDown":
           e.preventDefault();
@@ -86,14 +112,12 @@ export function CommandPalette({
         case "Enter":
           e.preventDefault();
           if (filteredCommands[selectedIndex]) {
-            filteredCommands[selectedIndex].action();
-            setIsOpen(false);
-            setQuery("");
+            runCommand(filteredCommands[selectedIndex]);
           }
           break;
       }
     },
-    [isOpen, filteredCommands, selectedIndex, shortcutKey]
+    [closePalette, filteredCommands, isOpen, openPalette, runCommand, selectedIndex, shortcutKey]
   );
 
   useEffect(() => {
@@ -106,19 +130,6 @@ export function CommandPalette({
   }, [filteredCommands.length]);
 
   useEffect(() => {
-    if (isOpen) {
-      inputRef.current?.focus();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setQuery("");
-      setSelectedIndex(0);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
     if (listRef.current && filteredCommands.length > 0) {
       const selectedElement = listRef.current.querySelector(
         `[data-index="${selectedIndex}"]`
@@ -128,7 +139,7 @@ export function CommandPalette({
   }, [selectedIndex, filteredCommands.length]);
 
   const groupedCommands = useMemo(() => {
-    const groups: Record<string, CommandItem[]> = {};
+    const groups: Record<string, CommandPaletteItem[]> = {};
 
     filteredCommands.forEach((cmd) => {
       if (!groups[cmd.category]) {
@@ -147,10 +158,10 @@ export function CommandPalette({
   let globalIndex = -1;
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={openPalette}
         className={cn(
           "flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground",
           "bg-muted/50 hover:bg-muted rounded-lg border border-border/50 transition-colors",
@@ -171,15 +182,15 @@ export function CommandPalette({
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
+              onClick={closePalette}
               className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
-            />
+              />
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
@@ -244,11 +255,7 @@ export function CommandPalette({
                                 key={cmd.id}
                                 type="button"
                                 data-index={globalIndex}
-                                onClick={() => {
-                                  cmd.action();
-                                  setIsOpen(false);
-                                  setQuery("");
-                                }}
+                                onClick={() => runCommand(cmd)}
                                 onMouseEnter={() => setSelectedIndex(globalIndex)}
                                 className={cn(
                                   "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors",
@@ -310,12 +317,12 @@ export function CommandPalette({
                       close
                     </span>
                   </div>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>
-    </>
+    </LazyMotion>
   );
 }

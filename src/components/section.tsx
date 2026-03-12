@@ -39,13 +39,12 @@ export interface SectionProps
 }
 
 const Section = React.forwardRef<HTMLElement, SectionProps>(
-  ({ className, variant, padding, container, as: Component = "section", ...props }, ref) => (
-    <Component
-      ref={ref as any}
-      className={cn(sectionVariants({ variant, padding, container }), className)}
-      {...props}
-    />
-  )
+  ({ className, variant, padding, container, as: Component = "section", ...props }, ref) =>
+    React.createElement(Component, {
+      ...props,
+      ref,
+      className: cn(sectionVariants({ variant, padding, container }), className),
+    })
 );
 Section.displayName = "Section";
 

@@ -64,7 +64,7 @@ interface DefaultErrorFallbackProps {
 }
 
 export function DefaultErrorFallback({
-  error,
+  error: _error,
   reset,
   title = "Something went wrong",
   description = "We encountered an unexpected error. Please try again.",
@@ -93,9 +93,7 @@ export function DefaultErrorFallback({
 
         <h2 className="text-section-title mb-3">{title}</h2>
         <p className="text-description mb-6">{description}</p>
-
-
-<div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
             className="cta-primary px-6 py-3 rounded-xl focus-ring"
