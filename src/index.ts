@@ -71,16 +71,6 @@ export {
   CarouselNext,
   type CarouselApi,
 } from "./components/carousel";
-export {
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  FormField,
-  useFormField,
-} from "./components/form";
 export { Progress, type ProgressProps } from "./components/progress";
 export { ProgressCircle, ProgressCircleSkeleton, type ProgressCircleProps, type ProgressCircleSize } from "./components/progress-circle";
 export { Spinner, PageSpinner, BorderSpinner, type SpinnerProps } from "./components/spinner";

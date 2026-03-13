@@ -2,17 +2,9 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import * as ReactHookForm from "react-hook-form";
+import ReactHookForm, { type ControllerProps, type FieldPath, type FieldValues } from "react-hook-form";
 import { cn } from "../lib/utils";
 import { Label } from "./label";
-
-type ControllerProps<
-  TFieldValues extends ReactHookForm.FieldValues = ReactHookForm.FieldValues,
-  TName extends ReactHookForm.FieldPath<TFieldValues> = ReactHookForm.FieldPath<TFieldValues>
-> = ReactHookForm.ControllerProps<TFieldValues, TName>;
-
-type FieldValues = ReactHookForm.FieldValues;
-type FieldPath<TFieldValues extends FieldValues> = ReactHookForm.FieldPath<TFieldValues>;
 
 const Form = ReactHookForm.FormProvider;
 
