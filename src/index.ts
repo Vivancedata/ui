@@ -92,7 +92,7 @@ export { Container, containerVariants, type ContainerProps } from "./components/
 export { ThemeProvider, type ThemeProviderProps } from "./components/theme-provider";
 export { ThemeToggle, type ThemeToggleProps, type ThemeToggleMode } from "./components/theme-toggle";
 export { Toaster } from "./components/toaster";
-export { useToast, toast, reducer as toastReducer } from "./components/use-toast";
+export { useToast, toast, reducer, reducer as toastReducer } from "./components/use-toast";
 
 // Radix UI primitives
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./components/accordion";
