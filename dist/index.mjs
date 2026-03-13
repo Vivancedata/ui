@@ -568,7 +568,7 @@ var Alert = React6.forwardRef(
 );
 Alert.displayName = "Alert";
 var AlertTitle = React6.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx7(
-  "h5",
+  "div",
   {
     ref,
     className: cn("mb-1 font-medium leading-none tracking-tight", className),

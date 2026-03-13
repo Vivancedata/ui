@@ -42,12 +42,12 @@ describe("button", () => {
   it("renders slot content when used asChild", () => {
     render(
       <Button asChild variant="outline">
-        <a href="/docs">Docs</a>
+        <a href="https://example.com/docs">Docs</a>
       </Button>
     );
 
     const link = screen.getByRole("link", { name: "Docs" });
-    expect(link).toHaveAttribute("href", "/docs");
+    expect(link).toHaveAttribute("href", "https://example.com/docs");
     expect(link.className).toContain("border");
     expect(buttonVariants({ variant: "success" })).toContain("bg-success");
   });

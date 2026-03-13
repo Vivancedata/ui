@@ -27,6 +27,8 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --external react",
     "dev": "tsup src/index.ts --format cjs,esm --dts --external react --watch",
     "lint": "eslint src/",
+    "react-doctor:score": "npx -y react-doctor@latest . --score",
+    "react-doctor:ci": "node scripts/check-react-doctor-score.mjs",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "type-check": "npm run typecheck",
