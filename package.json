@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Vivancedata design system and component library",
   "main": "dist/index.js",
-  "module": "src/index.ts",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
@@ -14,11 +14,9 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./src/index.ts",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./components/use-toast": "./src/components/use-toast.ts",
-    "./components/*": "./src/components/*.tsx",
     "./styles": "./src/styles/globals.css",
     "./tailwind": "./tailwind.preset.ts",
     "./tailwind-config": "./tailwind.config.ts"
