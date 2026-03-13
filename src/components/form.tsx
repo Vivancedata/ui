@@ -2,18 +2,19 @@
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import {
-  Controller,
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
-  FormProvider,
-  useFormContext,
-} from "react-hook-form";
+import * as ReactHookForm from "react-hook-form";
 import { cn } from "../lib/utils";
 import { Label } from "./label";
 
-const Form = FormProvider;
+type ControllerProps<
+  TFieldValues extends ReactHookForm.FieldValues = ReactHookForm.FieldValues,
+  TName extends ReactHookForm.FieldPath<TFieldValues> = ReactHookForm.FieldPath<TFieldValues>
+> = ReactHookForm.ControllerProps<TFieldValues, TName>;
+
+type FieldValues = ReactHookForm.FieldValues;
+type FieldPath<TFieldValues extends FieldValues> = ReactHookForm.FieldPath<TFieldValues>;
+
+const Form = ReactHookForm.FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -31,7 +32,7 @@ const FormField = <
   ...props
 }: ControllerProps<TFieldValues, TName>) => (
   <FormFieldContext.Provider value={{ name: props.name }}>
-    <Controller {...props} />
+    <ReactHookForm.Controller {...props} />
   </FormFieldContext.Provider>
 );
 
@@ -44,7 +45,7 @@ const FormItemContext = React.createContext<FormItemContextValue>({} as FormItem
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
-  const { getFieldState, formState } = useFormContext();
+  const { getFieldState, formState } = ReactHookForm.useFormContext();
 
   const fieldState = getFieldState(fieldContext.name, formState);
 

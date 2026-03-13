@@ -1158,22 +1158,18 @@ CarouselNext.displayName = "CarouselNext";
 // src/components/form.tsx
 import * as React13 from "react";
 import { Slot as Slot2 } from "@radix-ui/react-slot";
-import {
-  Controller,
-  FormProvider,
-  useFormContext
-} from "react-hook-form";
+import * as ReactHookForm from "react-hook-form";
 import { jsx as jsx14 } from "react/jsx-runtime";
-var Form = FormProvider;
+var Form = ReactHookForm.FormProvider;
 var FormFieldContext = React13.createContext({});
 var FormField = ({
   ...props
-}) => /* @__PURE__ */ jsx14(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx14(Controller, { ...props }) });
+}) => /* @__PURE__ */ jsx14(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx14(ReactHookForm.Controller, { ...props }) });
 var FormItemContext = React13.createContext({});
 var useFormField = () => {
   const fieldContext = React13.useContext(FormFieldContext);
   const itemContext = React13.useContext(FormItemContext);
-  const { getFieldState, formState } = useFormContext();
+  const { getFieldState, formState } = ReactHookForm.useFormContext();
   const fieldState = getFieldState(fieldContext.name, formState);
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>");
@@ -4740,6 +4736,7 @@ export {
   navigationMenuTriggerStyle,
   parallaxScroll,
   photoReveal,
+  reducer,
   scaleUp,
   sectionVariants,
   showContainerVariants,

@@ -231,6 +231,7 @@ __export(index_exports, {
   navigationMenuTriggerStyle: () => navigationMenuTriggerStyle,
   parallaxScroll: () => parallaxScroll,
   photoReveal: () => photoReveal,
+  reducer: () => reducer,
   scaleUp: () => scaleUp,
   sectionVariants: () => sectionVariants,
   showContainerVariants: () => showContainerVariants,
@@ -1426,18 +1427,18 @@ CarouselNext.displayName = "CarouselNext";
 // src/components/form.tsx
 var React13 = __toESM(require("react"));
 var import_react_slot2 = require("@radix-ui/react-slot");
-var import_react_hook_form = require("react-hook-form");
+var ReactHookForm = __toESM(require("react-hook-form"));
 var import_jsx_runtime14 = require("react/jsx-runtime");
-var Form = import_react_hook_form.FormProvider;
+var Form = ReactHookForm.FormProvider;
 var FormFieldContext = React13.createContext({});
 var FormField = ({
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_react_hook_form.Controller, { ...props }) });
+}) => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(ReactHookForm.Controller, { ...props }) });
 var FormItemContext = React13.createContext({});
 var useFormField = () => {
   const fieldContext = React13.useContext(FormFieldContext);
   const itemContext = React13.useContext(FormItemContext);
-  const { getFieldState, formState } = (0, import_react_hook_form.useFormContext)();
+  const { getFieldState, formState } = ReactHookForm.useFormContext();
   const fieldState = getFieldState(fieldContext.name, formState);
   if (!fieldContext) {
     throw new Error("useFormField should be used within <FormField>");
@@ -5005,6 +5006,7 @@ function DefaultErrorFallback({
   navigationMenuTriggerStyle,
   parallaxScroll,
   photoReveal,
+  reducer,
   scaleUp,
   sectionVariants,
   showContainerVariants,
