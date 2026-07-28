@@ -1,5 +1,9 @@
 # @vivancedata/ui
 
+<p align="center">
+  <img src="docs/assets/hero.png" alt="ui preview" width="640">
+</p>
+
 A design system and component library for Vivancedata projects. Built with React, Tailwind CSS, and Radix UI primitives.
 
 ## Features
