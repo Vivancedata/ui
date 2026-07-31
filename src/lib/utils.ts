@@ -1,5 +1,38 @@
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+/**
+ * The named type scale in tailwind.preset.ts produces classes like
+ * `text-body-sm` and `text-display-xl`. tailwind-merge only knows Tailwind's
+ * stock font sizes, so it classifies these as text *colours* and silently drops
+ * any real colour earlier in the same cn() call -- which renders ink text on an
+ * ink button. Registering them as font sizes is the fix, and it has to live
+ * here rather than at the call sites.
+ *
+ * Keep this list in sync with `theme.extend.fontSize` in tailwind.preset.ts.
+ */
+const FONT_SIZE_KEYS = [
+  "display-xl",
+  "display",
+  "heading-1",
+  "heading-2",
+  "heading-3",
+  "heading-4",
+  "eyebrow",
+  "body-lg",
+  "body",
+  "body-sm",
+  "caption",
+  "code",
+] as const;
+
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: [...FONT_SIZE_KEYS] }],
+    },
+  },
+});
 
 /**
  * Merge class names with Tailwind CSS classes

@@ -6,10 +6,11 @@ const sectionVariants = cva("w-full", {
   variants: {
     variant: {
       default: "",
-      gradient: "gradient-vivance",
+      // The hero mesh -- the system's only decorative treatment. Use on a hero
+      // band and nowhere else.
+      mesh: "hero-mesh",
       muted: "bg-muted/50",
-      card: "bg-card rounded-lg border",
-      glass: "glass rounded-lg",
+      card: "bg-card rounded-md border border-border",
     },
     padding: {
       none: "",

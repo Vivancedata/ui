@@ -48,16 +48,10 @@ __export(index_exports, {
   AlertDialogTitle: () => AlertDialogTitle,
   AlertDialogTrigger: () => AlertDialogTrigger,
   AlertTitle: () => AlertTitle,
-  AnimatedBlob: () => AnimatedBlob,
-  AnimatedCard: () => AnimatedCard,
-  AnimatedGrid: () => AnimatedGrid,
-  AnimatedHeading: () => AnimatedHeading,
-  AnimatedShapes: () => AnimatedShapes,
   Avatar: () => Avatar,
   AvatarFallback: () => AvatarFallback,
   AvatarImage: () => AvatarImage,
   Badge: () => Badge,
-  BorderBeamButton: () => BorderBeamButton,
   BorderSpinner: () => BorderSpinner,
   BreadcrumbNav: () => BreadcrumbNav,
   Button: () => Button,
@@ -84,8 +78,6 @@ __export(index_exports, {
   CommandSeparator: () => CommandSeparator,
   CommandShortcut: () => CommandShortcut,
   Container: () => Container,
-  CursorFollower: () => CursorFollower,
-  CursorGlow: () => CursorGlow,
   DefaultErrorFallback: () => DefaultErrorFallback,
   Dialog: () => Dialog,
   DialogClose: () => DialogClose,
@@ -114,17 +106,9 @@ __export(index_exports, {
   DropdownMenuTrigger: () => DropdownMenuTrigger,
   ErrorBoundary: () => ErrorBoundary,
   ExpandableCard: () => ExpandableCard,
-  FloatingElement: () => FloatingElement,
-  GlassCard: () => GlassCard,
-  GlowButton: () => GlowButton,
-  GlowSection: () => GlowSection,
-  GradientCursorGlow: () => GradientCursorGlow,
-  GradientText: () => GradientText,
   Heading: () => Heading,
-  HeroGlowSection: () => HeroGlowSection,
   Input: () => Input,
   Label: () => Label,
-  MagneticButton: () => MagneticButton,
   MaskReveal: () => MaskReveal,
   NavigationMenu: () => NavigationMenu,
   NavigationMenuContent: () => NavigationMenuContent,
@@ -134,21 +118,15 @@ __export(index_exports, {
   NavigationMenuList: () => NavigationMenuList,
   NavigationMenuTrigger: () => NavigationMenuTrigger,
   NavigationMenuViewport: () => NavigationMenuViewport,
-  OrbitElement: () => OrbitElement,
   PageSpinner: () => PageSpinner,
   PageTransition: () => PageTransition,
-  ParallaxScroll: () => ParallaxScroll,
   ParallaxSection: () => ParallaxSection,
-  ParticlesBackground: () => ParticlesBackground,
   Progress: () => Progress,
   ProgressCircle: () => ProgressCircle,
   ProgressCircleSkeleton: () => ProgressCircleSkeleton,
-  PulsingElement: () => PulsingElement,
   RadioGroup: () => RadioGroup2,
   RadioGroupItem: () => RadioGroupItem,
   ReadingProgress: () => ReadingProgress,
-  RippleButton: () => RippleButton,
-  RotatingElement: () => RotatingElement,
   ScaleOnScroll: () => ScaleOnScroll,
   ScrollArea: () => ScrollArea,
   ScrollBar: () => ScrollBar,
@@ -173,11 +151,9 @@ __export(index_exports, {
   SkeletonInput: () => SkeletonInput,
   SkeletonText: () => SkeletonText,
   Spinner: () => Spinner,
-  SpotlightCursor: () => SpotlightCursor,
   StaggerContainer: () => StaggerContainer,
   StaggerItem: () => StaggerItem,
   StatusBadge: () => StatusBadge,
-  SubtleGlowSection: () => SubtleGlowSection,
   Switch: () => Switch,
   Tabs: () => Tabs,
   TabsContent: () => TabsContent,
@@ -198,8 +174,6 @@ __export(index_exports, {
   TooltipContent: () => TooltipContent,
   TooltipProvider: () => TooltipProvider,
   TooltipTrigger: () => TooltipTrigger,
-  TrailCursor: () => TrailCursor,
-  WaveAnimation: () => WaveAnimation,
   alertVariants: () => alertVariants,
   avatarVariants: () => avatarVariants,
   badgeVariants: () => badgeVariants,
@@ -214,7 +188,6 @@ __export(index_exports, {
   formatCurrency: () => formatCurrency,
   formatRelativeTime: () => formatRelativeTime,
   generateId: () => generateId,
-  glassCardVariants: () => glassCardVariants,
   headingVariants: () => headingVariants,
   iconPop: () => iconPop,
   inputVariants: () => inputVariants,
@@ -262,8 +235,29 @@ module.exports = __toCommonJS(index_exports);
 // src/lib/utils.ts
 var import_clsx = require("clsx");
 var import_tailwind_merge = require("tailwind-merge");
+var FONT_SIZE_KEYS = [
+  "display-xl",
+  "display",
+  "heading-1",
+  "heading-2",
+  "heading-3",
+  "heading-4",
+  "eyebrow",
+  "body-lg",
+  "body",
+  "body-sm",
+  "caption",
+  "code"
+];
+var twMerge = (0, import_tailwind_merge.extendTailwindMerge)({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: [...FONT_SIZE_KEYS] }]
+    }
+  }
+});
 function cn(...inputs) {
-  return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+  return twMerge((0, import_clsx.clsx)(inputs));
 }
 function formatCurrency(amount, currency = "USD", locale = "en-US") {
   return new Intl.NumberFormat(locale, {
@@ -433,33 +427,31 @@ var import_react_slot = require("@radix-ui/react-slot");
 var import_class_variance_authority = require("class-variance-authority");
 var import_jsx_runtime = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority.cva)(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:translate-y-0 disabled:shadow-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-elevation-2 active:translate-y-0",
-        destructive: "bg-destructive text-destructive-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-destructive/90 hover:shadow-elevation-2 active:translate-y-0",
-        outline: "border border-border/70 bg-background/80 text-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/20 hover:bg-accent/70 hover:text-accent-foreground active:translate-y-0",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:-translate-y-0.5 hover:bg-secondary/85 hover:shadow-elevation-1 active:translate-y-0",
-        ghost: "hover:bg-accent/80 hover:text-accent-foreground active:scale-[0.98]",
-        link: "text-primary underline-offset-4 hover:underline",
-        // Neumorphic variants
-        neu: "neu-flat bg-background text-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        "neu-primary": "neu-flat bg-primary text-primary-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        // Glass variant
-        glass: "glass text-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-[var(--glass-bg)] hover:shadow-elevation-2 active:translate-y-0",
-        // Glow variants
-        glow: "bg-primary text-primary-foreground shadow-glow hover:-translate-y-0.5 hover:shadow-glow-lg active:translate-y-0",
-        // CTA primary variant
-        primary: "cta-primary",
-        gradient: "bg-gradient-to-r from-primary via-secondary to-accent text-primary-foreground shadow-elevation-2 shimmer hover:-translate-y-0.5 hover:shadow-elevation-3 active:translate-y-0",
-        success: "bg-success text-success-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-success/90 hover:shadow-elevation-2 active:translate-y-0"
+        // Ink fill. Inverts to a light pill in dark mode via the token.
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        // The hairline is the whole treatment -- no backdrop blur, no lift.
+        outline: "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+        // The white (or near-black, in dark) pill counterpart to `default`.
+        secondary: "border border-border bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        // Links carry the brand green, not ink.
+        link: "text-brand underline-offset-4 hover:underline",
+        success: "bg-success text-success-foreground hover:bg-success/90"
+      },
+      shape: {
+        square: "rounded-sm",
+        pill: "rounded-pill"
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-lg px-3 text-xs",
-        lg: "h-11 rounded-xl px-8 text-base",
-        xl: "h-14 rounded-[1.25rem] px-10 text-base sm:text-lg",
+        default: "h-10 px-4 text-body-sm",
+        sm: "h-8 px-3 text-caption",
+        lg: "h-11 px-6 text-body",
+        xl: "h-12 px-8 text-body",
         icon: "h-10 w-10",
         "icon-sm": "h-8 w-8",
         "icon-lg": "h-12 w-12"
@@ -467,12 +459,23 @@ var buttonVariants = (0, import_class_variance_authority.cva)(
     },
     defaultVariants: {
       variant: "default",
+      shape: "square",
       size: "default"
     }
   }
 );
 var Button = React.forwardRef(
-  ({ className, variant, size, asChild = false, isLoading, children, disabled, ...props }, ref) => {
+  ({
+    className,
+    variant,
+    shape,
+    size,
+    asChild = false,
+    isLoading,
+    children,
+    disabled,
+    ...props
+  }, ref) => {
     const content = isLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
         "svg",
@@ -511,7 +514,7 @@ var Button = React.forwardRef(
       return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         SlotComponent,
         {
-          className: cn(buttonVariants({ variant, size, className })),
+          className: cn(buttonVariants({ variant, shape, size, className })),
           ref,
           "aria-busy": isLoading || void 0,
           "aria-disabled": disabled || isLoading || void 0,
@@ -524,7 +527,7 @@ var Button = React.forwardRef(
     return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "button",
       {
-        className: cn(buttonVariants({ variant, size, className })),
+        className: cn(buttonVariants({ variant, shape, size, className })),
         ref,
         disabled: disabled || isLoading,
         ...props,
@@ -540,20 +543,18 @@ var React2 = __toESM(require("react"));
 var import_class_variance_authority2 = require("class-variance-authority");
 var import_jsx_runtime2 = require("react/jsx-runtime");
 var cardVariants = (0, import_class_variance_authority2.cva)(
-  "rounded-[calc(var(--radius)+0.25rem)] border text-card-foreground transition-all duration-300",
+  "rounded-md border text-card-foreground transition-colors duration-default",
   {
     variants: {
       variant: {
-        default: "border-border/70 bg-card/92 shadow-elevation-1 backdrop-blur-sm hover:-translate-y-1 hover:shadow-elevation-2",
-        outline: "border-border/70 bg-background/70 backdrop-blur-sm",
-        ghost: "border-transparent bg-transparent shadow-none",
-        // Neumorphic variants
-        neu: "neu-flat border-transparent",
-        "neu-inset": "neu-concave border-transparent",
-        // Glass variant
-        glass: "glass-card border-[var(--glass-border)] shadow-elevation-1 hover:-translate-y-1 hover:shadow-elevation-2",
-        // Elevated with glow on hover
-        elevated: "bg-card shadow-elevation-2 hover:-translate-y-1 hover:shadow-elevation-3"
+        // Level 0: flat. White card on the near-white sheet, hairline border.
+        default: "border-border bg-card",
+        outline: "border-border bg-background",
+        ghost: "border-transparent bg-transparent",
+        // Level 1: whisper. For a tile that needs to read as lifted.
+        raised: "border-border bg-card shadow-1",
+        // Level 2: floating. The ceiling -- menus, modals, featured tiles.
+        elevated: "border-border bg-card shadow-2"
       }
     },
     defaultVariants: {
@@ -630,7 +631,7 @@ var badgeVariants = (0, import_class_variance_authority3.cva)(
         default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        outline: "border-border text-foreground",
         // Status variants
         success: "border-transparent bg-success text-success-foreground hover:bg-success/80",
         warning: "border-transparent bg-warning text-warning-foreground hover:bg-warning/80",
@@ -639,10 +640,8 @@ var badgeVariants = (0, import_class_variance_authority3.cva)(
         "success-muted": "border-transparent bg-[hsl(var(--success-muted))] text-success",
         "warning-muted": "border-transparent bg-[hsl(var(--warning-muted))] text-warning",
         "info-muted": "border-transparent bg-[hsl(var(--info-muted))] text-info",
-        // Glass variant
-        glass: "glass border-[var(--glass-border)] text-foreground",
-        // Neumorphic
-        neu: "border-transparent shadow-neu-sm bg-background text-foreground"
+        // The hairline-outlined chip -- the system's quietest badge.
+        brand: "border-transparent bg-brand text-brand-foreground"
       },
       size: {
         default: "px-2.5 py-0.5 text-xs",
@@ -668,16 +667,12 @@ var React3 = __toESM(require("react"));
 var import_class_variance_authority4 = require("class-variance-authority");
 var import_jsx_runtime4 = require("react/jsx-runtime");
 var inputVariants = (0, import_class_variance_authority4.cva)(
-  "flex w-full rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200",
+  "flex w-full rounded-sm text-body-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-faint focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-fast",
   {
     variants: {
       variant: {
-        default: "border border-input bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        ghost: "border-0 bg-transparent focus-visible:bg-accent",
-        // Neumorphic variants
-        neu: "border-0 shadow-neu-inset-sm bg-background focus-visible:shadow-neu-inset",
-        // Glass variant
-        glass: "glass border-[var(--glass-border)] focus-visible:ring-2 focus-visible:ring-ring"
+        default: "border border-input bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        ghost: "border-0 bg-transparent focus-visible:bg-accent"
       },
       inputSize: {
         default: "h-10 px-3 py-2",
@@ -731,14 +726,12 @@ var React4 = __toESM(require("react"));
 var import_class_variance_authority5 = require("class-variance-authority");
 var import_jsx_runtime5 = require("react/jsx-runtime");
 var textareaVariants = (0, import_class_variance_authority5.cva)(
-  "flex min-h-[80px] w-full rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 resize-none",
+  "flex min-h-[80px] w-full rounded-sm text-body-sm ring-offset-background placeholder:text-faint focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-fast resize-none",
   {
     variants: {
       variant: {
-        default: "border border-input bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        ghost: "border-0 bg-transparent focus-visible:bg-accent",
-        neu: "border-0 shadow-neu-inset-sm bg-background focus-visible:shadow-neu-inset",
-        glass: "glass border-[var(--glass-border)] focus-visible:ring-2 focus-visible:ring-ring"
+        default: "border border-input bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        ghost: "border-0 bg-transparent focus-visible:bg-accent"
       }
     },
     defaultVariants: {
@@ -943,119 +936,15 @@ var AlertDialogCancel = React7.forwardRef(({ className, ...props }, ref) => /* @
 ));
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 
-// src/components/glass-card.tsx
+// src/components/skeleton.tsx
 var React8 = __toESM(require("react"));
 var import_class_variance_authority8 = require("class-variance-authority");
 var import_jsx_runtime9 = require("react/jsx-runtime");
-var glassCardVariants = (0, import_class_variance_authority8.cva)(
-  "rounded-lg transition-all duration-300",
-  {
-    variants: {
-      variant: {
-        default: "glass",
-        frosted: "glass backdrop-blur-xl",
-        tinted: "glass bg-primary/5 dark:bg-primary/10",
-        bordered: "glass border-2 border-primary/20"
-      },
-      hover: {
-        none: "",
-        lift: "hover:-translate-y-2 hover:shadow-lg",
-        glow: "hover:shadow-[0_0_30px_hsl(var(--primary)/0.2)]",
-        scale: "hover:scale-[1.02]"
-      },
-      padding: {
-        none: "p-0",
-        sm: "p-4",
-        default: "p-6",
-        lg: "p-8"
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      hover: "none",
-      padding: "default"
-    }
-  }
-);
-var GlassCard = React8.forwardRef(
-  ({ className, variant, hover, padding, gradient, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-    "div",
-    {
-      ref,
-      className: cn(
-        glassCardVariants({ variant, hover, padding }),
-        gradient && "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/10 before:to-transparent before:pointer-events-none relative overflow-hidden",
-        className
-      ),
-      ...props,
-      children
-    }
-  )
-);
-GlassCard.displayName = "GlassCard";
-
-// src/components/animated-card.tsx
-var React9 = __toESM(require("react"));
-var import_jsx_runtime10 = require("react/jsx-runtime");
-var AnimatedCard = React9.forwardRef(
-  ({ className, variant = "hover-lift", background = "default", children, ...props }, ref) => {
-    const [mousePosition, setMousePosition] = React9.useState({ x: 0, y: 0 });
-    const cardRef = React9.useRef(null);
-    const handleMouseMove = (e) => {
-      if (!cardRef.current || variant !== "hover-tilt") return;
-      const rect = cardRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      setMousePosition({ x, y });
-    };
-    const handleMouseLeave = () => {
-      setMousePosition({ x: 0, y: 0 });
-    };
-    const tiltStyle = variant === "hover-tilt" ? {
-      transform: `perspective(1000px) rotateX(${mousePosition.y * -10}deg) rotateY(${mousePosition.x * 10}deg)`,
-      transition: "transform 0.1s ease-out"
-    } : {};
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-      "div",
-      {
-        ref: (node) => {
-          cardRef.current = node;
-          if (typeof ref === "function") ref(node);
-          else if (ref) ref.current = node;
-        },
-        className: cn(
-          "rounded-lg p-6 transition-all duration-300",
-          // Background variants
-          background === "default" && "bg-card border",
-          background === "glass" && "glass",
-          background === "neu" && "neu-flat",
-          // Animation variants
-          variant === "hover-lift" && "hover:-translate-y-2 hover:shadow-lg",
-          variant === "hover-glow" && "hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)]",
-          variant === "hover-border" && "border-transparent hover:border-primary",
-          className
-        ),
-        style: tiltStyle,
-        onMouseMove: handleMouseMove,
-        onMouseLeave: handleMouseLeave,
-        ...props,
-        children
-      }
-    );
-  }
-);
-AnimatedCard.displayName = "AnimatedCard";
-
-// src/components/skeleton.tsx
-var React10 = __toESM(require("react"));
-var import_class_variance_authority9 = require("class-variance-authority");
-var import_jsx_runtime11 = require("react/jsx-runtime");
-var skeletonBaseStyles = (0, import_class_variance_authority9.cva)("animate-pulse", {
+var skeletonBaseStyles = (0, import_class_variance_authority8.cva)("animate-pulse", {
   variants: {
     tone: {
       default: "bg-muted",
-      shimmer: "shimmer",
-      neu: "bg-background shadow-neu-inset-sm"
+      shimmer: "shimmer"
     },
     shape: {
       default: "rounded-md",
@@ -1071,7 +960,7 @@ var skeletonBaseStyles = (0, import_class_variance_authority9.cva)("animate-puls
 function resolveSkeletonStyle(variant, shape) {
   if (shape) {
     return {
-      tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+      tone: variant === "shimmer" ? variant : "default",
       shape
     };
   }
@@ -1079,7 +968,7 @@ function resolveSkeletonStyle(variant, shape) {
     return { tone: "default", shape: variant };
   }
   return {
-    tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+    tone: variant === "shimmer" ? variant : "default",
     shape: "default"
   };
 }
@@ -1091,8 +980,8 @@ function skeletonVariants({
   const resolved = resolveSkeletonStyle(variant, shape);
   return cn(skeletonBaseStyles(resolved), className);
 }
-var Skeleton = React10.forwardRef(
-  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+var Skeleton = React8.forwardRef(
+  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
     "div",
     {
       ref,
@@ -1103,7 +992,7 @@ var Skeleton = React10.forwardRef(
   )
 );
 Skeleton.displayName = "Skeleton";
-var SkeletonText = React10.forwardRef(({ className, lines = 3, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { ref, className: cn("space-y-2", className), ...props, children: Array.from({ length: lines }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+var SkeletonText = React8.forwardRef(({ className, lines = 3, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { ref, className: cn("space-y-2", className), ...props, children: Array.from({ length: lines }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
   Skeleton,
   {
     variant,
@@ -1113,8 +1002,8 @@ var SkeletonText = React10.forwardRef(({ className, lines = 3, variant, shape, .
   `line-${index + 1}`
 )) }));
 SkeletonText.displayName = "SkeletonText";
-var SkeletonCard = React10.forwardRef(
-  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+var SkeletonCard = React8.forwardRef(
+  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
     "div",
     {
       ref,
@@ -1123,15 +1012,15 @@ var SkeletonCard = React10.forwardRef(
         className
       ),
       ...props,
-      children: /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "space-y-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape, className: "aspect-square w-full rounded-none" }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape, className: "h-4 w-3/4" }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape, className: "h-4 w-1/2" }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape, className: "h-16 w-full" }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "flex gap-2", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape: "circular", className: "h-6 w-16" }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { variant, shape: "circular", className: "h-6 w-20" })
+      children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape, className: "aspect-square w-full rounded-none" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape, className: "h-4 w-3/4" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape, className: "h-4 w-1/2" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape, className: "h-16 w-full" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex gap-2", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape: "circular", className: "h-6 w-16" }),
+            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { variant, shape: "circular", className: "h-6 w-20" })
           ] })
         ] })
       ] })
@@ -1139,24 +1028,24 @@ var SkeletonCard = React10.forwardRef(
   )
 );
 SkeletonCard.displayName = "SkeletonCard";
-var SkeletonInput = React10.forwardRef(
-  ({ className }, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { ref, className: cn("space-y-2", className), children: [
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { className: "h-4 w-24" }),
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { className: "h-10 w-full rounded-lg" })
+var SkeletonInput = React8.forwardRef(
+  ({ className }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { ref, className: cn("space-y-2", className), children: [
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { className: "h-4 w-24" }),
+    /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { className: "h-10 w-full rounded-lg" })
   ] })
 );
 SkeletonInput.displayName = "SkeletonInput";
-var SkeletonButton = React10.forwardRef(
-  ({ className }, ref) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Skeleton, { ref, className: cn("h-10 w-32 rounded-xl", className) })
+var SkeletonButton = React8.forwardRef(
+  ({ className }, ref) => /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Skeleton, { ref, className: cn("h-10 w-32 rounded-xl", className) })
 );
 SkeletonButton.displayName = "SkeletonButton";
-var SkeletonAvatar = React10.forwardRef(({ className, size = "default", variant, ...props }, ref) => {
+var SkeletonAvatar = React8.forwardRef(({ className, size = "default", variant, ...props }, ref) => {
   const sizeClasses3 = {
     sm: "h-8 w-8",
     default: "h-10 w-10",
     lg: "h-14 w-14"
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
     Skeleton,
     {
       ref,
@@ -1170,11 +1059,11 @@ var SkeletonAvatar = React10.forwardRef(({ className, size = "default", variant,
 SkeletonAvatar.displayName = "SkeletonAvatar";
 
 // src/components/avatar.tsx
-var React11 = __toESM(require("react"));
+var React9 = __toESM(require("react"));
 var AvatarPrimitive = __toESM(require("@radix-ui/react-avatar"));
-var import_class_variance_authority10 = require("class-variance-authority");
-var import_jsx_runtime12 = require("react/jsx-runtime");
-var avatarVariants = (0, import_class_variance_authority10.cva)(
+var import_class_variance_authority9 = require("class-variance-authority");
+var import_jsx_runtime10 = require("react/jsx-runtime");
+var avatarVariants = (0, import_class_variance_authority9.cva)(
   "relative flex shrink-0 overflow-hidden rounded-full",
   {
     variants: {
@@ -1187,7 +1076,6 @@ var avatarVariants = (0, import_class_variance_authority10.cva)(
       },
       variant: {
         default: "bg-muted",
-        neu: "bg-background shadow-neu-sm",
         ring: "bg-muted ring-2 ring-primary/25 ring-offset-2 ring-offset-background"
       }
     },
@@ -1197,7 +1085,7 @@ var avatarVariants = (0, import_class_variance_authority10.cva)(
     }
   }
 );
-var Avatar = React11.forwardRef(({ className, size, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+var Avatar = React9.forwardRef(({ className, size, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
   AvatarPrimitive.Root,
   {
     ref,
@@ -1206,7 +1094,7 @@ var Avatar = React11.forwardRef(({ className, size, variant, ...props }, ref) =>
   }
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
-var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+var AvatarImage = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
   AvatarPrimitive.Image,
   {
     ref,
@@ -1215,7 +1103,7 @@ var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
+var AvatarFallback = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
   AvatarPrimitive.Fallback,
   {
     ref,
@@ -1229,19 +1117,19 @@ var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
 // src/components/carousel.tsx
-var React12 = __toESM(require("react"));
+var React10 = __toESM(require("react"));
 var import_embla_carousel_react = __toESM(require("embla-carousel-react"));
 var import_lucide_react = require("lucide-react");
-var import_jsx_runtime13 = require("react/jsx-runtime");
-var CarouselContext = React12.createContext(null);
+var import_jsx_runtime11 = require("react/jsx-runtime");
+var CarouselContext = React10.createContext(null);
 function useCarousel() {
-  const context = React12.useContext(CarouselContext);
+  const context = React10.useContext(CarouselContext);
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
   return context;
 }
-var Carousel = React12.forwardRef(
+var Carousel = React10.forwardRef(
   ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
     const [carouselRef, api] = (0, import_embla_carousel_react.default)(
       {
@@ -1250,22 +1138,22 @@ var Carousel = React12.forwardRef(
       },
       plugins
     );
-    const [canScrollPrev, setCanScrollPrev] = React12.useState(false);
-    const [canScrollNext, setCanScrollNext] = React12.useState(false);
-    const onSelect = React12.useCallback((nextApi) => {
+    const [canScrollPrev, setCanScrollPrev] = React10.useState(false);
+    const [canScrollNext, setCanScrollNext] = React10.useState(false);
+    const onSelect = React10.useCallback((nextApi) => {
       if (!nextApi) {
         return;
       }
       setCanScrollPrev(nextApi.canScrollPrev());
       setCanScrollNext(nextApi.canScrollNext());
     }, []);
-    const scrollPrev = React12.useCallback(() => {
+    const scrollPrev = React10.useCallback(() => {
       api?.scrollPrev();
     }, [api]);
-    const scrollNext = React12.useCallback(() => {
+    const scrollNext = React10.useCallback(() => {
       api?.scrollNext();
     }, [api]);
-    const handleKeyDown = React12.useCallback(
+    const handleKeyDown = React10.useCallback(
       (event) => {
         if (event.key === "ArrowLeft") {
           event.preventDefault();
@@ -1277,13 +1165,13 @@ var Carousel = React12.forwardRef(
       },
       [scrollPrev, scrollNext]
     );
-    React12.useEffect(() => {
+    React10.useEffect(() => {
       if (!api || !setApi) {
         return;
       }
       setApi(api);
     }, [api, setApi]);
-    React12.useEffect(() => {
+    React10.useEffect(() => {
       if (!api) {
         return;
       }
@@ -1295,7 +1183,7 @@ var Carousel = React12.forwardRef(
         api.off("select", onSelect);
       };
     }, [api, onSelect]);
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       CarouselContext.Provider,
       {
         value: {
@@ -1308,7 +1196,7 @@ var Carousel = React12.forwardRef(
           canScrollPrev,
           canScrollNext
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
           "div",
           {
             ref,
@@ -1325,10 +1213,10 @@ var Carousel = React12.forwardRef(
   }
 );
 Carousel.displayName = "Carousel";
-var CarouselContent = React12.forwardRef(
+var CarouselContent = React10.forwardRef(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { ref: carouselRef, className: "overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { ref: carouselRef, className: "overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       "div",
       {
         ref,
@@ -1343,10 +1231,10 @@ var CarouselContent = React12.forwardRef(
   }
 );
 CarouselContent.displayName = "CarouselContent";
-var CarouselItem = React12.forwardRef(
+var CarouselItem = React10.forwardRef(
   ({ className, ...props }, ref) => {
     const { orientation } = useCarousel();
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       "div",
       {
         ref,
@@ -1363,10 +1251,10 @@ var CarouselItem = React12.forwardRef(
   }
 );
 CarouselItem.displayName = "CarouselItem";
-var CarouselPrevious = React12.forwardRef(
+var CarouselPrevious = React10.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
       Button,
       {
         ref,
@@ -1381,18 +1269,18 @@ var CarouselPrevious = React12.forwardRef(
         onClick: scrollPrev,
         ...props,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react.ArrowLeft, { className: "h-4 w-4" }),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "sr-only", children: "Previous slide" })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react.ArrowLeft, { className: "h-4 w-4" }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "sr-only", children: "Previous slide" })
         ]
       }
     );
   }
 );
 CarouselPrevious.displayName = "CarouselPrevious";
-var CarouselNext = React12.forwardRef(
+var CarouselNext = React10.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)(
       Button,
       {
         ref,
@@ -1407,8 +1295,8 @@ var CarouselNext = React12.forwardRef(
         onClick: scrollNext,
         ...props,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_lucide_react.ArrowRight, { className: "h-4 w-4" }),
-          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "sr-only", children: "Next slide" })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react.ArrowRight, { className: "h-4 w-4" }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "sr-only", children: "Next slide" })
         ]
       }
     );
@@ -1417,9 +1305,9 @@ var CarouselNext = React12.forwardRef(
 CarouselNext.displayName = "CarouselNext";
 
 // src/components/progress.tsx
-var React13 = __toESM(require("react"));
-var import_jsx_runtime14 = require("react/jsx-runtime");
-var Progress = React13.forwardRef(
+var React11 = __toESM(require("react"));
+var import_jsx_runtime12 = require("react/jsx-runtime");
+var Progress = React11.forwardRef(
   ({
     className,
     value = 0,
@@ -1433,7 +1321,7 @@ var Progress = React13.forwardRef(
     const safeMax = max > 0 ? max : 100;
     const clampedValue = Math.min(safeMax, Math.max(0, value));
     const percentage = clampedValue / safeMax * 100;
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
       "div",
       {
         ref,
@@ -1449,7 +1337,7 @@ var Progress = React13.forwardRef(
         ),
         style,
         ...props,
-        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "div",
           {
             className: cn(
@@ -1466,8 +1354,8 @@ var Progress = React13.forwardRef(
 Progress.displayName = "Progress";
 
 // src/components/progress-circle.tsx
-var React14 = __toESM(require("react"));
-var import_jsx_runtime15 = require("react/jsx-runtime");
+var React12 = __toESM(require("react"));
+var import_jsx_runtime13 = require("react/jsx-runtime");
 var sizeClasses = {
   sm: "h-12 w-12",
   md: "h-16 w-16",
@@ -1497,21 +1385,21 @@ function ProgressCircle({
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - clampedProgress / 100 * circumference;
-  const gradientId = React14.useId().replace(/:/g, "");
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: cn("relative group", sizeClasses[size], className), ...props, children: [
-    clampedProgress >= 75 ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" }) : null,
-    /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+  const gradientId = React12.useId().replace(/:/g, "");
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: cn("relative group", sizeClasses[size], className), ...props, children: [
+    clampedProgress >= 75 ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" }) : null,
+    /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       "svg",
       {
         viewBox: "0 0 100 100",
         className: "relative h-full w-full -rotate-90",
         "aria-hidden": "true",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("linearGradient", { id: gradientId, x1: "0%", y1: "0%", x2: "100%", y2: "0%", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("stop", { offset: "0%", stopColor: "hsl(var(--primary))" }),
-            /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("stop", { offset: "100%", stopColor: "hsl(var(--accent))" })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("defs", { children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("linearGradient", { id: gradientId, x1: "0%", y1: "0%", x2: "100%", y2: "0%", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("stop", { offset: "0%", stopColor: "hsl(var(--primary))" }),
+            /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("stop", { offset: "100%", stopColor: "hsl(var(--accent))" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
             "circle",
             {
               className: "stroke-muted/50",
@@ -1522,7 +1410,7 @@ function ProgressCircle({
               cy: "50"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
             "circle",
             {
               className: cn(
@@ -1546,7 +1434,7 @@ function ProgressCircle({
         ]
       }
     ),
-    showPercentage ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    showPercentage ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(
       "span",
       {
         className: cn(
@@ -1563,12 +1451,12 @@ function ProgressCircle({
   ] });
 }
 function ProgressCircleSkeleton({ size = "md" }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: cn("animate-pulse rounded-full bg-muted", sizeClasses[size]) });
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: cn("animate-pulse rounded-full bg-muted", sizeClasses[size]) });
 }
 
 // src/components/spinner.tsx
 var import_lucide_react2 = require("lucide-react");
-var import_jsx_runtime16 = require("react/jsx-runtime");
+var import_jsx_runtime14 = require("react/jsx-runtime");
 var sizeClasses2 = {
   sm: "h-4 w-4",
   md: "h-8 w-8",
@@ -1580,20 +1468,20 @@ var borderSizeClasses = {
   lg: "h-12 w-12"
 };
 function Spinner({ size = "md", className, text, ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: cn("flex items-center justify-center gap-2", className), ...props, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react2.Loader2, { className: cn("animate-spin", sizeClasses2[size]), "aria-hidden": "true" }),
-    text ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "text-muted-foreground", children: text }) : null
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: cn("flex items-center justify-center gap-2", className), ...props, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react2.Loader2, { className: cn("animate-spin", sizeClasses2[size]), "aria-hidden": "true" }),
+    text ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "text-muted-foreground", children: text }) : null
   ] });
 }
 function PageSpinner({ text = "Loading..." }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", { className: "flex min-h-[60vh] items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Spinner, { size: "lg", text }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "flex min-h-[60vh] items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Spinner, { size: "lg", text }) });
 }
 function BorderSpinner({
   size = "md",
   className,
   ...props
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
     "div",
     {
       className: cn(
@@ -1608,7 +1496,7 @@ function BorderSpinner({
 
 // src/components/status-badge.tsx
 var import_lucide_react3 = require("lucide-react");
-var import_jsx_runtime17 = require("react/jsx-runtime");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 var statusConfig = {
   success: {
     className: "border-success bg-success/10 text-success",
@@ -1645,12 +1533,12 @@ function StatusBadge({
 }) {
   const config = statusConfig[status];
   const Icon2 = config.icon;
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
     Badge,
     {
       variant: "outline",
       className: cn(config.className, className),
-      icon: showIcon ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Icon2, { className: "h-3 w-3" }) : void 0,
+      icon: showIcon ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Icon2, { className: "h-3 w-3" }) : void 0,
       ...props,
       children: children ?? config.defaultText
     }
@@ -1658,10 +1546,10 @@ function StatusBadge({
 }
 
 // src/components/separator.tsx
-var React15 = __toESM(require("react"));
-var import_jsx_runtime18 = require("react/jsx-runtime");
-var Separator = React15.forwardRef(
-  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
+var React13 = __toESM(require("react"));
+var import_jsx_runtime16 = require("react/jsx-runtime");
+var Separator = React13.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
     "div",
     {
       ref,
@@ -1679,16 +1567,17 @@ var Separator = React15.forwardRef(
 Separator.displayName = "Separator";
 
 // src/components/section.tsx
-var React16 = __toESM(require("react"));
-var import_class_variance_authority11 = require("class-variance-authority");
-var sectionVariants = (0, import_class_variance_authority11.cva)("w-full", {
+var React14 = __toESM(require("react"));
+var import_class_variance_authority10 = require("class-variance-authority");
+var sectionVariants = (0, import_class_variance_authority10.cva)("w-full", {
   variants: {
     variant: {
       default: "",
-      gradient: "gradient-vivance",
+      // The hero mesh -- the system's only decorative treatment. Use on a hero
+      // band and nowhere else.
+      mesh: "hero-mesh",
       muted: "bg-muted/50",
-      card: "bg-card rounded-lg border",
-      glass: "glass rounded-lg"
+      card: "bg-card rounded-md border border-border"
     },
     padding: {
       none: "",
@@ -1710,8 +1599,8 @@ var sectionVariants = (0, import_class_variance_authority11.cva)("w-full", {
     container: "default"
   }
 });
-var Section = React16.forwardRef(
-  ({ className, variant, padding, container, as: Component2 = "section", ...props }, ref) => React16.createElement(Component2, {
+var Section = React14.forwardRef(
+  ({ className, variant, padding, container, as: Component2 = "section", ...props }, ref) => React14.createElement(Component2, {
     ...props,
     ref,
     className: cn(sectionVariants({ variant, padding, container }), className)
@@ -1720,12 +1609,13 @@ var Section = React16.forwardRef(
 Section.displayName = "Section";
 
 // src/components/heading.tsx
-var React17 = __toESM(require("react"));
-var import_class_variance_authority12 = require("class-variance-authority");
-var import_jsx_runtime19 = require("react/jsx-runtime");
-var headingVariants = (0, import_class_variance_authority12.cva)("font-bold tracking-tight text-balance", {
+var React15 = __toESM(require("react"));
+var import_class_variance_authority11 = require("class-variance-authority");
+var import_jsx_runtime17 = require("react/jsx-runtime");
+var headingVariants = (0, import_class_variance_authority11.cva)("text-balance", {
   variants: {
     level: {
+      "display-xl": "text-display-xl",
       display: "text-display",
       h1: "text-heading-1",
       h2: "text-heading-2",
@@ -1735,7 +1625,7 @@ var headingVariants = (0, import_class_variance_authority12.cva)("font-bold trac
     variant: {
       default: "text-foreground",
       muted: "text-muted-foreground",
-      gradient: "bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+      brand: "text-brand"
     }
   },
   defaultVariants: {
@@ -1743,10 +1633,10 @@ var headingVariants = (0, import_class_variance_authority12.cva)("font-bold trac
     variant: "default"
   }
 });
-var Heading = React17.forwardRef(
+var Heading = React15.forwardRef(
   ({ className, level, variant, as, children, ...props }, ref) => {
-    const Component2 = as || (level === "display" ? "h1" : level || "h1");
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+    const Component2 = as || (level === "display" || level === "display-xl" ? "h1" : level || "h1");
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(
       Component2,
       {
         ref,
@@ -1760,10 +1650,10 @@ var Heading = React17.forwardRef(
 Heading.displayName = "Heading";
 
 // src/components/container.tsx
-var React18 = __toESM(require("react"));
-var import_class_variance_authority13 = require("class-variance-authority");
-var import_jsx_runtime20 = require("react/jsx-runtime");
-var containerVariants = (0, import_class_variance_authority13.cva)("mx-auto w-full", {
+var React16 = __toESM(require("react"));
+var import_class_variance_authority12 = require("class-variance-authority");
+var import_jsx_runtime18 = require("react/jsx-runtime");
+var containerVariants = (0, import_class_variance_authority12.cva)("mx-auto w-full", {
   variants: {
     size: {
       sm: "max-w-3xl",
@@ -1784,8 +1674,8 @@ var containerVariants = (0, import_class_variance_authority13.cva)("mx-auto w-fu
     padding: "default"
   }
 });
-var Container = React18.forwardRef(
-  ({ className, size, padding, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
+var Container = React16.forwardRef(
+  ({ className, size, padding, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(
     "div",
     {
       ref,
@@ -1798,9 +1688,9 @@ Container.displayName = "Container";
 
 // src/components/theme-provider.tsx
 var import_next_themes = require("next-themes");
-var import_jsx_runtime21 = require("react/jsx-runtime");
+var import_jsx_runtime19 = require("react/jsx-runtime");
 function ThemeProvider({ children, ...props }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(import_next_themes.ThemeProvider, { ...props, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_next_themes.ThemeProvider, { ...props, children });
 }
 
 // src/components/theme-toggle.tsx
@@ -1808,17 +1698,17 @@ var import_lucide_react5 = require("lucide-react");
 var import_next_themes2 = require("next-themes");
 
 // src/components/dropdown-menu.tsx
-var React19 = __toESM(require("react"));
+var React17 = __toESM(require("react"));
 var DropdownMenuPrimitive = __toESM(require("@radix-ui/react-dropdown-menu"));
 var import_lucide_react4 = require("lucide-react");
-var import_jsx_runtime22 = require("react/jsx-runtime");
+var import_jsx_runtime20 = require("react/jsx-runtime");
 var DropdownMenu = DropdownMenuPrimitive.Root;
 var DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 var DropdownMenuGroup = DropdownMenuPrimitive.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
-var DropdownMenuSubTrigger = React19.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+var DropdownMenuSubTrigger = React17.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
   DropdownMenuPrimitive.SubTrigger,
   {
     ref,
@@ -1830,12 +1720,12 @@ var DropdownMenuSubTrigger = React19.forwardRef(({ className, inset, children, .
     ...props,
     children: [
       children,
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react4.ChevronRight, { className: "ml-auto h-4 w-4" })
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_lucide_react4.ChevronRight, { className: "ml-auto h-4 w-4" })
     ]
   }
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
-var DropdownMenuSubContent = React19.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+var DropdownMenuSubContent = React17.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   DropdownMenuPrimitive.SubContent,
   {
     ref,
@@ -1847,7 +1737,7 @@ var DropdownMenuSubContent = React19.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
-var DropdownMenuContent = React19.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+var DropdownMenuContent = React17.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   DropdownMenuPrimitive.Content,
   {
     ref,
@@ -1860,7 +1750,7 @@ var DropdownMenuContent = React19.forwardRef(({ className, sideOffset = 4, ...pr
   }
 ) }));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-var DropdownMenuItem = React19.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+var DropdownMenuItem = React17.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   DropdownMenuPrimitive.Item,
   {
     ref,
@@ -1873,7 +1763,7 @@ var DropdownMenuItem = React19.forwardRef(({ className, inset, ...props }, ref) 
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-var DropdownMenuCheckboxItem = React19.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+var DropdownMenuCheckboxItem = React17.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
   DropdownMenuPrimitive.CheckboxItem,
   {
     ref,
@@ -1884,13 +1774,13 @@ var DropdownMenuCheckboxItem = React19.forwardRef(({ className, children, checke
     checked,
     ...props,
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react4.Check, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_lucide_react4.Check, { className: "h-4 w-4" }) }) }),
       children
     ]
   }
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React19.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
+var DropdownMenuRadioItem = React17.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
   DropdownMenuPrimitive.RadioItem,
   {
     ref,
@@ -1900,13 +1790,13 @@ var DropdownMenuRadioItem = React19.forwardRef(({ className, children, ...props 
     ),
     ...props,
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(import_lucide_react4.Circle, { className: "h-2 w-2 fill-current" }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_lucide_react4.Circle, { className: "h-2 w-2 fill-current" }) }) }),
       children
     ]
   }
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
-var DropdownMenuLabel = React19.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+var DropdownMenuLabel = React17.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   DropdownMenuPrimitive.Label,
   {
     ref,
@@ -1915,7 +1805,7 @@ var DropdownMenuLabel = React19.forwardRef(({ className, inset, ...props }, ref)
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
-var DropdownMenuSeparator = React19.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+var DropdownMenuSeparator = React17.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   DropdownMenuPrimitive.Separator,
   {
     ref,
@@ -1927,7 +1817,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 var DropdownMenuShortcut = ({
   className,
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(
   "span",
   {
     className: cn("ml-auto text-xs tracking-widest opacity-60", className),
@@ -1937,7 +1827,7 @@ var DropdownMenuShortcut = ({
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
 // src/components/theme-toggle.tsx
-var import_jsx_runtime23 = require("react/jsx-runtime");
+var import_jsx_runtime21 = require("react/jsx-runtime");
 function ThemeToggle({
   mode = "toggle",
   variant,
@@ -1953,23 +1843,23 @@ function ThemeToggle({
   const buttonVariant = variant ?? (mode === "menu" ? "outline" : "ghost");
   const ariaLabel = buttonProps["aria-label"] ?? (mode === "menu" ? "Change theme" : "Toggle theme");
   const iconSizeClassName = mode === "menu" ? "h-[1.2rem] w-[1.2rem]" : "h-5 w-5";
-  const iconContent = /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(import_jsx_runtime23.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+  const iconContent = /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(import_jsx_runtime21.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
       import_lucide_react5.Sun,
       {
         className: `${iconSizeClassName} rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0`
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
       import_lucide_react5.Moon,
       {
         className: `absolute ${iconSizeClassName} rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100`
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { className: "sr-only", children: ariaLabel })
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "sr-only", children: ariaLabel })
   ] });
   if (mode === "toggle") {
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
       Button,
       {
         variant: buttonVariant,
@@ -1982,8 +1872,8 @@ function ThemeToggle({
       }
     );
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(DropdownMenu, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(DropdownMenu, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
       Button,
       {
         variant: buttonVariant,
@@ -1994,15 +1884,15 @@ function ThemeToggle({
         children: iconContent
       }
     ) }),
-    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DropdownMenuContent, { align, children: /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(DropdownMenuContent, { align, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(
       DropdownMenuRadioGroup,
       {
         value: currentTheme,
         onValueChange: (value) => setTheme(value),
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DropdownMenuRadioItem, { value: "light", children: "Light" }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DropdownMenuRadioItem, { value: "dark", children: "Dark" }),
-          showSystemOption ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(DropdownMenuRadioItem, { value: "system", children: "System" }) : null
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(DropdownMenuRadioItem, { value: "light", children: "Light" }),
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(DropdownMenuRadioItem, { value: "dark", children: "Dark" }),
+          showSystemOption ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(DropdownMenuRadioItem, { value: "system", children: "System" }) : null
         ]
       }
     ) })
@@ -2010,12 +1900,12 @@ function ThemeToggle({
 }
 
 // src/components/toast.tsx
-var React20 = __toESM(require("react"));
+var React18 = __toESM(require("react"));
 var ToastPrimitives = __toESM(require("@radix-ui/react-toast"));
-var import_class_variance_authority14 = require("class-variance-authority");
-var import_jsx_runtime24 = require("react/jsx-runtime");
+var import_class_variance_authority13 = require("class-variance-authority");
+var import_jsx_runtime22 = require("react/jsx-runtime");
 var ToastProvider = ToastPrimitives.Provider;
-var ToastViewport = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var ToastViewport = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   ToastPrimitives.Viewport,
   {
     ref,
@@ -2027,7 +1917,7 @@ var ToastViewport = React20.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
-var toastVariants = (0, import_class_variance_authority14.cva)(
+var toastVariants = (0, import_class_variance_authority13.cva)(
   "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-slide-in-bottom data-[state=closed]:animate-fade-out",
   {
     variants: {
@@ -2036,9 +1926,7 @@ var toastVariants = (0, import_class_variance_authority14.cva)(
         destructive: "destructive group border-destructive bg-destructive text-destructive-foreground",
         success: "border-success bg-success text-success-foreground",
         warning: "border-warning bg-warning text-warning-foreground",
-        info: "border-info bg-info text-info-foreground",
-        glass: "glass text-foreground",
-        neu: "shadow-neu bg-background text-foreground border-0"
+        info: "border-info bg-info text-info-foreground"
       }
     },
     defaultVariants: {
@@ -2046,8 +1934,8 @@ var toastVariants = (0, import_class_variance_authority14.cva)(
     }
   }
 );
-var Toast = React20.forwardRef(({ className, variant, ...props }, ref) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var Toast = React18.forwardRef(({ className, variant, ...props }, ref) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
     ToastPrimitives.Root,
     {
       ref,
@@ -2057,7 +1945,7 @@ var Toast = React20.forwardRef(({ className, variant, ...props }, ref) => {
   );
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
-var ToastAction = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var ToastAction = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   ToastPrimitives.Action,
   {
     ref,
@@ -2069,7 +1957,7 @@ var ToastAction = React20.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
-var ToastClose = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var ToastClose = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   ToastPrimitives.Close,
   {
     ref,
@@ -2079,7 +1967,7 @@ var ToastClose = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE
     ),
     "toast-close": "",
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
+    children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(
       "svg",
       {
         xmlns: "http://www.w3.org/2000/svg",
@@ -2093,15 +1981,15 @@ var ToastClose = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE
         strokeLinejoin: "round",
         className: "h-4 w-4",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("path", { d: "M18 6 6 18" }),
-          /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("path", { d: "m6 6 12 12" })
+          /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("path", { d: "M18 6 6 18" }),
+          /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("path", { d: "m6 6 12 12" })
         ]
       }
     )
   }
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
-var ToastTitle = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var ToastTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   ToastPrimitives.Title,
   {
     ref,
@@ -2110,7 +1998,7 @@ var ToastTitle = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
-var ToastDescription = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
+var ToastDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   ToastPrimitives.Description,
   {
     ref,
@@ -2121,7 +2009,7 @@ var ToastDescription = React20.forwardRef(({ className, ...props }, ref) => /* @
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
 // src/components/use-toast.ts
-var React21 = __toESM(require("react"));
+var React19 = __toESM(require("react"));
 var TOAST_LIMIT = 1;
 var TOAST_REMOVE_DELAY = 1e6;
 var count = 0;
@@ -2224,8 +2112,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React21.useState(memoryState);
-  React21.useEffect(() => {
+  const [state, setState] = React19.useState(memoryState);
+  React19.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -2242,37 +2130,37 @@ function useToast() {
 }
 
 // src/components/toaster.tsx
-var import_jsx_runtime25 = require("react/jsx-runtime");
+var import_jsx_runtime23 = require("react/jsx-runtime");
 function Toaster() {
   const { toasts } = useToast();
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(ToastProvider, { children: [
-    toasts.map(({ id, title, description, action, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(Toast, { ...props, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "grid gap-1", children: [
-        title ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(ToastTitle, { children: title }) : null,
-        description ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(ToastDescription, { children: description }) : null
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(ToastProvider, { children: [
+    toasts.map(({ id, title, description, action, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(Toast, { ...props, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "grid gap-1", children: [
+        title ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(ToastTitle, { children: title }) : null,
+        description ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(ToastDescription, { children: description }) : null
       ] }),
       action,
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(ToastClose, {})
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(ToastClose, {})
     ] }, id)),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(ToastViewport, {})
+    /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(ToastViewport, {})
   ] });
 }
 
 // src/components/accordion.tsx
-var React22 = __toESM(require("react"));
+var React20 = __toESM(require("react"));
 var AccordionPrimitive = __toESM(require("@radix-ui/react-accordion"));
-var import_jsx_runtime26 = require("react/jsx-runtime");
+var import_jsx_runtime24 = require("react/jsx-runtime");
 var Accordion = AccordionPrimitive.Root;
 var AccordionItemPrimitive = AccordionPrimitive.Item;
 var AccordionHeaderPrimitive = AccordionPrimitive.Header;
 var AccordionTriggerPrimitive = AccordionPrimitive.Trigger;
 var AccordionContentPrimitive = AccordionPrimitive.Content;
-var AccordionItem = React22.forwardRef(
-  ({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(AccordionItemPrimitive, { ref, className: cn("border-b", className), ...props })
+var AccordionItem = React20.forwardRef(
+  ({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(AccordionItemPrimitive, { ref, className: cn("border-b", className), ...props })
 );
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React22.forwardRef(
-  ({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(AccordionHeaderPrimitive, { className: "flex", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(
+var AccordionTrigger = React20.forwardRef(
+  ({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(AccordionHeaderPrimitive, { className: "flex", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)(
     AccordionTriggerPrimitive,
     {
       ref,
@@ -2283,7 +2171,7 @@ var AccordionTrigger = React22.forwardRef(
       ...props,
       children: [
         children,
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
           "svg",
           {
             className: "h-4 w-4 shrink-0 transition-transform duration-200",
@@ -2295,7 +2183,7 @@ var AccordionTrigger = React22.forwardRef(
             strokeWidth: "2",
             strokeLinecap: "round",
             strokeLinejoin: "round",
-            children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("path", { d: "m6 9 6 6 6-6" })
+            children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("path", { d: "m6 9 6 6 6-6" })
           }
         )
       ]
@@ -2303,24 +2191,24 @@ var AccordionTrigger = React22.forwardRef(
   ) })
 );
 AccordionTrigger.displayName = "AccordionTrigger";
-var AccordionContent = React22.forwardRef(
-  ({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+var AccordionContent = React20.forwardRef(
+  ({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
     AccordionContentPrimitive,
     {
       ref,
       className: "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
       ...props,
-      children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: cn("pb-4 pt-0", className), children })
+      children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", { className: cn("pb-4 pt-0", className), children })
     }
   )
 );
 AccordionContent.displayName = "AccordionContent";
 
 // src/components/checkbox.tsx
-var React23 = __toESM(require("react"));
+var React21 = __toESM(require("react"));
 var CheckboxPrimitive = __toESM(require("@radix-ui/react-checkbox"));
-var import_jsx_runtime27 = require("react/jsx-runtime");
-var Checkbox = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+var import_jsx_runtime25 = require("react/jsx-runtime");
+var Checkbox = React21.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
   CheckboxPrimitive.Root,
   {
     ref,
@@ -2329,16 +2217,16 @@ var Checkbox = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__
       className
     ),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(CheckboxPrimitive.Indicator, { className: cn("flex items-center justify-center text-current"), children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("svg", { className: "h-4 w-4", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("path", { d: "M20 6 9 17l-5-5" }) }) })
+    children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(CheckboxPrimitive.Indicator, { className: cn("flex items-center justify-center text-current"), children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("svg", { className: "h-4 w-4", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("path", { d: "M20 6 9 17l-5-5" }) }) })
   }
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 // src/components/switch.tsx
-var React24 = __toESM(require("react"));
+var React22 = __toESM(require("react"));
 var SwitchPrimitives = __toESM(require("@radix-ui/react-switch"));
-var import_jsx_runtime28 = require("react/jsx-runtime");
-var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+var import_jsx_runtime26 = require("react/jsx-runtime");
+var Switch = React22.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
   SwitchPrimitives.Root,
   {
     className: cn(
@@ -2347,7 +2235,7 @@ var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
     ),
     ...props,
     ref,
-    children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+    children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
       SwitchPrimitives.Thumb,
       {
         className: cn(
@@ -2360,13 +2248,13 @@ var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
 Switch.displayName = SwitchPrimitives.Root.displayName;
 
 // src/components/radio-group.tsx
-var React25 = __toESM(require("react"));
+var React23 = __toESM(require("react"));
 var RadioGroupPrimitive = __toESM(require("@radix-ui/react-radio-group"));
 var import_lucide_react6 = require("lucide-react");
-var import_jsx_runtime29 = require("react/jsx-runtime");
-var RadioGroup2 = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
+var import_jsx_runtime27 = require("react/jsx-runtime");
+var RadioGroup2 = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
 RadioGroup2.displayName = RadioGroupPrimitive.Root.displayName;
-var RadioGroupItem = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
+var RadioGroupItem = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
   RadioGroupPrimitive.Item,
   {
     ref,
@@ -2375,30 +2263,30 @@ var RadioGroupItem = React25.forwardRef(({ className, ...props }, ref) => /* @__
       className
     ),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_lucide_react6.Circle, { className: "h-2.5 w-2.5 fill-current text-current" }) })
+    children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(import_lucide_react6.Circle, { className: "h-2.5 w-2.5 fill-current text-current" }) })
   }
 ));
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
 // src/components/scroll-area.tsx
-var React26 = __toESM(require("react"));
+var React24 = __toESM(require("react"));
 var ScrollAreaPrimitive = __toESM(require("@radix-ui/react-scroll-area"));
-var import_jsx_runtime30 = require("react/jsx-runtime");
-var ScrollArea = React26.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+var import_jsx_runtime28 = require("react/jsx-runtime");
+var ScrollArea = React24.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(
   ScrollAreaPrimitive.Root,
   {
     ref,
     className: cn("relative overflow-hidden", className),
     ...props,
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ScrollBar, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ScrollAreaPrimitive.Corner, {})
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ScrollBar, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ScrollAreaPrimitive.Corner, {})
     ]
   }
 ));
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
-var ScrollBar = React26.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+var ScrollBar = React24.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
   ScrollAreaPrimitive.ScrollAreaScrollbar,
   {
     ref,
@@ -2410,25 +2298,25 @@ var ScrollBar = React26.forwardRef(({ className, orientation = "vertical", ...pr
       className
     ),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
+    children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
   }
 ));
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
 
 // src/components/command.tsx
-var React28 = __toESM(require("react"));
+var React26 = __toESM(require("react"));
 var import_cmdk = require("cmdk");
 var import_lucide_react7 = require("lucide-react");
 
 // src/components/dialog.tsx
-var React27 = __toESM(require("react"));
+var React25 = __toESM(require("react"));
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"));
-var import_jsx_runtime31 = require("react/jsx-runtime");
+var import_jsx_runtime29 = require("react/jsx-runtime");
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogPortal = DialogPrimitive.Portal;
 var DialogClose = DialogPrimitive.Close;
-var DialogOverlay = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+var DialogOverlay = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
   DialogPrimitive.Overlay,
   {
     ref,
@@ -2440,25 +2328,24 @@ var DialogOverlay = React27.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React27.forwardRef(({ className, children, variant = "default", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(DialogPortal, { children: [
-  /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(DialogOverlay, {}),
-  /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+var DialogContent = React25.forwardRef(({ className, children, variant = "default", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(DialogPortal, { children: [
+  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(DialogOverlay, {}),
+  /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
     DialogPrimitive.Content,
     {
       ref,
       className: cn(
-        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-lg duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
-        variant === "default" && "border bg-background",
-        variant === "glass" && "glass-card",
-        variant === "neu" && "neu-flat border-0",
+        // A modal genuinely floats, so this is one of the few level-2 surfaces.
+        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-2 duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
+        variant === "default" && "border border-border bg-popover",
         "rounded-lg",
         className
       ),
       ...props,
       children: [
         children,
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(DialogPrimitive.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
             "svg",
             {
               xmlns: "http://www.w3.org/2000/svg",
@@ -2472,12 +2359,12 @@ var DialogContent = React27.forwardRef(({ className, children, variant = "defaul
               strokeLinejoin: "round",
               className: "h-4 w-4",
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("path", { d: "M18 6 6 18" }),
-                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("path", { d: "m6 6 12 12" })
+                /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("path", { d: "M18 6 6 18" }),
+                /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("path", { d: "m6 6 12 12" })
               ]
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "sr-only", children: "Close" })
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { className: "sr-only", children: "Close" })
         ] })
       ]
     }
@@ -2487,7 +2374,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = ({
   className,
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
   "div",
   {
     className: cn(
@@ -2501,7 +2388,7 @@ DialogHeader.displayName = "DialogHeader";
 var DialogFooter = ({
   className,
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
   "div",
   {
     className: cn(
@@ -2512,7 +2399,7 @@ var DialogFooter = ({
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+var DialogTitle = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
   DialogPrimitive.Title,
   {
     ref,
@@ -2524,7 +2411,7 @@ var DialogTitle = React27.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+var DialogDescription = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(
   DialogPrimitive.Description,
   {
     ref,
@@ -2535,8 +2422,8 @@ var DialogDescription = React27.forwardRef(({ className, ...props }, ref) => /* 
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 // src/components/command.tsx
-var import_jsx_runtime32 = require("react/jsx-runtime");
-var Command = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var import_jsx_runtime30 = require("react/jsx-runtime");
+var Command = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   import_cmdk.Command,
   {
     ref,
@@ -2548,10 +2435,10 @@ var Command = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 Command.displayName = import_cmdk.Command.displayName;
-var CommandDialog = ({ children, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Dialog, { ...props, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(DialogContent, { className: "overflow-hidden p-0 shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Command, { className: "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children }) }) });
-var CommandInput = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "flex items-center border-b px-3", "data-cmdk-input-wrapper": "", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react7.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
-  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var CommandDialog = ({ children, ...props }) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Dialog, { ...props, children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(DialogContent, { className: "overflow-hidden p-0 shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Command, { className: "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children }) }) });
+var CommandInput = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "flex items-center border-b px-3", "data-cmdk-input-wrapper": "", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(import_lucide_react7.Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+  /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
     import_cmdk.Command.Input,
     {
       ref,
@@ -2564,7 +2451,7 @@ var CommandInput = React28.forwardRef(({ className, ...props }, ref) => /* @__PU
   )
 ] }));
 CommandInput.displayName = import_cmdk.Command.Input.displayName;
-var CommandList = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var CommandList = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   import_cmdk.Command.List,
   {
     ref,
@@ -2573,9 +2460,9 @@ var CommandList = React28.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 CommandList.displayName = import_cmdk.Command.List.displayName;
-var CommandEmpty = React28.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_cmdk.Command.Empty, { ref, className: "py-6 text-center text-sm", ...props }));
+var CommandEmpty = React26.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(import_cmdk.Command.Empty, { ref, className: "py-6 text-center text-sm", ...props }));
 CommandEmpty.displayName = import_cmdk.Command.Empty.displayName;
-var CommandGroup = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var CommandGroup = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   import_cmdk.Command.Group,
   {
     ref,
@@ -2587,7 +2474,7 @@ var CommandGroup = React28.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 CommandGroup.displayName = import_cmdk.Command.Group.displayName;
-var CommandSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var CommandSeparator = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   import_cmdk.Command.Separator,
   {
     ref,
@@ -2596,7 +2483,7 @@ var CommandSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @
   }
 ));
 CommandSeparator.displayName = import_cmdk.Command.Separator.displayName;
-var CommandItem = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+var CommandItem = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   import_cmdk.Command.Item,
   {
     ref,
@@ -2611,7 +2498,7 @@ CommandItem.displayName = import_cmdk.Command.Item.displayName;
 var CommandShortcut = ({
   className,
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
   "span",
   {
     className: cn("ml-auto text-xs tracking-widest text-muted-foreground", className),
@@ -2621,12 +2508,12 @@ var CommandShortcut = ({
 CommandShortcut.displayName = "CommandShortcut";
 
 // src/components/navigation-menu.tsx
-var React29 = __toESM(require("react"));
+var React27 = __toESM(require("react"));
 var NavigationMenuPrimitive = __toESM(require("@radix-ui/react-navigation-menu"));
 var import_lucide_react8 = require("lucide-react");
-var import_class_variance_authority15 = require("class-variance-authority");
-var import_jsx_runtime33 = require("react/jsx-runtime");
-var NavigationMenu = React29.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+var import_class_variance_authority14 = require("class-variance-authority");
+var import_jsx_runtime31 = require("react/jsx-runtime");
+var NavigationMenu = React27.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
   NavigationMenuPrimitive.Root,
   {
     ref,
@@ -2637,12 +2524,12 @@ var NavigationMenu = React29.forwardRef(({ className, children, ...props }, ref)
     ...props,
     children: [
       children,
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(NavigationMenuViewport, {})
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(NavigationMenuViewport, {})
     ]
   }
 ));
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName;
-var NavigationMenuList = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+var NavigationMenuList = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
   NavigationMenuPrimitive.List,
   {
     ref,
@@ -2652,10 +2539,10 @@ var NavigationMenuList = React29.forwardRef(({ className, ...props }, ref) => /*
 ));
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 var NavigationMenuItem = NavigationMenuPrimitive.Item;
-var navigationMenuTriggerStyle = (0, import_class_variance_authority15.cva)(
+var navigationMenuTriggerStyle = (0, import_class_variance_authority14.cva)(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
 );
-var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)(
+var NavigationMenuTrigger = React27.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(
   NavigationMenuPrimitive.Trigger,
   {
     ref,
@@ -2663,7 +2550,7 @@ var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props 
     ...props,
     children: [
       children,
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
         import_lucide_react8.ChevronDown,
         {
           className: "relative top-[1px] ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180",
@@ -2674,7 +2561,7 @@ var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props 
   }
 ));
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
-var NavigationMenuContent = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+var NavigationMenuContent = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
   NavigationMenuPrimitive.Content,
   {
     ref,
@@ -2687,7 +2574,7 @@ var NavigationMenuContent = React29.forwardRef(({ className, ...props }, ref) =>
 ));
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 var NavigationMenuLink = NavigationMenuPrimitive.Link;
-var NavigationMenuViewport = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: cn("absolute left-0 top-full flex justify-center"), children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+var NavigationMenuViewport = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: cn("absolute left-0 top-full flex justify-center"), children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
   NavigationMenuPrimitive.Viewport,
   {
     ref,
@@ -2699,7 +2586,7 @@ var NavigationMenuViewport = React29.forwardRef(({ className, ...props }, ref) =
   }
 ) }));
 NavigationMenuViewport.displayName = NavigationMenuPrimitive.Viewport.displayName;
-var NavigationMenuIndicator = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+var NavigationMenuIndicator = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
   NavigationMenuPrimitive.Indicator,
   {
     ref,
@@ -2708,20 +2595,20 @@ var NavigationMenuIndicator = React29.forwardRef(({ className, ...props }, ref) 
       className
     ),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("div", { className: "relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" })
+    children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" })
   }
 ));
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName;
 
 // src/components/select.tsx
-var React30 = __toESM(require("react"));
+var React28 = __toESM(require("react"));
 var SelectPrimitive = __toESM(require("@radix-ui/react-select"));
 var import_lucide_react9 = require("lucide-react");
-var import_jsx_runtime34 = require("react/jsx-runtime");
+var import_jsx_runtime32 = require("react/jsx-runtime");
 var Select = SelectPrimitive.Root;
 var SelectGroup = SelectPrimitive.Group;
 var SelectValue = SelectPrimitive.Value;
-var SelectTrigger = React30.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
+var SelectTrigger = React28.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
   SelectPrimitive.Trigger,
   {
     ref,
@@ -2732,32 +2619,32 @@ var SelectTrigger = React30.forwardRef(({ className, children, ...props }, ref) 
     ...props,
     children: [
       children,
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_lucide_react9.ChevronDown, { className: "h-4 w-4 opacity-50" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react9.ChevronDown, { className: "h-4 w-4 opacity-50" }) })
     ]
   }
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
-var SelectScrollUpButton = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+var SelectScrollUpButton = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
   SelectPrimitive.ScrollUpButton,
   {
     ref,
     className: cn("flex cursor-default items-center justify-center py-1", className),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_lucide_react9.ChevronUp, { className: "h-4 w-4" })
+    children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react9.ChevronUp, { className: "h-4 w-4" })
   }
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-var SelectScrollDownButton = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+var SelectScrollDownButton = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
   SelectPrimitive.ScrollDownButton,
   {
     ref,
     className: cn("flex cursor-default items-center justify-center py-1", className),
     ...props,
-    children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_lucide_react9.ChevronDown, { className: "h-4 w-4" })
+    children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react9.ChevronDown, { className: "h-4 w-4" })
   }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
-var SelectContent = React30.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
+var SelectContent = React28.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectPrimitive.Portal, { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
   SelectPrimitive.Content,
   {
     ref,
@@ -2769,8 +2656,8 @@ var SelectContent = React30.forwardRef(({ className, children, position = "poppe
     position,
     ...props,
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectScrollUpButton, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectScrollUpButton, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         SelectPrimitive.Viewport,
         {
           className: cn(
@@ -2780,12 +2667,12 @@ var SelectContent = React30.forwardRef(({ className, children, position = "poppe
           children
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectScrollDownButton, {})
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectScrollDownButton, {})
     ]
   }
 ) }));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-var SelectLabel = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+var SelectLabel = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
   SelectPrimitive.Label,
   {
     ref,
@@ -2794,7 +2681,7 @@ var SelectLabel = React30.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
-var SelectItem = React30.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(
+var SelectItem = React28.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(
   SelectPrimitive.Item,
   {
     ref,
@@ -2804,13 +2691,13 @@ var SelectItem = React30.forwardRef(({ className, children, ...props }, ref) => 
     ),
     ...props,
     children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(import_lucide_react9.Check, { className: "h-4 w-4" }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(SelectPrimitive.ItemText, { children })
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(import_lucide_react9.Check, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(SelectPrimitive.ItemText, { children })
     ]
   }
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-var SelectSeparator = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
+var SelectSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
   SelectPrimitive.Separator,
   {
     ref,
@@ -2821,22 +2708,20 @@ var SelectSeparator = React30.forwardRef(({ className, ...props }, ref) => /* @_
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 // src/components/tooltip.tsx
-var React31 = __toESM(require("react"));
+var React29 = __toESM(require("react"));
 var TooltipPrimitive = __toESM(require("@radix-ui/react-tooltip"));
-var import_jsx_runtime35 = require("react/jsx-runtime");
+var import_jsx_runtime33 = require("react/jsx-runtime");
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React31.forwardRef(({ className, sideOffset = 4, variant = "default", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+var TooltipContent = React29.forwardRef(({ className, sideOffset = 4, variant = "default", ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
   TooltipPrimitive.Content,
   {
     ref,
     sideOffset,
     className: cn(
       "z-tooltip overflow-hidden rounded-md px-3 py-1.5 text-sm animate-fade-in",
-      variant === "default" && "border bg-popover text-popover-foreground shadow-md",
-      variant === "glass" && "glass text-foreground",
-      variant === "neu" && "shadow-neu-sm bg-background text-foreground",
+      variant === "default" && "border border-border bg-popover text-popover-foreground shadow-2",
       className
     ),
     ...props
@@ -2845,20 +2730,18 @@ var TooltipContent = React31.forwardRef(({ className, sideOffset = 4, variant = 
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 // src/components/tabs.tsx
-var React32 = __toESM(require("react"));
+var React30 = __toESM(require("react"));
 var TabsPrimitive = __toESM(require("@radix-ui/react-tabs"));
-var import_class_variance_authority16 = require("class-variance-authority");
-var import_jsx_runtime36 = require("react/jsx-runtime");
+var import_class_variance_authority15 = require("class-variance-authority");
+var import_jsx_runtime34 = require("react/jsx-runtime");
 var Tabs = TabsPrimitive.Root;
-var tabsListVariants = (0, import_class_variance_authority16.cva)(
+var tabsListVariants = (0, import_class_variance_authority15.cva)(
   "inline-flex items-center justify-center rounded-md p-1 text-muted-foreground",
   {
     variants: {
       variant: {
         default: "bg-muted",
         ghost: "bg-transparent gap-2",
-        neu: "shadow-neu-inset bg-background",
-        glass: "glass",
         underline: "bg-transparent gap-4 p-0 rounded-none border-b"
       }
     },
@@ -2867,7 +2750,7 @@ var tabsListVariants = (0, import_class_variance_authority16.cva)(
     }
   }
 );
-var TabsList = React32.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+var TabsList = React30.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
   TabsPrimitive.List,
   {
     ref,
@@ -2876,16 +2759,16 @@ var TabsList = React32.forwardRef(({ className, variant, ...props }, ref) => /* 
   }
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
-var tabsTriggerVariants = (0, import_class_variance_authority16.cva)(
+var tabsTriggerVariants = (0, import_class_variance_authority15.cva)(
   "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default: "rounded-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-        ghost: "rounded-md hover:bg-muted data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
-        neu: "rounded-md data-[state=active]:shadow-neu-sm data-[state=active]:bg-background data-[state=active]:text-foreground",
-        glass: "rounded-md data-[state=active]:bg-white/20 data-[state=active]:text-foreground",
-        underline: "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-primary data-[state=active]:text-foreground"
+        ghost: "rounded-sm hover:bg-accent data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
+        // The category-tab pill (AI Apps / Web Apps), per DESIGN.md.
+        pill: "rounded-pill-category data-[state=active]:bg-card data-[state=active]:text-foreground",
+        underline: "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-brand data-[state=active]:text-foreground"
       }
     },
     defaultVariants: {
@@ -2893,7 +2776,7 @@ var tabsTriggerVariants = (0, import_class_variance_authority16.cva)(
     }
   }
 );
-var TabsTrigger = React32.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+var TabsTrigger = React30.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -2902,7 +2785,7 @@ var TabsTrigger = React32.forwardRef(({ className, variant, ...props }, ref) => 
   }
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-var TabsContent = React32.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+var TabsContent = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
   TabsPrimitive.Content,
   {
     ref,
@@ -2915,1058 +2798,26 @@ var TabsContent = React32.forwardRef(({ className, ...props }, ref) => /* @__PUR
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-// src/components/magnetic-button.tsx
-var import_framer_motion = require("framer-motion");
-var import_react3 = require("react");
-var import_jsx_runtime37 = require("react/jsx-runtime");
-function MagneticButton({
-  children,
-  className = "",
-  strength = 0.5,
-  as: Component2 = "button",
-  onClick,
-  href
-}) {
-  const ref = (0, import_react3.useRef)(null);
-  const x = (0, import_framer_motion.useMotionValue)(0);
-  const y = (0, import_framer_motion.useMotionValue)(0);
-  const springConfig = { damping: 15, stiffness: 150 };
-  const springX = (0, import_framer_motion.useSpring)(x, springConfig);
-  const springY = (0, import_framer_motion.useSpring)(y, springConfig);
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * strength);
-    y.set((e.clientY - rect.top - rect.height / 2) * strength);
-  };
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-  const MotionComponent = import_framer_motion.motion[Component2];
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-    MotionComponent,
-    {
-      ref,
-      className,
-      style: { x: springX, y: springY },
-      onMouseMove: handleMouseMove,
-      onMouseLeave: handleMouseLeave,
-      onClick,
-      whileHover: { scale: 1.05 },
-      whileTap: { scale: 0.95 },
-      ...href && { href },
-      children
-    }
-  );
-}
-function RippleButton({ children, className = "", onClick, disabled = false }) {
-  const ref = (0, import_react3.useRef)(null);
-  const [ripples, setRipples] = (0, import_react3.useState)([]);
-  const handleClick = (e) => {
-    if (disabled) return;
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    const newRipple = { id: Date.now(), x: e.clientX - rect.left, y: e.clientY - rect.top };
-    setRipples((prev) => [...prev, newRipple]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== newRipple.id)), 600);
-    onClick?.();
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_framer_motion.motion.button, { ref, type: "button", className: `relative overflow-hidden ${className}`, onClick: handleClick, disabled, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    ripples.map((ripple) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_framer_motion.motion.span, { className: "absolute rounded-full bg-white/30 pointer-events-none", style: { left: ripple.x, top: ripple.y, transform: "translate(-50%, -50%)" }, initial: { scale: 0, opacity: 0.5 }, animate: { scale: 4, opacity: 0 }, transition: { duration: 0.6, ease: "easeOut" } }, ripple.id)),
-    children
-  ] });
-}
-function GlowButton({ children, className = "", glowColor = "rgba(124, 58, 237, 0.5)", onClick }) {
-  const [position, setPosition] = (0, import_react3.useState)({ x: 0, y: 0 });
-  const ref = (0, import_react3.useRef)(null);
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_framer_motion.motion.button, { ref, type: "button", className: `relative overflow-hidden ${className}`, onMouseMove: handleMouseMove, onClick, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_framer_motion.motion.div, { className: "absolute pointer-events-none rounded-full blur-xl", style: { width: 150, height: 150, left: position.x - 75, top: position.y - 75, background: glowColor }, initial: { opacity: 0 }, whileHover: { opacity: 1 }, transition: { duration: 0.2 } }),
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "relative z-10", children })
-  ] });
-}
-function BorderBeamButton({ children, className = "", borderColor = "hsl(var(--primary))", onClick }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_framer_motion.motion.button, { type: "button", className: `relative group ${className}`, onClick, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "absolute inset-0 rounded-xl overflow-hidden", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(import_framer_motion.motion.span, { className: "absolute inset-[-100%] rounded-xl", style: { background: `conic-gradient(from 0deg, transparent 0deg, ${borderColor} 60deg, transparent 120deg)` }, animate: { rotate: 360 }, transition: { duration: 3, ease: "linear", repeat: Infinity } }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "relative block m-[2px] rounded-[10px] bg-background px-6 py-3", children })
-  ] });
-}
-
-// src/components/cursor-glow.tsx
-var import_react4 = require("react");
-var import_framer_motion2 = require("framer-motion");
-var import_jsx_runtime38 = require("react/jsx-runtime");
-function checkIsMobile() {
-  if (typeof window === "undefined") return true;
-  return window.matchMedia("(hover: none)").matches;
-}
-function checkPrefersReducedMotion() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-function CursorGlow({
-  size = 600,
-  opacity = 0.15,
-  color = "hsl(var(--primary))",
-  containerRef,
-  className = "",
-  zIndex = 0
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = (0, import_react4.useState)(false);
-  const mouseX = (0, import_framer_motion2.useMotionValue)(0);
-  const mouseY = (0, import_framer_motion2.useMotionValue)(0);
-  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
-  const springX = (0, import_framer_motion2.useSpring)(mouseX, springConfig);
-  const springY = (0, import_framer_motion2.useSpring)(mouseY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile();
-  const prefersReducedMotion = isClient2 && checkPrefersReducedMotion();
-  (0, import_react4.useEffect)(() => {
-    if (isMobile || prefersReducedMotion) return;
-    const container = containerRef?.current;
-    const handleMouseMove = (e) => {
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
-        setIsVisible(isInside);
-        if (isInside) {
-          mouseX.set(x);
-          mouseY.set(y);
-        }
-      } else {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
-        setIsVisible(true);
-      }
-    };
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-    const handleMouseEnter = () => {
-      if (!container) {
-        setIsVisible(true);
-      }
-    };
-    const target = container || document;
-    target.addEventListener("mousemove", handleMouseMove);
-    if (container) {
-      container.addEventListener("mouseleave", handleMouseLeave);
-      container.addEventListener("mouseenter", handleMouseEnter);
-    } else {
-      document.addEventListener("mouseleave", handleMouseLeave);
-      document.addEventListener("mouseenter", handleMouseEnter);
-    }
-    return () => {
-      target.removeEventListener("mousemove", handleMouseMove);
-      if (container) {
-        container.removeEventListener("mouseleave", handleMouseLeave);
-        container.removeEventListener("mouseenter", handleMouseEnter);
-      } else {
-        document.removeEventListener("mouseleave", handleMouseLeave);
-        document.removeEventListener("mouseenter", handleMouseEnter);
-      }
-    };
-  }, [isMobile, prefersReducedMotion, mouseX, mouseY, containerRef]);
-  if (isMobile || prefersReducedMotion) return null;
-  const isScoped = !!containerRef;
-  return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-    import_framer_motion2.motion.div,
-    {
-      className: `pointer-events-none ${isScoped ? "absolute" : "fixed"} inset-0 overflow-hidden ${className}`,
-      style: { zIndex },
-      initial: { opacity: 0 },
-      animate: { opacity: isVisible ? 1 : 0 },
-      transition: { duration: 0.3 },
-      children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-        import_framer_motion2.motion.div,
-        {
-          className: "absolute rounded-full",
-          style: {
-            width: size,
-            height: size,
-            x: springX,
-            y: springY,
-            translateX: "-50%",
-            translateY: "-50%",
-            background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`,
-            opacity
-          }
-        }
-      )
-    }
-  );
-}
-function GradientCursorGlow({
-  size = 800,
-  opacity = 0.12,
-  primaryColor = "rgba(100, 200, 100, 0.4)",
-  secondaryColor = "rgba(59, 130, 246, 0.2)",
-  containerRef,
-  zIndex = 0
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = (0, import_react4.useState)(false);
-  const mouseX = (0, import_framer_motion2.useMotionValue)(0);
-  const mouseY = (0, import_framer_motion2.useMotionValue)(0);
-  const springConfig = { damping: 30, stiffness: 120, mass: 0.8 };
-  const springX = (0, import_framer_motion2.useSpring)(mouseX, springConfig);
-  const springY = (0, import_framer_motion2.useSpring)(mouseY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile();
-  const prefersReducedMotion = isClient2 && checkPrefersReducedMotion();
-  (0, import_react4.useEffect)(() => {
-    if (isMobile || prefersReducedMotion) return;
-    const container = containerRef?.current;
-    const handleMouseMove = (e) => {
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
-        setIsVisible(isInside);
-        if (isInside) {
-          mouseX.set(x);
-          mouseY.set(y);
-        }
-      } else {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
-        setIsVisible(true);
-      }
-    };
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => {
-      if (!container) setIsVisible(true);
-    };
-    const target = container || document;
-    target.addEventListener("mousemove", handleMouseMove);
-    if (container) {
-      container.addEventListener("mouseleave", handleMouseLeave);
-      container.addEventListener("mouseenter", handleMouseEnter);
-    } else {
-      document.addEventListener("mouseleave", handleMouseLeave);
-      document.addEventListener("mouseenter", handleMouseEnter);
-    }
-    return () => {
-      target.removeEventListener("mousemove", handleMouseMove);
-      if (container) {
-        container.removeEventListener("mouseleave", handleMouseLeave);
-        container.removeEventListener("mouseenter", handleMouseEnter);
-      } else {
-        document.removeEventListener("mouseleave", handleMouseLeave);
-        document.removeEventListener("mouseenter", handleMouseEnter);
-      }
-    };
-  }, [isMobile, prefersReducedMotion, mouseX, mouseY, containerRef]);
-  if (isMobile || prefersReducedMotion) return null;
-  const isScoped = !!containerRef;
-  return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
-    import_framer_motion2.motion.div,
-    {
-      className: `pointer-events-none ${isScoped ? "absolute" : "fixed"} inset-0 overflow-hidden`,
-      style: { zIndex },
-      initial: { opacity: 0 },
-      animate: { opacity: isVisible ? 1 : 0 },
-      transition: { duration: 0.3 },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-          import_framer_motion2.motion.div,
-          {
-            className: "absolute rounded-full blur-3xl",
-            style: {
-              width: size,
-              height: size,
-              x: springX,
-              y: springY,
-              translateX: "-50%",
-              translateY: "-50%",
-              background: `radial-gradient(circle at center, ${primaryColor} 0%, transparent 60%)`,
-              opacity
-            }
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-          import_framer_motion2.motion.div,
-          {
-            className: "absolute rounded-full blur-3xl",
-            style: {
-              width: size * 0.7,
-              height: size * 0.7,
-              x: springX,
-              y: springY,
-              translateX: "-30%",
-              translateY: "-30%",
-              background: `radial-gradient(circle at center, ${secondaryColor} 0%, transparent 60%)`,
-              opacity: opacity * 0.8
-            }
-          }
-        )
-      ]
-    }
-  );
-}
-
-// src/components/cursor-follower.tsx
-var import_framer_motion3 = require("framer-motion");
-var import_react5 = require("react");
-var import_jsx_runtime39 = require("react/jsx-runtime");
-function checkIsMobile2() {
-  if (typeof window === "undefined") return true;
-  return window.matchMedia("(hover: none)").matches;
-}
-function CursorFollower({
-  size = 20,
-  color = "hsl(var(--primary))",
-  mixBlendMode = "difference"
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = (0, import_react5.useState)(false);
-  const [isHovering, setIsHovering] = (0, import_react5.useState)(false);
-  const cursorX = (0, import_framer_motion3.useMotionValue)(-100);
-  const cursorY = (0, import_framer_motion3.useMotionValue)(-100);
-  const springConfig = { damping: 25, stiffness: 200 };
-  const springX = (0, import_framer_motion3.useSpring)(cursorX, springConfig);
-  const springY = (0, import_framer_motion3.useSpring)(cursorY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile2();
-  (0, import_react5.useEffect)(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX - size / 2);
-      cursorY.set(e.clientY - size / 2);
-      setIsVisible(true);
-    };
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-    const handleMouseEnter = () => {
-      setIsVisible(true);
-    };
-    const handleElementHover = (e) => {
-      const target = e.target;
-      const isInteractive = target.tagName === "A" || target.tagName === "BUTTON" || target.closest("a") || target.closest("button") || target.closest("[role='button']") || target.dataset.cursorHover === "true";
-      setIsHovering(!!isInteractive);
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseover", handleElementHover);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mouseover", handleElementHover);
-    };
-  }, [cursorX, cursorY, size, isMobile]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-    import_framer_motion3.motion.div,
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[9999] rounded-full",
-      style: {
-        x: springX,
-        y: springY,
-        width: size,
-        height: size,
-        backgroundColor: color,
-        mixBlendMode
-      },
-      animate: {
-        scale: isHovering ? 2.5 : 1,
-        opacity: isVisible ? 1 : 0
-      },
-      transition: {
-        scale: { type: "spring", stiffness: 300, damping: 20 },
-        opacity: { duration: 0.2 }
-      }
-    }
-  );
-}
-function SpotlightCursor({
-  size = 400,
-  opacity = 0.15,
-  color = "hsl(var(--primary))"
-}) {
-  const isClient2 = useIsClient();
-  const cursorX = (0, import_framer_motion3.useMotionValue)(-1e3);
-  const cursorY = (0, import_framer_motion3.useMotionValue)(-1e3);
-  const springConfig = { damping: 30, stiffness: 100 };
-  const springX = (0, import_framer_motion3.useSpring)(cursorX, springConfig);
-  const springY = (0, import_framer_motion3.useSpring)(cursorY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile2();
-  (0, import_react5.useEffect)(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX - size / 2);
-      cursorY.set(e.clientY - size / 2);
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [cursorX, cursorY, size, isMobile]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-    import_framer_motion3.motion.div,
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[1] rounded-full blur-3xl",
-      style: {
-        x: springX,
-        y: springY,
-        width: size,
-        height: size,
-        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        opacity
-      }
-    }
-  );
-}
-function TrailCursor({
-  dotCount = 8,
-  dotSize = 10,
-  color = "hsl(var(--primary))"
-}) {
-  const isClient2 = useIsClient();
-  const [mousePosition, setMousePosition] = (0, import_react5.useState)({ x: -100, y: -100 });
-  const [trail, setTrail] = (0, import_react5.useState)(
-    Array(dotCount).fill({ x: -100, y: -100 })
-  );
-  const isMobile = !isClient2 || checkIsMobile2();
-  (0, import_react5.useEffect)(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [isMobile]);
-  (0, import_react5.useEffect)(() => {
-    let rafId;
-    const animateTrail = () => {
-      setTrail((prevTrail) => {
-        const newTrail = [...prevTrail];
-        newTrail[0] = mousePosition;
-        for (let i = 1; i < newTrail.length; i++) {
-          const dx = newTrail[i - 1].x - newTrail[i].x;
-          const dy = newTrail[i - 1].y - newTrail[i].y;
-          newTrail[i] = {
-            x: newTrail[i].x + dx * 0.35,
-            y: newTrail[i].y + dy * 0.35
-          };
-        }
-        return newTrail;
-      });
-    };
-    const animate = () => {
-      animateTrail();
-      rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [mousePosition]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: trail.map((dot, index) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-    "div",
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[9999] rounded-full",
-      style: {
-        transform: `translate(${dot.x - dotSize / 2}px, ${dot.y - dotSize / 2}px)`,
-        width: dotSize * (1 - index * 0.1),
-        height: dotSize * (1 - index * 0.1),
-        backgroundColor: color,
-        opacity: 1 - index * 0.12,
-        mixBlendMode: "difference"
-      }
-    },
-    index
-  )) });
-}
-
-// src/components/glow-section.tsx
-var import_react6 = require("react");
-var import_jsx_runtime40 = require("react/jsx-runtime");
-function GlowSection({
-  children,
-  className = "",
-  variant = "default",
-  size,
-  opacity,
-  color,
-  primaryColor,
-  secondaryColor,
-  enabled = true,
-  as: Component2 = "section"
-}) {
-  const containerRef = (0, import_react6.useRef)(null);
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Component2, { className: `relative ${className}`, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { ref: containerRef, className: "absolute inset-0 pointer-events-none", "aria-hidden": "true", children: [
-      enabled && variant === "default" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-        CursorGlow,
-        {
-          containerRef,
-          size,
-          opacity,
-          color
-        }
-      ),
-      enabled && variant === "gradient" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-        GradientCursorGlow,
-        {
-          containerRef,
-          size,
-          opacity,
-          primaryColor,
-          secondaryColor
-        }
-      )
-    ] }),
-    children
-  ] });
-}
-function HeroGlowSection({ children, className = "" }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    GlowSection,
-    {
-      className,
-      variant: "default",
-      size: 700,
-      opacity: 0.18,
-      color: "hsl(var(--primary))",
-      children
-    }
-  );
-}
-function SubtleGlowSection({ children, className = "" }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    GlowSection,
-    {
-      className,
-      variant: "default",
-      size: 500,
-      opacity: 0.1,
-      color: "hsl(var(--primary))",
-      children
-    }
-  );
-}
-
-// src/components/animated-text.tsx
-var import_framer_motion4 = require("framer-motion");
-var import_react7 = require("react");
-var import_jsx_runtime41 = require("react/jsx-runtime");
-var charVariants = {
-  hidden: {
-    opacity: 0,
-    y: 50,
-    rotateX: -90
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0
-  }
-};
-function AnimatedHeading({
-  children,
-  as: Component2 = "h2",
-  className = "",
-  once = true,
-  staggerDelay = 0.03
-}) {
-  const ref = (0, import_react7.useRef)(null);
-  const isInView = (0, import_framer_motion4.useInView)(ref, { once, margin: "-100px" });
-  const characters = children.split("");
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Component2, { ref, className, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
-    import_framer_motion4.motion.span,
-    {
-      className: "inline-flex flex-wrap",
-      initial: "hidden",
-      animate: isInView ? "visible" : "hidden",
-      transition: { staggerChildren: staggerDelay },
-      children: characters.map((char, index) => /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
-        import_framer_motion4.motion.span,
-        {
-          className: "inline-block",
-          variants: charVariants,
-          transition: {
-            duration: 0.4,
-            ease: [0.22, 1, 0.36, 1]
-          },
-          style: {
-            perspective: 1e3,
-            whiteSpace: char === " " ? "pre" : "normal"
-          },
-          children: char === " " ? "\xA0" : char
-        },
-        `${char}-${index}`
-      ))
-    }
-  ) });
-}
-function GradientText({
-  children,
-  className = ""
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
-    import_framer_motion4.motion.span,
-    {
-      className: `inline-block text-primary font-bold ${className}`,
-      initial: { opacity: 0, y: 10 },
-      animate: { opacity: 1, y: 0 },
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
-      },
-      children
-    }
-  );
-}
-
-// src/components/floating-elements.tsx
-var import_framer_motion5 = require("framer-motion");
-var import_react8 = require("react");
-var import_jsx_runtime42 = require("react/jsx-runtime");
-function seededRandom(seed) {
-  const x = Math.sin(seed * 9999) * 1e4;
-  return x - Math.floor(x);
-}
-function FloatingElement({
-  children,
-  className = "",
-  duration = 3,
-  distance = 10,
-  delay = 0
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      animate: { y: [0, -distance, 0] },
-      transition: {
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut"
-      },
-      children
-    }
-  );
-}
-function RotatingElement({
-  children,
-  className = "",
-  duration = 10,
-  direction = "cw"
-}) {
-  const rotation = direction === "cw" ? 360 : -360;
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      animate: { rotate: rotation },
-      transition: {
-        duration,
-        repeat: Infinity,
-        ease: "linear"
-      },
-      children
-    }
-  );
-}
-function PulsingElement({
-  children,
-  className = "",
-  duration = 2,
-  scale = 1.05
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      animate: { scale: [1, scale, 1] },
-      transition: {
-        duration,
-        repeat: Infinity,
-        ease: "easeInOut"
-      },
-      children
-    }
-  );
-}
-function OrbitElement({
-  children,
-  className = "",
-  radius = 100,
-  duration = 10,
-  delay = 0,
-  direction = "cw"
-}) {
-  const angle = direction === "cw" ? [0, 360] : [360, 0];
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className: `absolute ${className}`,
-      animate: { rotate: angle },
-      transition: {
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "linear"
-      },
-      style: { transformOrigin: `center ${radius}px` },
-      children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-        import_framer_motion5.motion.div,
-        {
-          animate: { rotate: direction === "cw" ? [0, -360] : [-360, 0] },
-          transition: {
-            duration,
-            delay,
-            repeat: Infinity,
-            ease: "linear"
-          },
-          children
-        }
-      )
-    }
-  );
-}
-function AnimatedBlob({
-  className = "",
-  color = "hsl(var(--primary) / 0.3)",
-  size = 400
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className: `absolute rounded-full blur-3xl ${className}`,
-      style: {
-        width: size,
-        height: size,
-        backgroundColor: color
-      },
-      animate: {
-        scale: [1, 1.1, 0.95, 1.05, 1],
-        x: [0, 30, -20, 10, 0],
-        y: [0, -20, 30, -10, 0],
-        borderRadius: [
-          "60% 40% 30% 70%/60% 30% 70% 40%",
-          "30% 60% 70% 40%/50% 60% 30% 60%",
-          "60% 40% 30% 70%/60% 30% 70% 40%"
-        ]
-      },
-      transition: {
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  );
-}
-function AnimatedGrid({
-  className = "",
-  gridSize = 50,
-  color = "hsl(var(--primary) / 0.05)"
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-    import_framer_motion5.motion.div,
-    {
-      className: `absolute inset-0 overflow-hidden ${className}`,
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { duration: 1 },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-          "div",
-          {
-            className: "absolute inset-0",
-            style: {
-              backgroundImage: `linear-gradient(${color} 1px, transparent 1px), linear-gradient(90deg, ${color} 1px, transparent 1px)`,
-              backgroundSize: `${gridSize}px ${gridSize}px`
-            }
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-          import_framer_motion5.motion.div,
-          {
-            className: "absolute inset-0",
-            style: {
-              background: `radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 70%)`
-            }
-          }
-        )
-      ]
-    }
-  );
-}
-function AnimatedShapes({
-  className = "",
-  count: count2 = 5
-}) {
-  const shapeConfigs = (0, import_react8.useMemo)(() => {
-    const shapes = ["circle", "square", "triangle"];
-    return Array.from({ length: count2 }).map((_, i) => ({
-      shape: shapes[i % shapes.length],
-      size: 20 + seededRandom(i * 1) * 40,
-      left: seededRandom(i * 2) * 100,
-      top: seededRandom(i * 3) * 100,
-      duration: 15 + seededRandom(i * 4) * 10,
-      delay: seededRandom(i * 5) * 5
-    }));
-  }, [count2]);
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `absolute inset-0 overflow-hidden pointer-events-none ${className}`, children: shapeConfigs.map((config, i) => {
-    const { shape, size, left, top, duration, delay } = config;
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-      import_framer_motion5.motion.div,
-      {
-        className: "absolute",
-        style: {
-          left: `${left}%`,
-          top: `${top}%`,
-          width: size,
-          height: size
-        },
-        animate: {
-          y: [0, -100, 0],
-          x: [0, 30, -30, 0],
-          rotate: [0, 180, 360],
-          opacity: [0.2, 0.5, 0.2]
-        },
-        transition: {
-          duration,
-          delay,
-          repeat: Infinity,
-          ease: "easeInOut"
-        },
-        children: [
-          shape === "circle" && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "w-full h-full rounded-full border border-primary/20" }),
-          shape === "square" && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "w-full h-full border border-primary/20 rotate-45" }),
-          shape === "triangle" && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-primary/20" })
-        ]
-      },
-      i
-    );
-  }) });
-}
-function ParticlesBackground({
-  className = "",
-  particleCount = 30,
-  color = "hsl(var(--primary))"
-}) {
-  const particleConfigs = (0, import_react8.useMemo)(
-    () => Array.from({ length: particleCount }).map((_, i) => ({
-      size: 2 + seededRandom(i * 10) * 4,
-      left: seededRandom(i * 11) * 100,
-      duration: 10 + seededRandom(i * 12) * 20,
-      delay: seededRandom(i * 13) * 10,
-      opacity: 0.3 + seededRandom(i * 14) * 0.4,
-      xOffset: (seededRandom(i * 15) - 0.5) * 100
-    })),
-    [particleCount]
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `absolute inset-0 overflow-hidden pointer-events-none ${className}`, children: particleConfigs.map((config, i) => {
-    const { size, left, duration, delay, opacity, xOffset } = config;
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-      import_framer_motion5.motion.div,
-      {
-        className: "absolute rounded-full",
-        style: {
-          width: size,
-          height: size,
-          left: `${left}%`,
-          bottom: -10,
-          backgroundColor: color,
-          opacity
-        },
-        animate: {
-          y: [0, -1e3],
-          x: [0, xOffset]
-        },
-        transition: {
-          duration,
-          delay,
-          repeat: Infinity,
-          ease: "linear"
-        }
-      },
-      i
-    );
-  }) });
-}
-function WaveAnimation({
-  className = "",
-  color = "hsl(var(--primary))",
-  amplitude = 20,
-  frequency = 0.02
-}) {
-  const points = 100;
-  const width = 1e3;
-  const generatePath = (offset) => {
-    let path = `M 0 ${amplitude}`;
-    for (let i = 0; i <= points; i++) {
-      const x = i / points * width;
-      const y = amplitude + Math.sin(i * frequency * Math.PI * 2 + offset) * amplitude;
-      path += ` L ${x} ${y}`;
-    }
-    return path;
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: `absolute inset-x-0 overflow-hidden ${className}`, children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
-    "svg",
-    {
-      viewBox: `0 0 ${width} ${amplitude * 2 + 10}`,
-      className: "w-full h-auto",
-      preserveAspectRatio: "none",
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-          import_framer_motion5.motion.path,
-          {
-            d: generatePath(0),
-            fill: "none",
-            stroke: color,
-            strokeWidth: "2",
-            strokeOpacity: "0.3",
-            animate: {
-              d: [
-                generatePath(0),
-                generatePath(Math.PI),
-                generatePath(Math.PI * 2)
-              ]
-            },
-            transition: {
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear"
-            }
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
-          import_framer_motion5.motion.path,
-          {
-            d: generatePath(Math.PI / 2),
-            fill: "none",
-            stroke: color,
-            strokeWidth: "2",
-            strokeOpacity: "0.2",
-            animate: {
-              d: [
-                generatePath(Math.PI / 2),
-                generatePath(Math.PI * 1.5),
-                generatePath(Math.PI * 2.5)
-              ]
-            },
-            transition: {
-              duration: 5,
-              repeat: Infinity,
-              ease: "linear"
-            }
-          }
-        )
-      ]
-    }
-  ) });
-}
-
-// src/components/parallax-scroll.tsx
-var import_framer_motion6 = require("framer-motion");
-var import_react9 = require("react");
-var import_framer_motion7 = require("framer-motion");
-var import_jsx_runtime43 = require("react/jsx-runtime");
-var ParallaxScrollComponent = ({
-  images,
-  className,
-  renderImage
-}) => {
-  const gridRef = (0, import_react9.useRef)(null);
-  const { scrollYProgress } = (0, import_framer_motion6.useScroll)({
-    container: gridRef,
-    offset: ["start start", "end start"]
-  });
-  const translateYFirst = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, -200]);
-  const translateXFirst = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, -200]);
-  const rotateXFirst = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, -20]);
-  const translateYThird = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, -200]);
-  const translateXThird = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, 200]);
-  const rotateXThird = (0, import_framer_motion6.useTransform)(scrollYProgress, [0, 1], [0, 20]);
-  const { firstPart, secondPart, thirdPart } = (0, import_react9.useMemo)(() => {
-    const third = Math.ceil(images.length / 3);
-    return {
-      firstPart: images.slice(0, third),
-      secondPart: images.slice(third, 2 * third),
-      thirdPart: images.slice(2 * third)
-    };
-  }, [images]);
-  const defaultRenderImage = (src, index) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
-    "img",
-    {
-      src,
-      className: "h-80 w-full object-cover object-left-top rounded-lg !m-0 !p-0",
-      alt: `Image ${index + 1}`
-    }
-  );
-  const render = renderImage || defaultRenderImage;
-  return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
-    "div",
-    {
-      className: cn("h-[40rem] items-start overflow-y-auto w-full", className),
-      ref: gridRef,
-      children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-5xl mx-auto gap-10 py-40 px-10", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "grid gap-10", children: firstPart.map((el, idx) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
-          import_framer_motion7.motion.div,
-          {
-            style: {
-              y: translateYFirst,
-              x: translateXFirst,
-              rotateZ: rotateXFirst
-            },
-            children: render(el, idx)
-          },
-          "grid-1" + idx
-        )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "grid gap-10", children: secondPart.map((el, idx) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(import_framer_motion7.motion.div, { children: render(el, idx + firstPart.length) }, "grid-2" + idx)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "grid gap-10", children: thirdPart.map((el, idx) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
-          import_framer_motion7.motion.div,
-          {
-            style: {
-              y: translateYThird,
-              x: translateXThird,
-              rotateZ: rotateXThird
-            },
-            children: render(el, idx + firstPart.length + secondPart.length)
-          },
-          "grid-3" + idx
-        )) })
-      ] })
-    }
-  );
-};
-var ParallaxScroll = (0, import_react9.memo)(ParallaxScrollComponent);
-
 // src/components/reading-progress.tsx
-var import_react10 = require("react");
-var import_framer_motion8 = require("framer-motion");
-var import_jsx_runtime44 = require("react/jsx-runtime");
+var import_react3 = require("react");
+var import_framer_motion = require("framer-motion");
+var import_jsx_runtime35 = require("react/jsx-runtime");
 function ReadingProgress() {
-  const [isVisible, setIsVisible] = (0, import_react10.useState)(false);
-  const { scrollYProgress } = (0, import_framer_motion8.useScroll)();
-  const scaleX = (0, import_framer_motion8.useSpring)(scrollYProgress, {
+  const [isVisible, setIsVisible] = (0, import_react3.useState)(false);
+  const { scrollYProgress } = (0, import_framer_motion.useScroll)();
+  const scaleX = (0, import_framer_motion.useSpring)(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 1e-3
   });
-  (0, import_react10.useEffect)(() => {
+  (0, import_react3.useEffect)(() => {
     const unsubscribe = scrollYProgress.on("change", (value) => {
       setIsVisible(value > 0.05);
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
-  return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
-    import_framer_motion8.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
+    import_framer_motion.motion.div,
     {
       className: "fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left",
       style: {
@@ -3979,9 +2830,9 @@ function ReadingProgress() {
 }
 
 // src/components/command-palette.tsx
-var import_react11 = require("react");
-var import_framer_motion9 = require("framer-motion");
-var import_jsx_runtime45 = require("react/jsx-runtime");
+var import_react4 = require("react");
+var import_framer_motion2 = require("framer-motion");
+var import_jsx_runtime36 = require("react/jsx-runtime");
 var EMPTY_CATEGORIES = {};
 function CommandPalette({
   className,
@@ -3992,30 +2843,30 @@ function CommandPalette({
   triggerLabel = "Search",
   shortcutKey = "k"
 }) {
-  const [isOpen, setIsOpen] = (0, import_react11.useState)(false);
-  const [query, setQuery] = (0, import_react11.useState)("");
-  const [selectedIndex, setSelectedIndex] = (0, import_react11.useState)(0);
-  const inputRef = (0, import_react11.useRef)(null);
-  const listRef = (0, import_react11.useRef)(null);
-  const closePalette = (0, import_react11.useCallback)(() => {
+  const [isOpen, setIsOpen] = (0, import_react4.useState)(false);
+  const [query, setQuery] = (0, import_react4.useState)("");
+  const [selectedIndex, setSelectedIndex] = (0, import_react4.useState)(0);
+  const inputRef = (0, import_react4.useRef)(null);
+  const listRef = (0, import_react4.useRef)(null);
+  const closePalette = (0, import_react4.useCallback)(() => {
     setIsOpen(false);
     setQuery("");
     setSelectedIndex(0);
   }, []);
-  const openPalette = (0, import_react11.useCallback)(() => {
+  const openPalette = (0, import_react4.useCallback)(() => {
     setIsOpen(true);
     requestAnimationFrame(() => {
       inputRef.current?.focus();
     });
   }, []);
-  const runCommand = (0, import_react11.useCallback)(
+  const runCommand = (0, import_react4.useCallback)(
     (command) => {
       command.action();
       closePalette();
     },
     [closePalette]
   );
-  const filteredCommands = (0, import_react11.useMemo)(() => {
+  const filteredCommands = (0, import_react4.useMemo)(() => {
     if (!query.trim()) return commands;
     const lowerQuery = query.toLowerCase();
     const filtered = commands.filter((cmd) => {
@@ -4029,7 +2880,7 @@ function CommandPalette({
     const searchResults = onSearch ? onSearch(query) : [];
     return [...filtered, ...searchResults];
   }, [query, commands, onSearch]);
-  const handleKeyDown = (0, import_react11.useCallback)(
+  const handleKeyDown = (0, import_react4.useCallback)(
     (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === shortcutKey) {
         e.preventDefault();
@@ -4067,14 +2918,14 @@ function CommandPalette({
     },
     [closePalette, filteredCommands, isOpen, openPalette, runCommand, selectedIndex, shortcutKey]
   );
-  (0, import_react11.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
-  (0, import_react11.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     setSelectedIndex(0);
   }, [filteredCommands.length]);
-  (0, import_react11.useEffect)(() => {
+  (0, import_react4.useEffect)(() => {
     if (listRef.current && filteredCommands.length > 0) {
       const selectedElement = listRef.current.querySelector(
         `[data-index="${selectedIndex}"]`
@@ -4082,7 +2933,7 @@ function CommandPalette({
       selectedElement?.scrollIntoView({ block: "nearest" });
     }
   }, [selectedIndex, filteredCommands.length]);
-  const groupedCommands = (0, import_react11.useMemo)(() => {
+  const groupedCommands = (0, import_react4.useMemo)(() => {
     const groups = {};
     filteredCommands.forEach((cmd) => {
       if (!groups[cmd.category]) {
@@ -4096,8 +2947,8 @@ function CommandPalette({
     return categories[category] || category.charAt(0).toUpperCase() + category.slice(1);
   };
   let globalIndex = -1;
-  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_framer_motion9.LazyMotion, { features: import_framer_motion9.domAnimation, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
+  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_framer_motion2.LazyMotion, { features: import_framer_motion2.domAnimation, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
       "button",
       {
         type: "button",
@@ -4109,21 +2960,21 @@ function CommandPalette({
         ),
         "aria-label": "Open command palette",
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("path", { d: "m21 21-4.3-4.3" })
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "m21 21-4.3-4.3" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { className: "hidden sm:inline", children: triggerLabel }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("kbd", { className: "hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { className: "text-xs", children: "\u2318" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "hidden sm:inline", children: triggerLabel }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("kbd", { className: "hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-xs", children: "\u2318" }),
             shortcutKey.toUpperCase()
           ] })
         ]
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_framer_motion9.AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-        import_framer_motion9.m.div,
+    /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_framer_motion2.AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        import_framer_motion2.m.div,
         {
           initial: { opacity: 0 },
           animate: { opacity: 1 },
@@ -4132,21 +2983,21 @@ function CommandPalette({
           className: "fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-        import_framer_motion9.m.div,
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
+        import_framer_motion2.m.div,
         {
           initial: { opacity: 0, scale: 0.95, y: -20 },
           animate: { opacity: 1, scale: 1, y: 0 },
           exit: { opacity: 0, scale: 0.95, y: -20 },
           transition: { duration: 0.15 },
           className: "fixed left-1/2 top-[20%] -translate-x-1/2 w-full max-w-xl z-50 px-4",
-          children: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "bg-popover border border-border rounded-xl shadow-2xl overflow-hidden", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-border", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("svg", { className: "h-5 w-5 text-muted-foreground shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
-                /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("path", { d: "m21 21-4.3-4.3" })
+          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "bg-popover border border-border rounded-xl shadow-2xl overflow-hidden", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-border", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("svg", { className: "h-5 w-5 text-muted-foreground shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "m21 21-4.3-4.3" })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                 "input",
                 {
                   ref: inputRef,
@@ -4157,38 +3008,38 @@ function CommandPalette({
                   className: "flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
                 }
               ),
-              query && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+              query && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                 "button",
                 {
                   type: "button",
                   onClick: () => setQuery(""),
                   className: "text-muted-foreground hover:text-foreground",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("path", { d: "M18 6 6 18M6 6l12 12" }) })
+                  children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M18 6 6 18M6 6l12 12" }) })
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("kbd", { className: "hidden sm:inline-flex h-5 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground", children: "ESC" })
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "hidden sm:inline-flex h-5 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground", children: "ESC" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
               "div",
               {
                 ref: listRef,
                 className: "max-h-[60vh] overflow-y-auto p-2",
                 role: "listbox",
-                children: filteredCommands.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "py-8 text-center text-muted-foreground", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("p", { children: [
+                children: filteredCommands.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "py-8 text-center text-muted-foreground", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("p", { children: [
                     'No results found for "',
                     query,
                     '"'
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "text-sm mt-1", children: "Try searching for something else" })
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "text-sm mt-1", children: "Try searching for something else" })
                 ] }) : Object.entries(groupedCommands).map(([category, cmds]) => {
                   if (cmds.length === 0) return null;
-                  return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "mb-2", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider", children: getCategoryLabel(category) }),
+                  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "mb-2", children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider", children: getCategoryLabel(category) }),
                     cmds.map((cmd) => {
                       globalIndex++;
                       const isSelected = globalIndex === selectedIndex;
-                      return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
+                      return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
                         "button",
                         {
                           type: "button",
@@ -4202,7 +3053,7 @@ function CommandPalette({
                           role: "option",
                           "aria-selected": isSelected,
                           children: [
-                            cmd.icon && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+                            cmd.icon && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                               "div",
                               {
                                 className: cn(
@@ -4212,11 +3063,11 @@ function CommandPalette({
                                 children: cmd.icon
                               }
                             ),
-                            /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "flex-1 min-w-0", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "font-medium text-foreground truncate", children: cmd.title }),
-                              cmd.description && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "text-sm text-muted-foreground truncate", children: cmd.description })
+                            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex-1 min-w-0", children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "font-medium text-foreground truncate", children: cmd.title }),
+                              cmd.description && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "text-sm text-muted-foreground truncate", children: cmd.description })
                             ] }),
-                            isSelected && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("svg", { className: "h-4 w-4 shrink-0 text-primary", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("path", { d: "M5 12h14M12 5l7 7-7 7" }) })
+                            isSelected && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { className: "h-4 w-4 shrink-0 text-primary", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M5 12h14M12 5l7 7-7 7" }) })
                           ]
                         },
                         cmd.id
@@ -4226,19 +3077,19 @@ function CommandPalette({
                 })
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "px-4 py-2 border-t border-border bg-muted/30", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "flex items-center justify-between text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "flex items-center gap-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u2191\u2193" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "px-4 py-2 border-t border-border bg-muted/30", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center justify-between text-xs text-muted-foreground", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center gap-4", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u2191\u2193" }),
                   "navigate"
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u21B5" }),
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u21B5" }),
                   "select"
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("span", { className: "flex items-center gap-1", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "esc" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "esc" }),
                 "close"
               ] })
             ] }) })
@@ -4250,9 +3101,9 @@ function CommandPalette({
 }
 
 // src/components/breadcrumb-nav.tsx
-var import_jsx_runtime46 = require("react/jsx-runtime");
+var import_jsx_runtime37 = require("react/jsx-runtime");
 function DefaultLink({ href, className, children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("a", { href, className, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("a", { href, className, children });
 }
 function BreadcrumbNav({
   items,
@@ -4261,10 +3112,10 @@ function BreadcrumbNav({
   linkComponent: LinkComponent = DefaultLink
 }) {
   if (items.length === 0) return null;
-  const defaultSeparator = /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("svg", { className: "mx-2 h-4 w-4 text-muted-foreground", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("path", { d: "m9 18 6-6-6-6" }) });
-  return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("nav", { "aria-label": "Breadcrumb", className: cn("mb-6 text-sm", className), children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("ol", { className: "flex items-center space-x-2", children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("li", { className: "flex items-center", children: [
+  const defaultSeparator = /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("svg", { className: "mx-2 h-4 w-4 text-muted-foreground", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "m9 18 6-6-6-6" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("nav", { "aria-label": "Breadcrumb", className: cn("mb-6 text-sm", className), children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("ol", { className: "flex items-center space-x-2", children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("li", { className: "flex items-center", children: [
     index > 0 && (separator || defaultSeparator),
-    index === items.length - 1 ? /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("span", { className: "font-medium text-foreground", "aria-current": "page", children: item.label }) : /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+    index === items.length - 1 ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "font-medium text-foreground", "aria-current": "page", children: item.label }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
       LinkComponent,
       {
         href: item.href,
@@ -4276,9 +3127,9 @@ function BreadcrumbNav({
 }
 
 // src/components/expandable-card.tsx
-var import_framer_motion10 = require("framer-motion");
-var import_react12 = require("react");
-var import_jsx_runtime47 = require("react/jsx-runtime");
+var import_framer_motion3 = require("framer-motion");
+var import_react5 = require("react");
+var import_jsx_runtime38 = require("react/jsx-runtime");
 function ExpandableCard({
   title,
   description,
@@ -4289,9 +3140,9 @@ function ExpandableCard({
   className = "",
   defaultExpanded = false
 }) {
-  const [isExpanded, setIsExpanded] = (0, import_react12.useState)(defaultExpanded);
-  return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
-    import_framer_motion10.motion.div,
+  const [isExpanded, setIsExpanded] = (0, import_react5.useState)(defaultExpanded);
+  return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
+    import_framer_motion3.motion.div,
     {
       layout: true,
       className: `group relative w-full bg-secondary/50 rounded-xl overflow-hidden flex flex-col h-full ${className}`,
@@ -4300,16 +3151,16 @@ function ExpandableCard({
       viewport: { once: true, margin: "-100px" },
       transition: { duration: 0.3 },
       children: [
-        thumbnail && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_framer_motion10.motion.div, { layout: true, className: "relative aspect-square w-full overflow-hidden", children: thumbnail }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_framer_motion10.motion.div, { layout: true, className: "p-4 flex flex-col flex-grow", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_framer_motion10.motion.div, { layout: true, className: "flex flex-col gap-3 h-full", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "space-y-1", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
-              description && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { className: "text-muted-foreground text-sm line-clamp-2", children: description })
+        thumbnail && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.motion.div, { layout: true, className: "relative aspect-square w-full overflow-hidden", children: thumbnail }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.motion.div, { layout: true, className: "p-4 flex flex-col flex-grow", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_framer_motion3.motion.div, { layout: true, className: "flex flex-col gap-3 h-full", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "space-y-1", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
+              description && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "text-muted-foreground text-sm line-clamp-2", children: description })
             ] }),
             actions
           ] }),
-          tags && tags.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "flex flex-wrap gap-1.5 mt-auto pt-3", children: tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+          tags && tags.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "flex flex-wrap gap-1.5 mt-auto pt-3", children: tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
             "span",
             {
               className: "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground",
@@ -4317,15 +3168,15 @@ function ExpandableCard({
             },
             tag
           )) }),
-          children && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(import_jsx_runtime47.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
+          children && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
               "button",
               {
                 onClick: () => setIsExpanded(!isExpanded),
                 className: "flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors mt-2",
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: isExpanded ? "Show less" : "Learn more" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: isExpanded ? "Show less" : "Learn more" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
                     "svg",
                     {
                       className: `h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`,
@@ -4335,21 +3186,21 @@ function ExpandableCard({
                       strokeWidth: 2,
                       strokeLinecap: "round",
                       strokeLinejoin: "round",
-                      children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("path", { d: "m6 9 6 6 6-6" })
+                      children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("path", { d: "m6 9 6 6 6-6" })
                     }
                   )
                 ]
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(import_framer_motion10.AnimatePresence, { children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
-              import_framer_motion10.motion.div,
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.AnimatePresence, { children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
+              import_framer_motion3.motion.div,
               {
                 initial: { height: 0, opacity: 0 },
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3 },
                 className: "overflow-hidden",
-                children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "pt-2", children })
+                children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "pt-2", children })
               }
             ) })
           ] })
@@ -4360,12 +3211,12 @@ function ExpandableCard({
 }
 
 // src/components/scroll-to-top.tsx
-var import_react13 = require("react");
-var import_framer_motion11 = require("framer-motion");
-var import_jsx_runtime48 = require("react/jsx-runtime");
+var import_react6 = require("react");
+var import_framer_motion4 = require("framer-motion");
+var import_jsx_runtime39 = require("react/jsx-runtime");
 function ScrollToTop({ threshold = 300, className = "" }) {
-  const [isVisible, setIsVisible] = (0, import_react13.useState)(false);
-  (0, import_react13.useEffect)(() => {
+  const [isVisible, setIsVisible] = (0, import_react6.useState)(false);
+  (0, import_react6.useEffect)(() => {
     const toggleVisibility = () => {
       if (window.pageYOffset > threshold) {
         setIsVisible(true);
@@ -4384,21 +3235,21 @@ function ScrollToTop({ threshold = 300, className = "" }) {
       behavior: "smooth"
     });
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(import_framer_motion11.AnimatePresence, { children: isVisible && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
-    import_framer_motion11.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_framer_motion4.AnimatePresence, { children: isVisible && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+    import_framer_motion4.motion.div,
     {
       initial: { opacity: 0, scale: 0.8, y: 20 },
       animate: { opacity: 1, scale: 1, y: 0 },
       exit: { opacity: 0, scale: 0.8, y: 20 },
       transition: { duration: 0.2 },
       className: `fixed bottom-8 right-8 z-40 ${className}`,
-      children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
+      children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
         "button",
         {
           onClick: scrollToTop,
           className: "h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center",
           "aria-label": "Scroll to top",
-          children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("svg", { className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("path", { d: "m18 15-6-6-6 6" }) })
+          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("svg", { className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("path", { d: "m18 15-6-6-6 6" }) })
         }
       )
     }
@@ -4406,9 +3257,9 @@ function ScrollToTop({ threshold = 300, className = "" }) {
 }
 
 // src/components/page-transition.tsx
-var import_framer_motion12 = require("framer-motion");
-var import_react14 = require("react");
-var import_jsx_runtime49 = require("react/jsx-runtime");
+var import_framer_motion5 = require("framer-motion");
+var import_react7 = require("react");
+var import_jsx_runtime40 = require("react/jsx-runtime");
 var variants = {
   fade: {
     initial: { opacity: 0 },
@@ -4442,8 +3293,8 @@ function PageTransition({
   variant = "slideUp",
   transitionKey
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_framer_motion12.AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-    import_framer_motion12.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    import_framer_motion5.motion.div,
     {
       className,
       initial: "initial",
@@ -4485,8 +3336,8 @@ function SectionReveal({
   once = true
 }) {
   const variant = directionVariants[direction];
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-    import_framer_motion12.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    import_framer_motion5.motion.div,
     {
       className,
       initial: variant.initial,
@@ -4508,8 +3359,8 @@ function StaggerContainer({
   delayChildren = 0.2,
   once = true
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-    import_framer_motion12.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    import_framer_motion5.motion.div,
     {
       className,
       initial: "hidden",
@@ -4530,8 +3381,8 @@ function StaggerContainer({
   );
 }
 function StaggerItem({ children, className = "" }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-    import_framer_motion12.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    import_framer_motion5.motion.div,
     {
       className,
       variants: {
@@ -4555,32 +3406,32 @@ function ParallaxSection({
   speed = 0.5,
   direction = "up"
 }) {
-  const ref = (0, import_react14.useRef)(null);
-  const { scrollYProgress } = (0, import_framer_motion12.useScroll)({
+  const ref = (0, import_react7.useRef)(null);
+  const { scrollYProgress } = (0, import_framer_motion5.useScroll)({
     target: ref,
     offset: ["start end", "end start"]
   });
   const multiplier = direction === "up" ? -1 : 1;
-  const y = (0, import_framer_motion12.useTransform)(
+  const y = (0, import_framer_motion5.useTransform)(
     scrollYProgress,
     [0, 1],
     [100 * speed * multiplier, -100 * speed * multiplier]
   );
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_framer_motion12.motion.div, { ref, className, style: { y }, children });
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.motion.div, { ref, className, style: { y }, children });
 }
 function ScaleOnScroll({
   children,
   className = "",
   scaleRange = [0.8, 1]
 }) {
-  const ref = (0, import_react14.useRef)(null);
-  const { scrollYProgress } = (0, import_framer_motion12.useScroll)({
+  const ref = (0, import_react7.useRef)(null);
+  const { scrollYProgress } = (0, import_framer_motion5.useScroll)({
     target: ref,
     offset: ["start end", "center center"]
   });
-  const scale = (0, import_framer_motion12.useTransform)(scrollYProgress, [0, 1], scaleRange);
-  const opacity = (0, import_framer_motion12.useTransform)(scrollYProgress, [0, 0.5], [0, 1]);
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_framer_motion12.motion.div, { ref, className, style: { scale, opacity }, children });
+  const scale = (0, import_framer_motion5.useTransform)(scrollYProgress, [0, 1], scaleRange);
+  const opacity = (0, import_framer_motion5.useTransform)(scrollYProgress, [0, 0.5], [0, 1]);
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.motion.div, { ref, className, style: { scale, opacity }, children });
 }
 function MaskReveal({
   children,
@@ -4607,8 +3458,8 @@ function MaskReveal({
     }
   };
   const clipPath = clipPaths[direction];
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-    import_framer_motion12.motion.div,
+  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    import_framer_motion5.motion.div,
     {
       className,
       initial: { clipPath: clipPath.initial },
@@ -4625,9 +3476,9 @@ function MaskReveal({
 }
 
 // src/components/error-boundary.tsx
-var import_react15 = require("react");
-var import_jsx_runtime50 = require("react/jsx-runtime");
-var ErrorBoundary = class extends import_react15.Component {
+var import_react8 = require("react");
+var import_jsx_runtime41 = require("react/jsx-runtime");
+var ErrorBoundary = class extends import_react8.Component {
   constructor(props) {
     super(props);
     this.resetErrorBoundary = () => {
@@ -4651,7 +3502,7 @@ var ErrorBoundary = class extends import_react15.Component {
       if (fallback) {
         return fallback;
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
         DefaultErrorFallback,
         {
           error,
@@ -4668,8 +3519,8 @@ function DefaultErrorFallback({
   title = "Something went wrong",
   description = "We encountered an unexpected error. Please try again."
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "neu-card rounded-2xl p-8 sm:p-12 max-w-md w-full text-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "neu-pressed rounded-full p-4", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rounded-lg border border-border bg-card p-8 sm:p-12 max-w-md w-full text-center", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "rounded-full border border-border bg-muted p-4", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       "svg",
       {
         className: "h-8 w-8 text-destructive",
@@ -4678,7 +3529,7 @@ function DefaultErrorFallback({
         stroke: "currentColor",
         strokeWidth: 2,
         "aria-hidden": "true",
-        children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
           "path",
           {
             strokeLinecap: "round",
@@ -4688,13 +3539,13 @@ function DefaultErrorFallback({
         )
       }
     ) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h2", { className: "text-section-title mb-3", children: title }),
-    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "text-description mb-6", children: description }),
-    /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("h2", { className: "text-heading-2 mb-3", children: title }),
+    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("p", { className: "text-body-sm text-muted-foreground mb-6", children: description }),
+    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
       "button",
       {
         onClick: reset,
-        className: "cta-primary px-6 py-3 rounded-xl focus-ring",
+        className: "bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 rounded-sm text-body-sm font-medium transition-colors focus-ring",
         children: "Try again"
       }
     ) })
@@ -4720,16 +3571,10 @@ function DefaultErrorFallback({
   AlertDialogTitle,
   AlertDialogTrigger,
   AlertTitle,
-  AnimatedBlob,
-  AnimatedCard,
-  AnimatedGrid,
-  AnimatedHeading,
-  AnimatedShapes,
   Avatar,
   AvatarFallback,
   AvatarImage,
   Badge,
-  BorderBeamButton,
   BorderSpinner,
   BreadcrumbNav,
   Button,
@@ -4756,8 +3601,6 @@ function DefaultErrorFallback({
   CommandSeparator,
   CommandShortcut,
   Container,
-  CursorFollower,
-  CursorGlow,
   DefaultErrorFallback,
   Dialog,
   DialogClose,
@@ -4786,17 +3629,9 @@ function DefaultErrorFallback({
   DropdownMenuTrigger,
   ErrorBoundary,
   ExpandableCard,
-  FloatingElement,
-  GlassCard,
-  GlowButton,
-  GlowSection,
-  GradientCursorGlow,
-  GradientText,
   Heading,
-  HeroGlowSection,
   Input,
   Label,
-  MagneticButton,
   MaskReveal,
   NavigationMenu,
   NavigationMenuContent,
@@ -4806,21 +3641,15 @@ function DefaultErrorFallback({
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-  OrbitElement,
   PageSpinner,
   PageTransition,
-  ParallaxScroll,
   ParallaxSection,
-  ParticlesBackground,
   Progress,
   ProgressCircle,
   ProgressCircleSkeleton,
-  PulsingElement,
   RadioGroup,
   RadioGroupItem,
   ReadingProgress,
-  RippleButton,
-  RotatingElement,
   ScaleOnScroll,
   ScrollArea,
   ScrollBar,
@@ -4845,11 +3674,9 @@ function DefaultErrorFallback({
   SkeletonInput,
   SkeletonText,
   Spinner,
-  SpotlightCursor,
   StaggerContainer,
   StaggerItem,
   StatusBadge,
-  SubtleGlowSection,
   Switch,
   Tabs,
   TabsContent,
@@ -4870,8 +3697,6 @@ function DefaultErrorFallback({
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  TrailCursor,
-  WaveAnimation,
   alertVariants,
   avatarVariants,
   badgeVariants,
@@ -4886,7 +3711,6 @@ function DefaultErrorFallback({
   formatCurrency,
   formatRelativeTime,
   generateId,
-  glassCardVariants,
   headingVariants,
   iconPop,
   inputVariants,

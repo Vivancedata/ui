@@ -30,7 +30,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    variant?: "default" | "glass" | "neu";
+    variant?: "default";
   }
 >(({ className, children, variant = "default", ...props }, ref) => (
   <DialogPortal>
@@ -38,10 +38,9 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-lg duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
-        variant === "default" && "border bg-background",
-        variant === "glass" && "glass-card",
-        variant === "neu" && "neu-flat border-0",
+        // A modal genuinely floats, so this is one of the few level-2 surfaces.
+        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-2 duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
+        variant === "default" && "border border-border bg-popover",
         "rounded-lg",
         className
       )}

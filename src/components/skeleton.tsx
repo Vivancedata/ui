@@ -2,7 +2,7 @@ import * as React from "react";
 import { cva } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
-type SkeletonVariant = "default" | "shimmer" | "neu" | "circular" | "rounded";
+type SkeletonVariant = "default" | "shimmer" | "circular" | "rounded";
 type SkeletonShape = "default" | "circular" | "rounded";
 
 const skeletonBaseStyles = cva("animate-pulse", {
@@ -10,7 +10,6 @@ const skeletonBaseStyles = cva("animate-pulse", {
     tone: {
       default: "bg-muted",
       shimmer: "shimmer",
-      neu: "bg-background shadow-neu-inset-sm",
     },
     shape: {
       default: "rounded-md",
@@ -30,7 +29,7 @@ function resolveSkeletonStyle(
 ) {
   if (shape) {
     return {
-      tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+      tone: variant === "shimmer" ? variant : "default",
       shape,
     } as const;
   }
@@ -40,7 +39,7 @@ function resolveSkeletonStyle(
   }
 
   return {
-    tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+    tone: variant === "shimmer" ? variant : "default",
     shape: "default",
   } as const;
 }

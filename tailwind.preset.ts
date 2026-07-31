@@ -1,20 +1,12 @@
 import type { Config } from "tailwindcss";
 
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
-
-function addVariablesForColors({ addBase, theme }: any) {
-  const allColors = flattenColorPalette(theme("colors"));
-  const newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, value]) => [`--${key}`, value])
-  );
-
-  addBase({
-    ":root": newVars,
-  });
-}
-
+/**
+ * The Vivancedata Tailwind preset. Consumed by every app in the fleet via
+ * `presets: [require("@vivancedata/ui/tailwind")]`.
+ *
+ * The token contract is documented in DESIGN.md at the package root; the
+ * corresponding CSS custom properties live in src/styles/globals.css.
+ */
 const vivanceTailwindPreset: Partial<Config> = {
   darkMode: ["class"],
   prefix: "",
@@ -27,30 +19,93 @@ const vivanceTailwindPreset: Partial<Config> = {
       },
     },
     extend: {
+      fontFamily: {
+        // Geist Sans and Geist Mono, loaded per-app via next/font and exposed
+        // as CSS variables. The fallbacks match Geist's own metrics guidance.
+        sans: [
+          "var(--font-geist-sans)",
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-geist-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
+      },
+
       spacing: {
         xs: "4px",
         sm: "8px",
         md: "16px",
         lg: "24px",
         xl: "32px",
-        "2xl": "48px",
+        "2xl": "40px",
         "3xl": "64px",
         "4xl": "96px",
+        section: "128px",
       },
+
       borderRadius: {
-        sm: "8px",
+        // Bimodal by design: tight squares for functional chrome, full pills
+        // for marketing CTAs, 12-16px on content cards in between.
+        sm: "6px",
         md: "12px",
         lg: "16px",
-        xl: "24px",
-        "2xl": "32px",
+        // Retuned from 24px/32px toward the Geist scale. This sharpens ~135
+        // existing `rounded-xl` / `rounded-2xl` call sites without editing them.
+        xl: "16px",
+        "2xl": "20px",
+        "pill-category": "64px",
+        pill: "100px",
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "vivance-gradient":
-          "radial-gradient(1200px circle at 8% -10%, hsl(var(--primary) / 0.15), transparent 60%), radial-gradient(900px circle at 95% -5%, hsl(var(--secondary) / 0.2), transparent 55%), radial-gradient(600px circle at 50% 0%, hsl(var(--accent) / 0.6), transparent 60%)",
+
+      fontSize: {
+        // Display tracking is negative and expressed in em so it scales with
+        // the type instead of crushing small renderings. Sizes use clamp()
+        // because the source spec's fixed 48px was sampled at a narrow
+        // viewport and would have shrunk the existing desktop hero.
+        "display-xl": [
+          "clamp(3rem, 6vw, 4.75rem)",
+          { lineHeight: "1.02", letterSpacing: "-0.05em", fontWeight: "600" },
+        ],
+        display: [
+          "clamp(2.5rem, 4.5vw, 3.5rem)",
+          { lineHeight: "1.05", letterSpacing: "-0.045em", fontWeight: "600" },
+        ],
+        "heading-1": [
+          "2rem",
+          { lineHeight: "1.2", letterSpacing: "-0.04em", fontWeight: "600" },
+        ],
+        "heading-2": [
+          "1.5rem",
+          { lineHeight: "1.25", letterSpacing: "-0.03em", fontWeight: "600" },
+        ],
+        "heading-3": [
+          "1.25rem",
+          { lineHeight: "1.4", letterSpacing: "-0.02em", fontWeight: "600" },
+        ],
+        "heading-4": [
+          "1.125rem",
+          { lineHeight: "1.45", letterSpacing: "-0.015em", fontWeight: "600" },
+        ],
+        // Geist Mono section eyebrow. Positive tracking -- uppercase mono at
+        // 12px sets too tight without it.
+        eyebrow: [
+          "0.75rem",
+          { lineHeight: "1.333", letterSpacing: "0.02em", fontWeight: "500" },
+        ],
+        "body-lg": ["1.125rem", { lineHeight: "1.6" }],
+        body: ["1rem", { lineHeight: "1.5" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.43" }],
+        caption: ["0.75rem", { lineHeight: "1.333" }],
+        code: ["0.875rem", { lineHeight: "1.43" }],
       },
+
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -65,6 +120,16 @@ const vivanceTailwindPreset: Partial<Config> = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+        // The brand green. Links, focus, eyebrows, the hero mesh -- never a
+        // large chrome fill, and never swapped into `accent`.
+        brand: {
+          DEFAULT: "hsl(var(--brand))",
+          foreground: "hsl(var(--brand-foreground))",
+        },
+        // Decorative grey tiers. Below 4.5:1 against the canvas -- metadata
+        // and placeholders only. See DESIGN.md.
+        mute: "hsl(var(--mute))",
+        faint: "hsl(var(--faint))",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -108,11 +173,26 @@ const vivanceTailwindPreset: Partial<Config> = {
           "5": "hsl(var(--chart-5))",
         },
       },
+
+      boxShadow: {
+        // Depth is a 1px hairline first. These are the only two steps above
+        // flat, and level 2 is the ceiling.
+        1: "var(--shadow-1)",
+        2: "var(--shadow-2)",
+        // Kept as aliases so existing `shadow-elevation-*` call sites resolve
+        // to the new scale rather than breaking. elevation-3 collapses into 2
+        // deliberately -- the system has no third step.
+        "elevation-1": "var(--shadow-1)",
+        "elevation-2": "var(--shadow-2)",
+        "elevation-3": "var(--shadow-2)",
+      },
+
       transitionDuration: {
         fast: "var(--duration-fast)",
         DEFAULT: "var(--duration-default)",
         slow: "var(--duration-slow)",
       },
+
       zIndex: {
         dropdown: "var(--z-dropdown)",
         sticky: "var(--z-sticky)",
@@ -122,29 +202,7 @@ const vivanceTailwindPreset: Partial<Config> = {
         popover: "var(--z-popover)",
         tooltip: "var(--z-tooltip)",
       },
-      fontSize: {
-        display: ["3.5rem", { lineHeight: "1.1", fontWeight: "700" }],
-        "heading-1": ["2.5rem", { lineHeight: "1.2", fontWeight: "700" }],
-        "heading-2": ["2rem", { lineHeight: "1.25", fontWeight: "600" }],
-        "heading-3": ["1.5rem", { lineHeight: "1.3", fontWeight: "600" }],
-        "heading-4": ["1.25rem", { lineHeight: "1.4", fontWeight: "600" }],
-        "body-lg": ["1.125rem", { lineHeight: "1.6" }],
-        body: ["1rem", { lineHeight: "1.6" }],
-        "body-sm": ["0.875rem", { lineHeight: "1.5" }],
-        caption: ["0.75rem", { lineHeight: "1.4" }],
-      },
-      boxShadow: {
-        neu: "var(--neu-shadow)",
-        "neu-sm": "var(--neu-shadow-sm)",
-        "neu-lg": "var(--neu-shadow-lg)",
-        "neu-inset": "var(--neu-shadow-inset)",
-        "neu-inset-sm": "var(--neu-shadow-inset-sm)",
-        "elevation-1": "0 14px 40px -24px rgba(15, 23, 42, 0.22)",
-        "elevation-2": "0 22px 55px -28px rgba(15, 23, 42, 0.26)",
-        "elevation-3": "0 28px 70px -32px rgba(15, 23, 42, 0.3)",
-        glow: "0 0 20px hsl(var(--primary) / 0.28)",
-        "glow-lg": "0 0 32px hsl(var(--primary) / 0.4)",
-      },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -171,7 +229,7 @@ const vivanceTailwindPreset: Partial<Config> = {
           to: { transform: "translateY(0)" },
         },
         "scale-in": {
-          from: { transform: "scale(0.95)", opacity: "0" },
+          from: { transform: "scale(0.98)", opacity: "0" },
           to: { transform: "scale(1)", opacity: "1" },
         },
         shimmer: {
@@ -183,6 +241,7 @@ const vivanceTailwindPreset: Partial<Config> = {
           "50%": { opacity: "0.5" },
         },
       },
+
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
@@ -196,11 +255,7 @@ const vivanceTailwindPreset: Partial<Config> = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/typography"),
-    addVariablesForColors,
-  ],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
 
 export default vivanceTailwindPreset;

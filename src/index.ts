@@ -59,8 +59,6 @@ export {
   AlertDialogAction,
   AlertDialogCancel,
 } from "./components/alert-dialog";
-export { GlassCard, glassCardVariants, type GlassCardProps } from "./components/glass-card";
-export { AnimatedCard, type AnimatedCardProps } from "./components/animated-card";
 export { Skeleton, SkeletonText, SkeletonCard, SkeletonInput, SkeletonButton, SkeletonAvatar, skeletonVariants, type SkeletonProps } from "./components/skeleton";
 export { Avatar, AvatarImage, AvatarFallback, avatarVariants, type AvatarProps } from "./components/avatar";
 export {
@@ -188,26 +186,13 @@ export {
   tabsTriggerVariants,
 } from "./components/tabs";
 
-// Interactive effect components
-export { MagneticButton, RippleButton, GlowButton, BorderBeamButton } from "./components/magnetic-button";
-export { CursorGlow, GradientCursorGlow } from "./components/cursor-glow";
-export { CursorFollower, SpotlightCursor, TrailCursor } from "./components/cursor-follower";
-export { GlowSection, HeroGlowSection, SubtleGlowSection } from "./components/glow-section";
-
-// Animation/visual components
-export { AnimatedHeading, GradientText } from "./components/animated-text";
-export {
-  FloatingElement,
-  RotatingElement,
-  PulsingElement,
-  OrbitElement,
-  AnimatedBlob,
-  AnimatedGrid,
-  AnimatedShapes,
-  ParticlesBackground,
-  WaveAnimation,
-} from "./components/floating-elements";
-export { ParallaxScroll } from "./components/parallax-scroll";
+/**
+ * The decorative layer (cursor glows, magnetic buttons, glass cards, floating
+ * shapes, parallax, gradient text) was deliberately retired. The design system
+ * permits exactly one flourish -- the hero mesh, available as the `.hero-mesh`
+ * class -- and re-adding a second decorative system is the specific failure
+ * this guards against. See DESIGN.md.
+ */
 export { ReadingProgress } from "./components/reading-progress";
 
 // Layout/UI components

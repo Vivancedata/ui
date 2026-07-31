@@ -13,7 +13,7 @@ const TooltipTrigger = TooltipPrimitive.Trigger;
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> & {
-    variant?: "default" | "glass" | "neu";
+    variant?: "default";
   }
 >(({ className, sideOffset = 4, variant = "default", ...props }, ref) => (
   <TooltipPrimitive.Content
@@ -21,9 +21,8 @@ const TooltipContent = React.forwardRef<
     sideOffset={sideOffset}
     className={cn(
       "z-tooltip overflow-hidden rounded-md px-3 py-1.5 text-sm animate-fade-in",
-      variant === "default" && "border bg-popover text-popover-foreground shadow-md",
-      variant === "glass" && "glass text-foreground",
-      variant === "neu" && "shadow-neu-sm bg-background text-foreground",
+      variant === "default" &&
+        "border border-border bg-popover text-popover-foreground shadow-2",
       className
     )}
     {...props}

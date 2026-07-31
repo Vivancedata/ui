@@ -71,9 +71,9 @@ export function DefaultErrorFallback({
 }: DefaultErrorFallbackProps): ReactNode {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center px-4 py-12">
-      <div className="neu-card rounded-2xl p-8 sm:p-12 max-w-md w-full text-center">
+      <div className="rounded-lg border border-border bg-card p-8 sm:p-12 max-w-md w-full text-center">
         <div className="mb-6 flex justify-center">
-          <div className="neu-pressed rounded-full p-4">
+          <div className="rounded-full border border-border bg-muted p-4">
             <svg
               className="h-8 w-8 text-destructive"
               fill="none"
@@ -91,12 +91,12 @@ export function DefaultErrorFallback({
           </div>
         </div>
 
-        <h2 className="text-section-title mb-3">{title}</h2>
-        <p className="text-description mb-6">{description}</p>
+        <h2 className="text-heading-2 mb-3">{title}</h2>
+        <p className="text-body-sm text-muted-foreground mb-6">{description}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
-            className="cta-primary px-6 py-3 rounded-xl focus-ring"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 rounded-sm text-body-sm font-medium transition-colors focus-ring"
           >
             Try again
           </button>

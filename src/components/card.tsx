@@ -2,24 +2,23 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
+/**
+ * The workhorse grid tile. Depth is a 1px hairline and nothing else -- the
+ * default variant carries no shadow at all, which is the point of the system.
+ */
 const cardVariants = cva(
-  "rounded-[calc(var(--radius)+0.25rem)] border text-card-foreground transition-all duration-300",
+  "rounded-md border text-card-foreground transition-colors duration-default",
   {
     variants: {
       variant: {
-        default:
-          "border-border/70 bg-card/92 shadow-elevation-1 backdrop-blur-sm hover:-translate-y-1 hover:shadow-elevation-2",
-        outline: "border-border/70 bg-background/70 backdrop-blur-sm",
-        ghost: "border-transparent bg-transparent shadow-none",
-        // Neumorphic variants
-        neu: "neu-flat border-transparent",
-        "neu-inset": "neu-concave border-transparent",
-        // Glass variant
-        glass:
-          "glass-card border-[var(--glass-border)] shadow-elevation-1 hover:-translate-y-1 hover:shadow-elevation-2",
-        // Elevated with glow on hover
-        elevated:
-          "bg-card shadow-elevation-2 hover:-translate-y-1 hover:shadow-elevation-3",
+        // Level 0: flat. White card on the near-white sheet, hairline border.
+        default: "border-border bg-card",
+        outline: "border-border bg-background",
+        ghost: "border-transparent bg-transparent",
+        // Level 1: whisper. For a tile that needs to read as lifted.
+        raised: "border-border bg-card shadow-1",
+        // Level 2: floating. The ceiling -- menus, modals, featured tiles.
+        elevated: "border-border bg-card shadow-2",
       },
     },
     defaultVariants: {
