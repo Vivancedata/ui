@@ -2,19 +2,15 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
+// Inputs are functional chrome: 6px square, hairline border, white fill.
 const inputVariants = cva(
-  "flex w-full rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200",
+  "flex w-full rounded-sm text-body-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-faint focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-fast",
   {
     variants: {
       variant: {
         default:
-          "border border-input bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "border border-input bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         ghost: "border-0 bg-transparent focus-visible:bg-accent",
-        // Neumorphic variants
-        neu: "border-0 shadow-neu-inset-sm bg-background focus-visible:shadow-neu-inset",
-        // Glass variant
-        glass:
-          "glass border-[var(--glass-border)] focus-visible:ring-2 focus-visible:ring-ring",
       },
       inputSize: {
         default: "h-10 px-3 py-2",

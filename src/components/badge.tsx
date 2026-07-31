@@ -13,7 +13,7 @@ const badgeVariants = cva(
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        outline: "border-border text-foreground",
         // Status variants
         success:
           "border-transparent bg-success text-success-foreground hover:bg-success/80",
@@ -27,10 +27,8 @@ const badgeVariants = cva(
           "border-transparent bg-[hsl(var(--warning-muted))] text-warning",
         "info-muted":
           "border-transparent bg-[hsl(var(--info-muted))] text-info",
-        // Glass variant
-        glass: "glass border-[var(--glass-border)] text-foreground",
-        // Neumorphic
-        neu: "border-transparent shadow-neu-sm bg-background text-foreground",
+        // The hairline-outlined chip -- the system's quietest badge.
+        brand: "border-transparent bg-brand text-brand-foreground",
       },
       size: {
         default: "px-2.5 py-0.5 text-xs",

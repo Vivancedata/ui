@@ -18,7 +18,6 @@ const avatarVariants = cva(
       },
       variant: {
         default: "bg-muted",
-        neu: "bg-background shadow-neu-sm",
         ring: "bg-muted ring-2 ring-primary/25 ring-offset-2 ring-offset-background",
       },
     },

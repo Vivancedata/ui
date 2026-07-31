@@ -3,44 +3,43 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
+/**
+ * Buttons split by context, and the split is a deliberate signal of which
+ * surface you are on: marketing CTAs are pills, app and nav chrome is a tight
+ * 6px square. Do not mix the two shapes within one context.
+ *
+ * `shape` defaults to "square" because the overwhelming majority of call sites
+ * are app chrome; marketing CTAs opt in with shape="pill".
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:translate-y-0 disabled:shadow-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-elevation-2 active:translate-y-0",
+        // Ink fill. Inverts to a light pill in dark mode via the token.
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-destructive/90 hover:shadow-elevation-2 active:translate-y-0",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        // The hairline is the whole treatment -- no backdrop blur, no lift.
         outline:
-          "border border-border/70 bg-background/80 text-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/20 hover:bg-accent/70 hover:text-accent-foreground active:translate-y-0",
+          "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+        // The white (or near-black, in dark) pill counterpart to `default`.
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:-translate-y-0.5 hover:bg-secondary/85 hover:shadow-elevation-1 active:translate-y-0",
-        ghost:
-          "hover:bg-accent/80 hover:text-accent-foreground active:scale-[0.98]",
-        link: "text-primary underline-offset-4 hover:underline",
-        // Neumorphic variants
-        neu: "neu-flat bg-background text-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        "neu-primary":
-          "neu-flat bg-primary text-primary-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        // Glass variant
-        glass:
-          "glass text-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-[var(--glass-bg)] hover:shadow-elevation-2 active:translate-y-0",
-        // Glow variants
-        glow:
-          "bg-primary text-primary-foreground shadow-glow hover:-translate-y-0.5 hover:shadow-glow-lg active:translate-y-0",
-        // CTA primary variant
-        primary: "cta-primary",
-        gradient:
-          "bg-gradient-to-r from-primary via-secondary to-accent text-primary-foreground shadow-elevation-2 shimmer hover:-translate-y-0.5 hover:shadow-elevation-3 active:translate-y-0",
-        success:
-          "bg-success text-success-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-success/90 hover:shadow-elevation-2 active:translate-y-0",
+          "border border-border bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        // Links carry the brand green, not ink.
+        link: "text-brand underline-offset-4 hover:underline",
+        success: "bg-success text-success-foreground hover:bg-success/90",
+      },
+      shape: {
+        square: "rounded-sm",
+        pill: "rounded-pill",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-lg px-3 text-xs",
-        lg: "h-11 rounded-xl px-8 text-base",
-        xl: "h-14 rounded-[1.25rem] px-10 text-base sm:text-lg",
+        default: "h-10 px-4 text-body-sm",
+        sm: "h-8 px-3 text-caption",
+        lg: "h-11 px-6 text-body",
+        xl: "h-12 px-8 text-body",
         icon: "h-10 w-10",
         "icon-sm": "h-8 w-8",
         "icon-lg": "h-12 w-12",
@@ -48,6 +47,7 @@ const buttonVariants = cva(
     },
     defaultVariants: {
       variant: "default",
+      shape: "square",
       size: "default",
     },
   }
@@ -61,7 +61,20 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, isLoading, children, disabled, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      shape,
+      size,
+      asChild = false,
+      isLoading,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
     const content = isLoading ? (
       <>
         <svg
@@ -95,7 +108,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       return (
         <SlotComponent
-          className={cn(buttonVariants({ variant, size, className }))}
+          className={cn(buttonVariants({ variant, shape, size, className }))}
           ref={ref}
           aria-busy={isLoading || undefined}
           aria-disabled={disabled || isLoading || undefined}
@@ -109,7 +122,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, shape, size, className }))}
         ref={ref}
         disabled={disabled || isLoading}
         {...props}

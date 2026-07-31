@@ -27,7 +27,7 @@ import { StatusBadge } from "../components/status-badge";
 describe("button", () => {
   it("renders a loading button state", () => {
     render(
-      <Button isLoading variant="gradient" size="xl">
+      <Button isLoading variant="default" shape="pill" size="xl">
         Save
       </Button>
     );
@@ -35,8 +35,10 @@ describe("button", () => {
     const button = screen.getByRole("button");
     expect(button).toBeDisabled();
     expect(button).toHaveTextContent("Loading...");
-    expect(button.className).toContain("bg-gradient-to-r");
-    expect(button.className).toContain("h-14");
+    expect(button.className).toContain("bg-primary");
+    // Marketing CTAs are pills; app chrome is a 6px square.
+    expect(button.className).toContain("rounded-pill");
+    expect(button.className).toContain("h-12");
   });
 
   it("renders slot content when used asChild", () => {
@@ -56,7 +58,7 @@ describe("button", () => {
 describe("card", () => {
   it("renders semantic title levels and shared sections", () => {
     render(
-      <Card variant="glass">
+      <Card variant="elevated">
         <CardHeader>
           <CardTitle as="h2">Shared Card</CardTitle>
           <CardDescription>Shared description</CardDescription>
@@ -68,7 +70,7 @@ describe("card", () => {
     expect(screen.getByRole("heading", { level: 2, name: "Shared Card" })).toBeVisible();
     expect(screen.getByText("Shared description")).toBeVisible();
     expect(screen.getByText("Shared content")).toBeVisible();
-    expect(cardVariants({ variant: "elevated" })).toContain("shadow-elevation-2");
+    expect(cardVariants({ variant: "elevated" })).toContain("shadow-2");
   });
 });
 
@@ -122,7 +124,7 @@ describe("skeleton", () => {
   it("resolves tone and shape variants", () => {
     expect(skeletonVariants({ variant: "shimmer" })).toContain("shimmer");
     expect(skeletonVariants({ variant: "circular" })).toContain("rounded-full");
-    expect(skeletonVariants({ variant: "neu", shape: "rounded" })).toContain("rounded-xl");
+    expect(skeletonVariants({ variant: "shimmer", shape: "rounded" })).toContain("rounded-xl");
   });
 
   it("renders composite skeleton helpers", () => {

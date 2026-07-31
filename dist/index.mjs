@@ -1,6 +1,27 @@
 // src/lib/utils.ts
 import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+var FONT_SIZE_KEYS = [
+  "display-xl",
+  "display",
+  "heading-1",
+  "heading-2",
+  "heading-3",
+  "heading-4",
+  "eyebrow",
+  "body-lg",
+  "body",
+  "body-sm",
+  "caption",
+  "code"
+];
+var twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [{ text: [...FONT_SIZE_KEYS] }]
+    }
+  }
+});
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -172,33 +193,31 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 var buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:translate-y-0 disabled:shadow-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-elevation-2 active:translate-y-0",
-        destructive: "bg-destructive text-destructive-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-destructive/90 hover:shadow-elevation-2 active:translate-y-0",
-        outline: "border border-border/70 bg-background/80 text-foreground backdrop-blur-sm hover:-translate-y-0.5 hover:border-primary/20 hover:bg-accent/70 hover:text-accent-foreground active:translate-y-0",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:-translate-y-0.5 hover:bg-secondary/85 hover:shadow-elevation-1 active:translate-y-0",
-        ghost: "hover:bg-accent/80 hover:text-accent-foreground active:scale-[0.98]",
-        link: "text-primary underline-offset-4 hover:underline",
-        // Neumorphic variants
-        neu: "neu-flat bg-background text-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        "neu-primary": "neu-flat bg-primary text-primary-foreground hover:shadow-neu-lg active:shadow-neu-inset",
-        // Glass variant
-        glass: "glass text-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-[var(--glass-bg)] hover:shadow-elevation-2 active:translate-y-0",
-        // Glow variants
-        glow: "bg-primary text-primary-foreground shadow-glow hover:-translate-y-0.5 hover:shadow-glow-lg active:translate-y-0",
-        // CTA primary variant
-        primary: "cta-primary",
-        gradient: "bg-gradient-to-r from-primary via-secondary to-accent text-primary-foreground shadow-elevation-2 shimmer hover:-translate-y-0.5 hover:shadow-elevation-3 active:translate-y-0",
-        success: "bg-success text-success-foreground shadow-elevation-1 hover:-translate-y-0.5 hover:bg-success/90 hover:shadow-elevation-2 active:translate-y-0"
+        // Ink fill. Inverts to a light pill in dark mode via the token.
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        // The hairline is the whole treatment -- no backdrop blur, no lift.
+        outline: "border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+        // The white (or near-black, in dark) pill counterpart to `default`.
+        secondary: "border border-border bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        // Links carry the brand green, not ink.
+        link: "text-brand underline-offset-4 hover:underline",
+        success: "bg-success text-success-foreground hover:bg-success/90"
+      },
+      shape: {
+        square: "rounded-sm",
+        pill: "rounded-pill"
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-lg px-3 text-xs",
-        lg: "h-11 rounded-xl px-8 text-base",
-        xl: "h-14 rounded-[1.25rem] px-10 text-base sm:text-lg",
+        default: "h-10 px-4 text-body-sm",
+        sm: "h-8 px-3 text-caption",
+        lg: "h-11 px-6 text-body",
+        xl: "h-12 px-8 text-body",
         icon: "h-10 w-10",
         "icon-sm": "h-8 w-8",
         "icon-lg": "h-12 w-12"
@@ -206,12 +225,23 @@ var buttonVariants = cva(
     },
     defaultVariants: {
       variant: "default",
+      shape: "square",
       size: "default"
     }
   }
 );
 var Button = React.forwardRef(
-  ({ className, variant, size, asChild = false, isLoading, children, disabled, ...props }, ref) => {
+  ({
+    className,
+    variant,
+    shape,
+    size,
+    asChild = false,
+    isLoading,
+    children,
+    disabled,
+    ...props
+  }, ref) => {
     const content = isLoading ? /* @__PURE__ */ jsxs(Fragment, { children: [
       /* @__PURE__ */ jsxs(
         "svg",
@@ -250,7 +280,7 @@ var Button = React.forwardRef(
       return /* @__PURE__ */ jsx(
         SlotComponent,
         {
-          className: cn(buttonVariants({ variant, size, className })),
+          className: cn(buttonVariants({ variant, shape, size, className })),
           ref,
           "aria-busy": isLoading || void 0,
           "aria-disabled": disabled || isLoading || void 0,
@@ -263,7 +293,7 @@ var Button = React.forwardRef(
     return /* @__PURE__ */ jsx(
       "button",
       {
-        className: cn(buttonVariants({ variant, size, className })),
+        className: cn(buttonVariants({ variant, shape, size, className })),
         ref,
         disabled: disabled || isLoading,
         ...props,
@@ -279,20 +309,18 @@ import * as React2 from "react";
 import { cva as cva2 } from "class-variance-authority";
 import { jsx as jsx2 } from "react/jsx-runtime";
 var cardVariants = cva2(
-  "rounded-[calc(var(--radius)+0.25rem)] border text-card-foreground transition-all duration-300",
+  "rounded-md border text-card-foreground transition-colors duration-default",
   {
     variants: {
       variant: {
-        default: "border-border/70 bg-card/92 shadow-elevation-1 backdrop-blur-sm hover:-translate-y-1 hover:shadow-elevation-2",
-        outline: "border-border/70 bg-background/70 backdrop-blur-sm",
-        ghost: "border-transparent bg-transparent shadow-none",
-        // Neumorphic variants
-        neu: "neu-flat border-transparent",
-        "neu-inset": "neu-concave border-transparent",
-        // Glass variant
-        glass: "glass-card border-[var(--glass-border)] shadow-elevation-1 hover:-translate-y-1 hover:shadow-elevation-2",
-        // Elevated with glow on hover
-        elevated: "bg-card shadow-elevation-2 hover:-translate-y-1 hover:shadow-elevation-3"
+        // Level 0: flat. White card on the near-white sheet, hairline border.
+        default: "border-border bg-card",
+        outline: "border-border bg-background",
+        ghost: "border-transparent bg-transparent",
+        // Level 1: whisper. For a tile that needs to read as lifted.
+        raised: "border-border bg-card shadow-1",
+        // Level 2: floating. The ceiling -- menus, modals, featured tiles.
+        elevated: "border-border bg-card shadow-2"
       }
     },
     defaultVariants: {
@@ -369,7 +397,7 @@ var badgeVariants = cva3(
         default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        outline: "border-border text-foreground",
         // Status variants
         success: "border-transparent bg-success text-success-foreground hover:bg-success/80",
         warning: "border-transparent bg-warning text-warning-foreground hover:bg-warning/80",
@@ -378,10 +406,8 @@ var badgeVariants = cva3(
         "success-muted": "border-transparent bg-[hsl(var(--success-muted))] text-success",
         "warning-muted": "border-transparent bg-[hsl(var(--warning-muted))] text-warning",
         "info-muted": "border-transparent bg-[hsl(var(--info-muted))] text-info",
-        // Glass variant
-        glass: "glass border-[var(--glass-border)] text-foreground",
-        // Neumorphic
-        neu: "border-transparent shadow-neu-sm bg-background text-foreground"
+        // The hairline-outlined chip -- the system's quietest badge.
+        brand: "border-transparent bg-brand text-brand-foreground"
       },
       size: {
         default: "px-2.5 py-0.5 text-xs",
@@ -407,16 +433,12 @@ import * as React3 from "react";
 import { cva as cva4 } from "class-variance-authority";
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var inputVariants = cva4(
-  "flex w-full rounded-md text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200",
+  "flex w-full rounded-sm text-body-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-faint focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-fast",
   {
     variants: {
       variant: {
-        default: "border border-input bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        ghost: "border-0 bg-transparent focus-visible:bg-accent",
-        // Neumorphic variants
-        neu: "border-0 shadow-neu-inset-sm bg-background focus-visible:shadow-neu-inset",
-        // Glass variant
-        glass: "glass border-[var(--glass-border)] focus-visible:ring-2 focus-visible:ring-ring"
+        default: "border border-input bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        ghost: "border-0 bg-transparent focus-visible:bg-accent"
       },
       inputSize: {
         default: "h-10 px-3 py-2",
@@ -470,14 +492,12 @@ import * as React4 from "react";
 import { cva as cva5 } from "class-variance-authority";
 import { jsx as jsx5 } from "react/jsx-runtime";
 var textareaVariants = cva5(
-  "flex min-h-[80px] w-full rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 resize-none",
+  "flex min-h-[80px] w-full rounded-sm text-body-sm ring-offset-background placeholder:text-faint focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-fast resize-none",
   {
     variants: {
       variant: {
-        default: "border border-input bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        ghost: "border-0 bg-transparent focus-visible:bg-accent",
-        neu: "border-0 shadow-neu-inset-sm bg-background focus-visible:shadow-neu-inset",
-        glass: "glass border-[var(--glass-border)] focus-visible:ring-2 focus-visible:ring-ring"
+        default: "border border-input bg-card focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        ghost: "border-0 bg-transparent focus-visible:bg-accent"
       }
     },
     defaultVariants: {
@@ -682,119 +702,15 @@ var AlertDialogCancel = React7.forwardRef(({ className, ...props }, ref) => /* @
 ));
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 
-// src/components/glass-card.tsx
+// src/components/skeleton.tsx
 import * as React8 from "react";
 import { cva as cva8 } from "class-variance-authority";
-import { jsx as jsx9 } from "react/jsx-runtime";
-var glassCardVariants = cva8(
-  "rounded-lg transition-all duration-300",
-  {
-    variants: {
-      variant: {
-        default: "glass",
-        frosted: "glass backdrop-blur-xl",
-        tinted: "glass bg-primary/5 dark:bg-primary/10",
-        bordered: "glass border-2 border-primary/20"
-      },
-      hover: {
-        none: "",
-        lift: "hover:-translate-y-2 hover:shadow-lg",
-        glow: "hover:shadow-[0_0_30px_hsl(var(--primary)/0.2)]",
-        scale: "hover:scale-[1.02]"
-      },
-      padding: {
-        none: "p-0",
-        sm: "p-4",
-        default: "p-6",
-        lg: "p-8"
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      hover: "none",
-      padding: "default"
-    }
-  }
-);
-var GlassCard = React8.forwardRef(
-  ({ className, variant, hover, padding, gradient, children, ...props }, ref) => /* @__PURE__ */ jsx9(
-    "div",
-    {
-      ref,
-      className: cn(
-        glassCardVariants({ variant, hover, padding }),
-        gradient && "before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-br before:from-white/10 before:to-transparent before:pointer-events-none relative overflow-hidden",
-        className
-      ),
-      ...props,
-      children
-    }
-  )
-);
-GlassCard.displayName = "GlassCard";
-
-// src/components/animated-card.tsx
-import * as React9 from "react";
-import { jsx as jsx10 } from "react/jsx-runtime";
-var AnimatedCard = React9.forwardRef(
-  ({ className, variant = "hover-lift", background = "default", children, ...props }, ref) => {
-    const [mousePosition, setMousePosition] = React9.useState({ x: 0, y: 0 });
-    const cardRef = React9.useRef(null);
-    const handleMouseMove = (e) => {
-      if (!cardRef.current || variant !== "hover-tilt") return;
-      const rect = cardRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      setMousePosition({ x, y });
-    };
-    const handleMouseLeave = () => {
-      setMousePosition({ x: 0, y: 0 });
-    };
-    const tiltStyle = variant === "hover-tilt" ? {
-      transform: `perspective(1000px) rotateX(${mousePosition.y * -10}deg) rotateY(${mousePosition.x * 10}deg)`,
-      transition: "transform 0.1s ease-out"
-    } : {};
-    return /* @__PURE__ */ jsx10(
-      "div",
-      {
-        ref: (node) => {
-          cardRef.current = node;
-          if (typeof ref === "function") ref(node);
-          else if (ref) ref.current = node;
-        },
-        className: cn(
-          "rounded-lg p-6 transition-all duration-300",
-          // Background variants
-          background === "default" && "bg-card border",
-          background === "glass" && "glass",
-          background === "neu" && "neu-flat",
-          // Animation variants
-          variant === "hover-lift" && "hover:-translate-y-2 hover:shadow-lg",
-          variant === "hover-glow" && "hover:shadow-[0_0_30px_hsl(var(--primary)/0.3)]",
-          variant === "hover-border" && "border-transparent hover:border-primary",
-          className
-        ),
-        style: tiltStyle,
-        onMouseMove: handleMouseMove,
-        onMouseLeave: handleMouseLeave,
-        ...props,
-        children
-      }
-    );
-  }
-);
-AnimatedCard.displayName = "AnimatedCard";
-
-// src/components/skeleton.tsx
-import * as React10 from "react";
-import { cva as cva9 } from "class-variance-authority";
-import { jsx as jsx11, jsxs as jsxs5 } from "react/jsx-runtime";
-var skeletonBaseStyles = cva9("animate-pulse", {
+import { jsx as jsx9, jsxs as jsxs5 } from "react/jsx-runtime";
+var skeletonBaseStyles = cva8("animate-pulse", {
   variants: {
     tone: {
       default: "bg-muted",
-      shimmer: "shimmer",
-      neu: "bg-background shadow-neu-inset-sm"
+      shimmer: "shimmer"
     },
     shape: {
       default: "rounded-md",
@@ -810,7 +726,7 @@ var skeletonBaseStyles = cva9("animate-pulse", {
 function resolveSkeletonStyle(variant, shape) {
   if (shape) {
     return {
-      tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+      tone: variant === "shimmer" ? variant : "default",
       shape
     };
   }
@@ -818,7 +734,7 @@ function resolveSkeletonStyle(variant, shape) {
     return { tone: "default", shape: variant };
   }
   return {
-    tone: variant === "shimmer" || variant === "neu" ? variant : "default",
+    tone: variant === "shimmer" ? variant : "default",
     shape: "default"
   };
 }
@@ -830,8 +746,8 @@ function skeletonVariants({
   const resolved = resolveSkeletonStyle(variant, shape);
   return cn(skeletonBaseStyles(resolved), className);
 }
-var Skeleton = React10.forwardRef(
-  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx11(
+var Skeleton = React8.forwardRef(
+  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx9(
     "div",
     {
       ref,
@@ -842,7 +758,7 @@ var Skeleton = React10.forwardRef(
   )
 );
 Skeleton.displayName = "Skeleton";
-var SkeletonText = React10.forwardRef(({ className, lines = 3, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx11("div", { ref, className: cn("space-y-2", className), ...props, children: Array.from({ length: lines }, (_, index) => /* @__PURE__ */ jsx11(
+var SkeletonText = React8.forwardRef(({ className, lines = 3, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx9("div", { ref, className: cn("space-y-2", className), ...props, children: Array.from({ length: lines }, (_, index) => /* @__PURE__ */ jsx9(
   Skeleton,
   {
     variant,
@@ -852,8 +768,8 @@ var SkeletonText = React10.forwardRef(({ className, lines = 3, variant, shape, .
   `line-${index + 1}`
 )) }));
 SkeletonText.displayName = "SkeletonText";
-var SkeletonCard = React10.forwardRef(
-  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx11(
+var SkeletonCard = React8.forwardRef(
+  ({ className, variant, shape, ...props }, ref) => /* @__PURE__ */ jsx9(
     "div",
     {
       ref,
@@ -863,14 +779,14 @@ var SkeletonCard = React10.forwardRef(
       ),
       ...props,
       children: /* @__PURE__ */ jsxs5("div", { className: "space-y-4", children: [
-        /* @__PURE__ */ jsx11(Skeleton, { variant, shape, className: "aspect-square w-full rounded-none" }),
+        /* @__PURE__ */ jsx9(Skeleton, { variant, shape, className: "aspect-square w-full rounded-none" }),
         /* @__PURE__ */ jsxs5("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsx11(Skeleton, { variant, shape, className: "h-4 w-3/4" }),
-          /* @__PURE__ */ jsx11(Skeleton, { variant, shape, className: "h-4 w-1/2" }),
-          /* @__PURE__ */ jsx11(Skeleton, { variant, shape, className: "h-16 w-full" }),
+          /* @__PURE__ */ jsx9(Skeleton, { variant, shape, className: "h-4 w-3/4" }),
+          /* @__PURE__ */ jsx9(Skeleton, { variant, shape, className: "h-4 w-1/2" }),
+          /* @__PURE__ */ jsx9(Skeleton, { variant, shape, className: "h-16 w-full" }),
           /* @__PURE__ */ jsxs5("div", { className: "flex gap-2", children: [
-            /* @__PURE__ */ jsx11(Skeleton, { variant, shape: "circular", className: "h-6 w-16" }),
-            /* @__PURE__ */ jsx11(Skeleton, { variant, shape: "circular", className: "h-6 w-20" })
+            /* @__PURE__ */ jsx9(Skeleton, { variant, shape: "circular", className: "h-6 w-16" }),
+            /* @__PURE__ */ jsx9(Skeleton, { variant, shape: "circular", className: "h-6 w-20" })
           ] })
         ] })
       ] })
@@ -878,24 +794,24 @@ var SkeletonCard = React10.forwardRef(
   )
 );
 SkeletonCard.displayName = "SkeletonCard";
-var SkeletonInput = React10.forwardRef(
+var SkeletonInput = React8.forwardRef(
   ({ className }, ref) => /* @__PURE__ */ jsxs5("div", { ref, className: cn("space-y-2", className), children: [
-    /* @__PURE__ */ jsx11(Skeleton, { className: "h-4 w-24" }),
-    /* @__PURE__ */ jsx11(Skeleton, { className: "h-10 w-full rounded-lg" })
+    /* @__PURE__ */ jsx9(Skeleton, { className: "h-4 w-24" }),
+    /* @__PURE__ */ jsx9(Skeleton, { className: "h-10 w-full rounded-lg" })
   ] })
 );
 SkeletonInput.displayName = "SkeletonInput";
-var SkeletonButton = React10.forwardRef(
-  ({ className }, ref) => /* @__PURE__ */ jsx11(Skeleton, { ref, className: cn("h-10 w-32 rounded-xl", className) })
+var SkeletonButton = React8.forwardRef(
+  ({ className }, ref) => /* @__PURE__ */ jsx9(Skeleton, { ref, className: cn("h-10 w-32 rounded-xl", className) })
 );
 SkeletonButton.displayName = "SkeletonButton";
-var SkeletonAvatar = React10.forwardRef(({ className, size = "default", variant, ...props }, ref) => {
+var SkeletonAvatar = React8.forwardRef(({ className, size = "default", variant, ...props }, ref) => {
   const sizeClasses3 = {
     sm: "h-8 w-8",
     default: "h-10 w-10",
     lg: "h-14 w-14"
   };
-  return /* @__PURE__ */ jsx11(
+  return /* @__PURE__ */ jsx9(
     Skeleton,
     {
       ref,
@@ -909,11 +825,11 @@ var SkeletonAvatar = React10.forwardRef(({ className, size = "default", variant,
 SkeletonAvatar.displayName = "SkeletonAvatar";
 
 // src/components/avatar.tsx
-import * as React11 from "react";
+import * as React9 from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
-import { cva as cva10 } from "class-variance-authority";
-import { jsx as jsx12 } from "react/jsx-runtime";
-var avatarVariants = cva10(
+import { cva as cva9 } from "class-variance-authority";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var avatarVariants = cva9(
   "relative flex shrink-0 overflow-hidden rounded-full",
   {
     variants: {
@@ -926,7 +842,6 @@ var avatarVariants = cva10(
       },
       variant: {
         default: "bg-muted",
-        neu: "bg-background shadow-neu-sm",
         ring: "bg-muted ring-2 ring-primary/25 ring-offset-2 ring-offset-background"
       }
     },
@@ -936,7 +851,7 @@ var avatarVariants = cva10(
     }
   }
 );
-var Avatar = React11.forwardRef(({ className, size, variant, ...props }, ref) => /* @__PURE__ */ jsx12(
+var Avatar = React9.forwardRef(({ className, size, variant, ...props }, ref) => /* @__PURE__ */ jsx10(
   AvatarPrimitive.Root,
   {
     ref,
@@ -945,7 +860,7 @@ var Avatar = React11.forwardRef(({ className, size, variant, ...props }, ref) =>
   }
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
-var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx12(
+var AvatarImage = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx10(
   AvatarPrimitive.Image,
   {
     ref,
@@ -954,7 +869,7 @@ var AvatarImage = React11.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
-var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx12(
+var AvatarFallback = React9.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx10(
   AvatarPrimitive.Fallback,
   {
     ref,
@@ -968,19 +883,19 @@ var AvatarFallback = React11.forwardRef(({ className, ...props }, ref) => /* @__
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
 // src/components/carousel.tsx
-import * as React12 from "react";
+import * as React10 from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { jsx as jsx13, jsxs as jsxs6 } from "react/jsx-runtime";
-var CarouselContext = React12.createContext(null);
+import { jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+var CarouselContext = React10.createContext(null);
 function useCarousel() {
-  const context = React12.useContext(CarouselContext);
+  const context = React10.useContext(CarouselContext);
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
   return context;
 }
-var Carousel = React12.forwardRef(
+var Carousel = React10.forwardRef(
   ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
     const [carouselRef, api] = useEmblaCarousel(
       {
@@ -989,22 +904,22 @@ var Carousel = React12.forwardRef(
       },
       plugins
     );
-    const [canScrollPrev, setCanScrollPrev] = React12.useState(false);
-    const [canScrollNext, setCanScrollNext] = React12.useState(false);
-    const onSelect = React12.useCallback((nextApi) => {
+    const [canScrollPrev, setCanScrollPrev] = React10.useState(false);
+    const [canScrollNext, setCanScrollNext] = React10.useState(false);
+    const onSelect = React10.useCallback((nextApi) => {
       if (!nextApi) {
         return;
       }
       setCanScrollPrev(nextApi.canScrollPrev());
       setCanScrollNext(nextApi.canScrollNext());
     }, []);
-    const scrollPrev = React12.useCallback(() => {
+    const scrollPrev = React10.useCallback(() => {
       api?.scrollPrev();
     }, [api]);
-    const scrollNext = React12.useCallback(() => {
+    const scrollNext = React10.useCallback(() => {
       api?.scrollNext();
     }, [api]);
-    const handleKeyDown = React12.useCallback(
+    const handleKeyDown = React10.useCallback(
       (event) => {
         if (event.key === "ArrowLeft") {
           event.preventDefault();
@@ -1016,13 +931,13 @@ var Carousel = React12.forwardRef(
       },
       [scrollPrev, scrollNext]
     );
-    React12.useEffect(() => {
+    React10.useEffect(() => {
       if (!api || !setApi) {
         return;
       }
       setApi(api);
     }, [api, setApi]);
-    React12.useEffect(() => {
+    React10.useEffect(() => {
       if (!api) {
         return;
       }
@@ -1034,7 +949,7 @@ var Carousel = React12.forwardRef(
         api.off("select", onSelect);
       };
     }, [api, onSelect]);
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx11(
       CarouselContext.Provider,
       {
         value: {
@@ -1047,7 +962,7 @@ var Carousel = React12.forwardRef(
           canScrollPrev,
           canScrollNext
         },
-        children: /* @__PURE__ */ jsx13(
+        children: /* @__PURE__ */ jsx11(
           "div",
           {
             ref,
@@ -1064,10 +979,10 @@ var Carousel = React12.forwardRef(
   }
 );
 Carousel.displayName = "Carousel";
-var CarouselContent = React12.forwardRef(
+var CarouselContent = React10.forwardRef(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
-    return /* @__PURE__ */ jsx13("div", { ref: carouselRef, className: "overflow-hidden", children: /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx11("div", { ref: carouselRef, className: "overflow-hidden", children: /* @__PURE__ */ jsx11(
       "div",
       {
         ref,
@@ -1082,10 +997,10 @@ var CarouselContent = React12.forwardRef(
   }
 );
 CarouselContent.displayName = "CarouselContent";
-var CarouselItem = React12.forwardRef(
+var CarouselItem = React10.forwardRef(
   ({ className, ...props }, ref) => {
     const { orientation } = useCarousel();
-    return /* @__PURE__ */ jsx13(
+    return /* @__PURE__ */ jsx11(
       "div",
       {
         ref,
@@ -1102,7 +1017,7 @@ var CarouselItem = React12.forwardRef(
   }
 );
 CarouselItem.displayName = "CarouselItem";
-var CarouselPrevious = React12.forwardRef(
+var CarouselPrevious = React10.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
     return /* @__PURE__ */ jsxs6(
@@ -1120,15 +1035,15 @@ var CarouselPrevious = React12.forwardRef(
         onClick: scrollPrev,
         ...props,
         children: [
-          /* @__PURE__ */ jsx13(ArrowLeft, { className: "h-4 w-4" }),
-          /* @__PURE__ */ jsx13("span", { className: "sr-only", children: "Previous slide" })
+          /* @__PURE__ */ jsx11(ArrowLeft, { className: "h-4 w-4" }),
+          /* @__PURE__ */ jsx11("span", { className: "sr-only", children: "Previous slide" })
         ]
       }
     );
   }
 );
 CarouselPrevious.displayName = "CarouselPrevious";
-var CarouselNext = React12.forwardRef(
+var CarouselNext = React10.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();
     return /* @__PURE__ */ jsxs6(
@@ -1146,8 +1061,8 @@ var CarouselNext = React12.forwardRef(
         onClick: scrollNext,
         ...props,
         children: [
-          /* @__PURE__ */ jsx13(ArrowRight, { className: "h-4 w-4" }),
-          /* @__PURE__ */ jsx13("span", { className: "sr-only", children: "Next slide" })
+          /* @__PURE__ */ jsx11(ArrowRight, { className: "h-4 w-4" }),
+          /* @__PURE__ */ jsx11("span", { className: "sr-only", children: "Next slide" })
         ]
       }
     );
@@ -1156,9 +1071,9 @@ var CarouselNext = React12.forwardRef(
 CarouselNext.displayName = "CarouselNext";
 
 // src/components/progress.tsx
-import * as React13 from "react";
-import { jsx as jsx14 } from "react/jsx-runtime";
-var Progress = React13.forwardRef(
+import * as React11 from "react";
+import { jsx as jsx12 } from "react/jsx-runtime";
+var Progress = React11.forwardRef(
   ({
     className,
     value = 0,
@@ -1172,7 +1087,7 @@ var Progress = React13.forwardRef(
     const safeMax = max > 0 ? max : 100;
     const clampedValue = Math.min(safeMax, Math.max(0, value));
     const percentage = clampedValue / safeMax * 100;
-    return /* @__PURE__ */ jsx14(
+    return /* @__PURE__ */ jsx12(
       "div",
       {
         ref,
@@ -1188,7 +1103,7 @@ var Progress = React13.forwardRef(
         ),
         style,
         ...props,
-        children: /* @__PURE__ */ jsx14(
+        children: /* @__PURE__ */ jsx12(
           "div",
           {
             className: cn(
@@ -1205,8 +1120,8 @@ var Progress = React13.forwardRef(
 Progress.displayName = "Progress";
 
 // src/components/progress-circle.tsx
-import * as React14 from "react";
-import { jsx as jsx15, jsxs as jsxs7 } from "react/jsx-runtime";
+import * as React12 from "react";
+import { jsx as jsx13, jsxs as jsxs7 } from "react/jsx-runtime";
 var sizeClasses = {
   sm: "h-12 w-12",
   md: "h-16 w-16",
@@ -1236,9 +1151,9 @@ function ProgressCircle({
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - clampedProgress / 100 * circumference;
-  const gradientId = React14.useId().replace(/:/g, "");
+  const gradientId = React12.useId().replace(/:/g, "");
   return /* @__PURE__ */ jsxs7("div", { className: cn("relative group", sizeClasses[size], className), ...props, children: [
-    clampedProgress >= 75 ? /* @__PURE__ */ jsx15("div", { className: "absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" }) : null,
+    clampedProgress >= 75 ? /* @__PURE__ */ jsx13("div", { className: "absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" }) : null,
     /* @__PURE__ */ jsxs7(
       "svg",
       {
@@ -1246,11 +1161,11 @@ function ProgressCircle({
         className: "relative h-full w-full -rotate-90",
         "aria-hidden": "true",
         children: [
-          /* @__PURE__ */ jsx15("defs", { children: /* @__PURE__ */ jsxs7("linearGradient", { id: gradientId, x1: "0%", y1: "0%", x2: "100%", y2: "0%", children: [
-            /* @__PURE__ */ jsx15("stop", { offset: "0%", stopColor: "hsl(var(--primary))" }),
-            /* @__PURE__ */ jsx15("stop", { offset: "100%", stopColor: "hsl(var(--accent))" })
+          /* @__PURE__ */ jsx13("defs", { children: /* @__PURE__ */ jsxs7("linearGradient", { id: gradientId, x1: "0%", y1: "0%", x2: "100%", y2: "0%", children: [
+            /* @__PURE__ */ jsx13("stop", { offset: "0%", stopColor: "hsl(var(--primary))" }),
+            /* @__PURE__ */ jsx13("stop", { offset: "100%", stopColor: "hsl(var(--accent))" })
           ] }) }),
-          /* @__PURE__ */ jsx15(
+          /* @__PURE__ */ jsx13(
             "circle",
             {
               className: "stroke-muted/50",
@@ -1261,7 +1176,7 @@ function ProgressCircle({
               cy: "50"
             }
           ),
-          /* @__PURE__ */ jsx15(
+          /* @__PURE__ */ jsx13(
             "circle",
             {
               className: cn(
@@ -1285,7 +1200,7 @@ function ProgressCircle({
         ]
       }
     ),
-    showPercentage ? /* @__PURE__ */ jsx15("div", { className: "absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ jsxs7(
+    showPercentage ? /* @__PURE__ */ jsx13("div", { className: "absolute inset-0 flex items-center justify-center", children: /* @__PURE__ */ jsxs7(
       "span",
       {
         className: cn(
@@ -1302,12 +1217,12 @@ function ProgressCircle({
   ] });
 }
 function ProgressCircleSkeleton({ size = "md" }) {
-  return /* @__PURE__ */ jsx15("div", { className: cn("animate-pulse rounded-full bg-muted", sizeClasses[size]) });
+  return /* @__PURE__ */ jsx13("div", { className: cn("animate-pulse rounded-full bg-muted", sizeClasses[size]) });
 }
 
 // src/components/spinner.tsx
 import { Loader2 } from "lucide-react";
-import { jsx as jsx16, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx14, jsxs as jsxs8 } from "react/jsx-runtime";
 var sizeClasses2 = {
   sm: "h-4 w-4",
   md: "h-8 w-8",
@@ -1320,19 +1235,19 @@ var borderSizeClasses = {
 };
 function Spinner({ size = "md", className, text, ...props }) {
   return /* @__PURE__ */ jsxs8("div", { className: cn("flex items-center justify-center gap-2", className), ...props, children: [
-    /* @__PURE__ */ jsx16(Loader2, { className: cn("animate-spin", sizeClasses2[size]), "aria-hidden": "true" }),
-    text ? /* @__PURE__ */ jsx16("span", { className: "text-muted-foreground", children: text }) : null
+    /* @__PURE__ */ jsx14(Loader2, { className: cn("animate-spin", sizeClasses2[size]), "aria-hidden": "true" }),
+    text ? /* @__PURE__ */ jsx14("span", { className: "text-muted-foreground", children: text }) : null
   ] });
 }
 function PageSpinner({ text = "Loading..." }) {
-  return /* @__PURE__ */ jsx16("div", { className: "flex min-h-[60vh] items-center justify-center", children: /* @__PURE__ */ jsx16(Spinner, { size: "lg", text }) });
+  return /* @__PURE__ */ jsx14("div", { className: "flex min-h-[60vh] items-center justify-center", children: /* @__PURE__ */ jsx14(Spinner, { size: "lg", text }) });
 }
 function BorderSpinner({
   size = "md",
   className,
   ...props
 }) {
-  return /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsx14(
     "div",
     {
       className: cn(
@@ -1347,7 +1262,7 @@ function BorderSpinner({
 
 // src/components/status-badge.tsx
 import { AlertTriangle, CheckCircle, Clock, Info, XCircle } from "lucide-react";
-import { jsx as jsx17 } from "react/jsx-runtime";
+import { jsx as jsx15 } from "react/jsx-runtime";
 var statusConfig = {
   success: {
     className: "border-success bg-success/10 text-success",
@@ -1384,12 +1299,12 @@ function StatusBadge({
 }) {
   const config = statusConfig[status];
   const Icon2 = config.icon;
-  return /* @__PURE__ */ jsx17(
+  return /* @__PURE__ */ jsx15(
     Badge,
     {
       variant: "outline",
       className: cn(config.className, className),
-      icon: showIcon ? /* @__PURE__ */ jsx17(Icon2, { className: "h-3 w-3" }) : void 0,
+      icon: showIcon ? /* @__PURE__ */ jsx15(Icon2, { className: "h-3 w-3" }) : void 0,
       ...props,
       children: children ?? config.defaultText
     }
@@ -1397,10 +1312,10 @@ function StatusBadge({
 }
 
 // src/components/separator.tsx
-import * as React15 from "react";
-import { jsx as jsx18 } from "react/jsx-runtime";
-var Separator = React15.forwardRef(
-  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx18(
+import * as React13 from "react";
+import { jsx as jsx16 } from "react/jsx-runtime";
+var Separator = React13.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx16(
     "div",
     {
       ref,
@@ -1418,16 +1333,17 @@ var Separator = React15.forwardRef(
 Separator.displayName = "Separator";
 
 // src/components/section.tsx
-import * as React16 from "react";
-import { cva as cva11 } from "class-variance-authority";
-var sectionVariants = cva11("w-full", {
+import * as React14 from "react";
+import { cva as cva10 } from "class-variance-authority";
+var sectionVariants = cva10("w-full", {
   variants: {
     variant: {
       default: "",
-      gradient: "gradient-vivance",
+      // The hero mesh -- the system's only decorative treatment. Use on a hero
+      // band and nowhere else.
+      mesh: "hero-mesh",
       muted: "bg-muted/50",
-      card: "bg-card rounded-lg border",
-      glass: "glass rounded-lg"
+      card: "bg-card rounded-md border border-border"
     },
     padding: {
       none: "",
@@ -1449,8 +1365,8 @@ var sectionVariants = cva11("w-full", {
     container: "default"
   }
 });
-var Section = React16.forwardRef(
-  ({ className, variant, padding, container, as: Component2 = "section", ...props }, ref) => React16.createElement(Component2, {
+var Section = React14.forwardRef(
+  ({ className, variant, padding, container, as: Component2 = "section", ...props }, ref) => React14.createElement(Component2, {
     ...props,
     ref,
     className: cn(sectionVariants({ variant, padding, container }), className)
@@ -1459,12 +1375,13 @@ var Section = React16.forwardRef(
 Section.displayName = "Section";
 
 // src/components/heading.tsx
-import * as React17 from "react";
-import { cva as cva12 } from "class-variance-authority";
-import { jsx as jsx19 } from "react/jsx-runtime";
-var headingVariants = cva12("font-bold tracking-tight text-balance", {
+import * as React15 from "react";
+import { cva as cva11 } from "class-variance-authority";
+import { jsx as jsx17 } from "react/jsx-runtime";
+var headingVariants = cva11("text-balance", {
   variants: {
     level: {
+      "display-xl": "text-display-xl",
       display: "text-display",
       h1: "text-heading-1",
       h2: "text-heading-2",
@@ -1474,7 +1391,7 @@ var headingVariants = cva12("font-bold tracking-tight text-balance", {
     variant: {
       default: "text-foreground",
       muted: "text-muted-foreground",
-      gradient: "bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+      brand: "text-brand"
     }
   },
   defaultVariants: {
@@ -1482,10 +1399,10 @@ var headingVariants = cva12("font-bold tracking-tight text-balance", {
     variant: "default"
   }
 });
-var Heading = React17.forwardRef(
+var Heading = React15.forwardRef(
   ({ className, level, variant, as, children, ...props }, ref) => {
-    const Component2 = as || (level === "display" ? "h1" : level || "h1");
-    return /* @__PURE__ */ jsx19(
+    const Component2 = as || (level === "display" || level === "display-xl" ? "h1" : level || "h1");
+    return /* @__PURE__ */ jsx17(
       Component2,
       {
         ref,
@@ -1499,10 +1416,10 @@ var Heading = React17.forwardRef(
 Heading.displayName = "Heading";
 
 // src/components/container.tsx
-import * as React18 from "react";
-import { cva as cva13 } from "class-variance-authority";
-import { jsx as jsx20 } from "react/jsx-runtime";
-var containerVariants = cva13("mx-auto w-full", {
+import * as React16 from "react";
+import { cva as cva12 } from "class-variance-authority";
+import { jsx as jsx18 } from "react/jsx-runtime";
+var containerVariants = cva12("mx-auto w-full", {
   variants: {
     size: {
       sm: "max-w-3xl",
@@ -1523,8 +1440,8 @@ var containerVariants = cva13("mx-auto w-full", {
     padding: "default"
   }
 });
-var Container = React18.forwardRef(
-  ({ className, size, padding, ...props }, ref) => /* @__PURE__ */ jsx20(
+var Container = React16.forwardRef(
+  ({ className, size, padding, ...props }, ref) => /* @__PURE__ */ jsx18(
     "div",
     {
       ref,
@@ -1537,9 +1454,9 @@ Container.displayName = "Container";
 
 // src/components/theme-provider.tsx
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { jsx as jsx21 } from "react/jsx-runtime";
+import { jsx as jsx19 } from "react/jsx-runtime";
 function ThemeProvider({ children, ...props }) {
-  return /* @__PURE__ */ jsx21(NextThemesProvider, { ...props, children });
+  return /* @__PURE__ */ jsx19(NextThemesProvider, { ...props, children });
 }
 
 // src/components/theme-toggle.tsx
@@ -1547,17 +1464,17 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 // src/components/dropdown-menu.tsx
-import * as React19 from "react";
+import * as React17 from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Check, ChevronRight, Circle } from "lucide-react";
-import { jsx as jsx22, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx20, jsxs as jsxs9 } from "react/jsx-runtime";
 var DropdownMenu = DropdownMenuPrimitive.Root;
 var DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 var DropdownMenuGroup = DropdownMenuPrimitive.Group;
 var DropdownMenuPortal = DropdownMenuPrimitive.Portal;
 var DropdownMenuSub = DropdownMenuPrimitive.Sub;
 var DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
-var DropdownMenuSubTrigger = React19.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs9(
+var DropdownMenuSubTrigger = React17.forwardRef(({ className, inset, children, ...props }, ref) => /* @__PURE__ */ jsxs9(
   DropdownMenuPrimitive.SubTrigger,
   {
     ref,
@@ -1569,12 +1486,12 @@ var DropdownMenuSubTrigger = React19.forwardRef(({ className, inset, children, .
     ...props,
     children: [
       children,
-      /* @__PURE__ */ jsx22(ChevronRight, { className: "ml-auto h-4 w-4" })
+      /* @__PURE__ */ jsx20(ChevronRight, { className: "ml-auto h-4 w-4" })
     ]
   }
 ));
 DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
-var DropdownMenuSubContent = React19.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
+var DropdownMenuSubContent = React17.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx20(
   DropdownMenuPrimitive.SubContent,
   {
     ref,
@@ -1586,7 +1503,7 @@ var DropdownMenuSubContent = React19.forwardRef(({ className, ...props }, ref) =
   }
 ));
 DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
-var DropdownMenuContent = React19.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx22(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx22(
+var DropdownMenuContent = React17.forwardRef(({ className, sideOffset = 4, ...props }, ref) => /* @__PURE__ */ jsx20(DropdownMenuPrimitive.Portal, { children: /* @__PURE__ */ jsx20(
   DropdownMenuPrimitive.Content,
   {
     ref,
@@ -1599,7 +1516,7 @@ var DropdownMenuContent = React19.forwardRef(({ className, sideOffset = 4, ...pr
   }
 ) }));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-var DropdownMenuItem = React19.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx22(
+var DropdownMenuItem = React17.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx20(
   DropdownMenuPrimitive.Item,
   {
     ref,
@@ -1612,7 +1529,7 @@ var DropdownMenuItem = React19.forwardRef(({ className, inset, ...props }, ref) 
   }
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-var DropdownMenuCheckboxItem = React19.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs9(
+var DropdownMenuCheckboxItem = React17.forwardRef(({ className, children, checked, ...props }, ref) => /* @__PURE__ */ jsxs9(
   DropdownMenuPrimitive.CheckboxItem,
   {
     ref,
@@ -1623,13 +1540,13 @@ var DropdownMenuCheckboxItem = React19.forwardRef(({ className, children, checke
     checked,
     ...props,
     children: [
-      /* @__PURE__ */ jsx22("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx22(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx22(Check, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ jsx20("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx20(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx20(Check, { className: "h-4 w-4" }) }) }),
       children
     ]
   }
 ));
 DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
-var DropdownMenuRadioItem = React19.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs9(
+var DropdownMenuRadioItem = React17.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs9(
   DropdownMenuPrimitive.RadioItem,
   {
     ref,
@@ -1639,13 +1556,13 @@ var DropdownMenuRadioItem = React19.forwardRef(({ className, children, ...props 
     ),
     ...props,
     children: [
-      /* @__PURE__ */ jsx22("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx22(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx22(Circle, { className: "h-2 w-2 fill-current" }) }) }),
+      /* @__PURE__ */ jsx20("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx20(DropdownMenuPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx20(Circle, { className: "h-2 w-2 fill-current" }) }) }),
       children
     ]
   }
 ));
 DropdownMenuRadioItem.displayName = DropdownMenuPrimitive.RadioItem.displayName;
-var DropdownMenuLabel = React19.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx22(
+var DropdownMenuLabel = React17.forwardRef(({ className, inset, ...props }, ref) => /* @__PURE__ */ jsx20(
   DropdownMenuPrimitive.Label,
   {
     ref,
@@ -1654,7 +1571,7 @@ var DropdownMenuLabel = React19.forwardRef(({ className, inset, ...props }, ref)
   }
 ));
 DropdownMenuLabel.displayName = DropdownMenuPrimitive.Label.displayName;
-var DropdownMenuSeparator = React19.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
+var DropdownMenuSeparator = React17.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx20(
   DropdownMenuPrimitive.Separator,
   {
     ref,
@@ -1666,7 +1583,7 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 var DropdownMenuShortcut = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx22(
+}) => /* @__PURE__ */ jsx20(
   "span",
   {
     className: cn("ml-auto text-xs tracking-widest opacity-60", className),
@@ -1676,7 +1593,7 @@ var DropdownMenuShortcut = ({
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
 // src/components/theme-toggle.tsx
-import { Fragment as Fragment2, jsx as jsx23, jsxs as jsxs10 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx21, jsxs as jsxs10 } from "react/jsx-runtime";
 function ThemeToggle({
   mode = "toggle",
   variant,
@@ -1693,22 +1610,22 @@ function ThemeToggle({
   const ariaLabel = buttonProps["aria-label"] ?? (mode === "menu" ? "Change theme" : "Toggle theme");
   const iconSizeClassName = mode === "menu" ? "h-[1.2rem] w-[1.2rem]" : "h-5 w-5";
   const iconContent = /* @__PURE__ */ jsxs10(Fragment2, { children: [
-    /* @__PURE__ */ jsx23(
+    /* @__PURE__ */ jsx21(
       Sun,
       {
         className: `${iconSizeClassName} rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0`
       }
     ),
-    /* @__PURE__ */ jsx23(
+    /* @__PURE__ */ jsx21(
       Moon,
       {
         className: `absolute ${iconSizeClassName} rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100`
       }
     ),
-    /* @__PURE__ */ jsx23("span", { className: "sr-only", children: ariaLabel })
+    /* @__PURE__ */ jsx21("span", { className: "sr-only", children: ariaLabel })
   ] });
   if (mode === "toggle") {
-    return /* @__PURE__ */ jsx23(
+    return /* @__PURE__ */ jsx21(
       Button,
       {
         variant: buttonVariant,
@@ -1722,7 +1639,7 @@ function ThemeToggle({
     );
   }
   return /* @__PURE__ */ jsxs10(DropdownMenu, { children: [
-    /* @__PURE__ */ jsx23(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsx23(
+    /* @__PURE__ */ jsx21(DropdownMenuTrigger, { asChild: true, children: /* @__PURE__ */ jsx21(
       Button,
       {
         variant: buttonVariant,
@@ -1733,15 +1650,15 @@ function ThemeToggle({
         children: iconContent
       }
     ) }),
-    /* @__PURE__ */ jsx23(DropdownMenuContent, { align, children: /* @__PURE__ */ jsxs10(
+    /* @__PURE__ */ jsx21(DropdownMenuContent, { align, children: /* @__PURE__ */ jsxs10(
       DropdownMenuRadioGroup,
       {
         value: currentTheme,
         onValueChange: (value) => setTheme(value),
         children: [
-          /* @__PURE__ */ jsx23(DropdownMenuRadioItem, { value: "light", children: "Light" }),
-          /* @__PURE__ */ jsx23(DropdownMenuRadioItem, { value: "dark", children: "Dark" }),
-          showSystemOption ? /* @__PURE__ */ jsx23(DropdownMenuRadioItem, { value: "system", children: "System" }) : null
+          /* @__PURE__ */ jsx21(DropdownMenuRadioItem, { value: "light", children: "Light" }),
+          /* @__PURE__ */ jsx21(DropdownMenuRadioItem, { value: "dark", children: "Dark" }),
+          showSystemOption ? /* @__PURE__ */ jsx21(DropdownMenuRadioItem, { value: "system", children: "System" }) : null
         ]
       }
     ) })
@@ -1749,12 +1666,12 @@ function ThemeToggle({
 }
 
 // src/components/toast.tsx
-import * as React20 from "react";
+import * as React18 from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
-import { cva as cva14 } from "class-variance-authority";
-import { jsx as jsx24, jsxs as jsxs11 } from "react/jsx-runtime";
+import { cva as cva13 } from "class-variance-authority";
+import { jsx as jsx22, jsxs as jsxs11 } from "react/jsx-runtime";
 var ToastProvider = ToastPrimitives.Provider;
-var ToastViewport = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx24(
+var ToastViewport = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
   ToastPrimitives.Viewport,
   {
     ref,
@@ -1766,7 +1683,7 @@ var ToastViewport = React20.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
-var toastVariants = cva14(
+var toastVariants = cva13(
   "group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md p-6 pr-8 shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-slide-in-bottom data-[state=closed]:animate-fade-out",
   {
     variants: {
@@ -1775,9 +1692,7 @@ var toastVariants = cva14(
         destructive: "destructive group border-destructive bg-destructive text-destructive-foreground",
         success: "border-success bg-success text-success-foreground",
         warning: "border-warning bg-warning text-warning-foreground",
-        info: "border-info bg-info text-info-foreground",
-        glass: "glass text-foreground",
-        neu: "shadow-neu bg-background text-foreground border-0"
+        info: "border-info bg-info text-info-foreground"
       }
     },
     defaultVariants: {
@@ -1785,8 +1700,8 @@ var toastVariants = cva14(
     }
   }
 );
-var Toast = React20.forwardRef(({ className, variant, ...props }, ref) => {
-  return /* @__PURE__ */ jsx24(
+var Toast = React18.forwardRef(({ className, variant, ...props }, ref) => {
+  return /* @__PURE__ */ jsx22(
     ToastPrimitives.Root,
     {
       ref,
@@ -1796,7 +1711,7 @@ var Toast = React20.forwardRef(({ className, variant, ...props }, ref) => {
   );
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
-var ToastAction = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx24(
+var ToastAction = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
   ToastPrimitives.Action,
   {
     ref,
@@ -1808,7 +1723,7 @@ var ToastAction = React20.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 ToastAction.displayName = ToastPrimitives.Action.displayName;
-var ToastClose = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx24(
+var ToastClose = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
   ToastPrimitives.Close,
   {
     ref,
@@ -1832,15 +1747,15 @@ var ToastClose = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE
         strokeLinejoin: "round",
         className: "h-4 w-4",
         children: [
-          /* @__PURE__ */ jsx24("path", { d: "M18 6 6 18" }),
-          /* @__PURE__ */ jsx24("path", { d: "m6 6 12 12" })
+          /* @__PURE__ */ jsx22("path", { d: "M18 6 6 18" }),
+          /* @__PURE__ */ jsx22("path", { d: "m6 6 12 12" })
         ]
       }
     )
   }
 ));
 ToastClose.displayName = ToastPrimitives.Close.displayName;
-var ToastTitle = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx24(
+var ToastTitle = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
   ToastPrimitives.Title,
   {
     ref,
@@ -1849,7 +1764,7 @@ var ToastTitle = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
-var ToastDescription = React20.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx24(
+var ToastDescription = React18.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx22(
   ToastPrimitives.Description,
   {
     ref,
@@ -1860,7 +1775,7 @@ var ToastDescription = React20.forwardRef(({ className, ...props }, ref) => /* @
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
 // src/components/use-toast.ts
-import * as React21 from "react";
+import * as React19 from "react";
 var TOAST_LIMIT = 1;
 var TOAST_REMOVE_DELAY = 1e6;
 var count = 0;
@@ -1963,8 +1878,8 @@ function toast({ ...props }) {
   };
 }
 function useToast() {
-  const [state, setState] = React21.useState(memoryState);
-  React21.useEffect(() => {
+  const [state, setState] = React19.useState(memoryState);
+  React19.useEffect(() => {
     listeners.push(setState);
     return () => {
       const index = listeners.indexOf(setState);
@@ -1981,37 +1896,37 @@ function useToast() {
 }
 
 // src/components/toaster.tsx
-import { jsx as jsx25, jsxs as jsxs12 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs12 } from "react/jsx-runtime";
 function Toaster() {
   const { toasts } = useToast();
   return /* @__PURE__ */ jsxs12(ToastProvider, { children: [
     toasts.map(({ id, title, description, action, ...props }) => /* @__PURE__ */ jsxs12(Toast, { ...props, children: [
       /* @__PURE__ */ jsxs12("div", { className: "grid gap-1", children: [
-        title ? /* @__PURE__ */ jsx25(ToastTitle, { children: title }) : null,
-        description ? /* @__PURE__ */ jsx25(ToastDescription, { children: description }) : null
+        title ? /* @__PURE__ */ jsx23(ToastTitle, { children: title }) : null,
+        description ? /* @__PURE__ */ jsx23(ToastDescription, { children: description }) : null
       ] }),
       action,
-      /* @__PURE__ */ jsx25(ToastClose, {})
+      /* @__PURE__ */ jsx23(ToastClose, {})
     ] }, id)),
-    /* @__PURE__ */ jsx25(ToastViewport, {})
+    /* @__PURE__ */ jsx23(ToastViewport, {})
   ] });
 }
 
 // src/components/accordion.tsx
-import * as React22 from "react";
+import * as React20 from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { jsx as jsx26, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs13 } from "react/jsx-runtime";
 var Accordion = AccordionPrimitive.Root;
 var AccordionItemPrimitive = AccordionPrimitive.Item;
 var AccordionHeaderPrimitive = AccordionPrimitive.Header;
 var AccordionTriggerPrimitive = AccordionPrimitive.Trigger;
 var AccordionContentPrimitive = AccordionPrimitive.Content;
-var AccordionItem = React22.forwardRef(
-  ({ className, ...props }, ref) => /* @__PURE__ */ jsx26(AccordionItemPrimitive, { ref, className: cn("border-b", className), ...props })
+var AccordionItem = React20.forwardRef(
+  ({ className, ...props }, ref) => /* @__PURE__ */ jsx24(AccordionItemPrimitive, { ref, className: cn("border-b", className), ...props })
 );
 AccordionItem.displayName = "AccordionItem";
-var AccordionTrigger = React22.forwardRef(
-  ({ className, children, ...props }, ref) => /* @__PURE__ */ jsx26(AccordionHeaderPrimitive, { className: "flex", children: /* @__PURE__ */ jsxs13(
+var AccordionTrigger = React20.forwardRef(
+  ({ className, children, ...props }, ref) => /* @__PURE__ */ jsx24(AccordionHeaderPrimitive, { className: "flex", children: /* @__PURE__ */ jsxs13(
     AccordionTriggerPrimitive,
     {
       ref,
@@ -2022,7 +1937,7 @@ var AccordionTrigger = React22.forwardRef(
       ...props,
       children: [
         children,
-        /* @__PURE__ */ jsx26(
+        /* @__PURE__ */ jsx24(
           "svg",
           {
             className: "h-4 w-4 shrink-0 transition-transform duration-200",
@@ -2034,7 +1949,7 @@ var AccordionTrigger = React22.forwardRef(
             strokeWidth: "2",
             strokeLinecap: "round",
             strokeLinejoin: "round",
-            children: /* @__PURE__ */ jsx26("path", { d: "m6 9 6 6 6-6" })
+            children: /* @__PURE__ */ jsx24("path", { d: "m6 9 6 6 6-6" })
           }
         )
       ]
@@ -2042,24 +1957,24 @@ var AccordionTrigger = React22.forwardRef(
   ) })
 );
 AccordionTrigger.displayName = "AccordionTrigger";
-var AccordionContent = React22.forwardRef(
-  ({ className, children, ...props }, ref) => /* @__PURE__ */ jsx26(
+var AccordionContent = React20.forwardRef(
+  ({ className, children, ...props }, ref) => /* @__PURE__ */ jsx24(
     AccordionContentPrimitive,
     {
       ref,
       className: "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
       ...props,
-      children: /* @__PURE__ */ jsx26("div", { className: cn("pb-4 pt-0", className), children })
+      children: /* @__PURE__ */ jsx24("div", { className: cn("pb-4 pt-0", className), children })
     }
   )
 );
 AccordionContent.displayName = "AccordionContent";
 
 // src/components/checkbox.tsx
-import * as React23 from "react";
+import * as React21 from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { jsx as jsx27 } from "react/jsx-runtime";
-var Checkbox = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx27(
+import { jsx as jsx25 } from "react/jsx-runtime";
+var Checkbox = React21.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx25(
   CheckboxPrimitive.Root,
   {
     ref,
@@ -2068,16 +1983,16 @@ var Checkbox = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__
       className
     ),
     ...props,
-    children: /* @__PURE__ */ jsx27(CheckboxPrimitive.Indicator, { className: cn("flex items-center justify-center text-current"), children: /* @__PURE__ */ jsx27("svg", { className: "h-4 w-4", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx27("path", { d: "M20 6 9 17l-5-5" }) }) })
+    children: /* @__PURE__ */ jsx25(CheckboxPrimitive.Indicator, { className: cn("flex items-center justify-center text-current"), children: /* @__PURE__ */ jsx25("svg", { className: "h-4 w-4", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx25("path", { d: "M20 6 9 17l-5-5" }) }) })
   }
 ));
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 // src/components/switch.tsx
-import * as React24 from "react";
+import * as React22 from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
-import { jsx as jsx28 } from "react/jsx-runtime";
-var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx28(
+import { jsx as jsx26 } from "react/jsx-runtime";
+var Switch = React22.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx26(
   SwitchPrimitives.Root,
   {
     className: cn(
@@ -2086,7 +2001,7 @@ var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
     ),
     ...props,
     ref,
-    children: /* @__PURE__ */ jsx28(
+    children: /* @__PURE__ */ jsx26(
       SwitchPrimitives.Thumb,
       {
         className: cn(
@@ -2099,13 +2014,13 @@ var Switch = React24.forwardRef(({ className, ...props }, ref) => /* @__PURE__ *
 Switch.displayName = SwitchPrimitives.Root.displayName;
 
 // src/components/radio-group.tsx
-import * as React25 from "react";
+import * as React23 from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Circle as Circle2 } from "lucide-react";
-import { jsx as jsx29 } from "react/jsx-runtime";
-var RadioGroup2 = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx29(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
+import { jsx as jsx27 } from "react/jsx-runtime";
+var RadioGroup2 = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx27(RadioGroupPrimitive.Root, { ref, className: cn("grid gap-2", className), ...props }));
 RadioGroup2.displayName = RadioGroupPrimitive.Root.displayName;
-var RadioGroupItem = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx29(
+var RadioGroupItem = React23.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx27(
   RadioGroupPrimitive.Item,
   {
     ref,
@@ -2114,30 +2029,30 @@ var RadioGroupItem = React25.forwardRef(({ className, ...props }, ref) => /* @__
       className
     ),
     ...props,
-    children: /* @__PURE__ */ jsx29(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ jsx29(Circle2, { className: "h-2.5 w-2.5 fill-current text-current" }) })
+    children: /* @__PURE__ */ jsx27(RadioGroupPrimitive.Indicator, { className: "flex items-center justify-center", children: /* @__PURE__ */ jsx27(Circle2, { className: "h-2.5 w-2.5 fill-current text-current" }) })
   }
 ));
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
 // src/components/scroll-area.tsx
-import * as React26 from "react";
+import * as React24 from "react";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
-import { jsx as jsx30, jsxs as jsxs14 } from "react/jsx-runtime";
-var ScrollArea = React26.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs14(
+import { jsx as jsx28, jsxs as jsxs14 } from "react/jsx-runtime";
+var ScrollArea = React24.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs14(
   ScrollAreaPrimitive.Root,
   {
     ref,
     className: cn("relative overflow-hidden", className),
     ...props,
     children: [
-      /* @__PURE__ */ jsx30(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
-      /* @__PURE__ */ jsx30(ScrollBar, {}),
-      /* @__PURE__ */ jsx30(ScrollAreaPrimitive.Corner, {})
+      /* @__PURE__ */ jsx28(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
+      /* @__PURE__ */ jsx28(ScrollBar, {}),
+      /* @__PURE__ */ jsx28(ScrollAreaPrimitive.Corner, {})
     ]
   }
 ));
 ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
-var ScrollBar = React26.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx30(
+var ScrollBar = React24.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx28(
   ScrollAreaPrimitive.ScrollAreaScrollbar,
   {
     ref,
@@ -2149,25 +2064,25 @@ var ScrollBar = React26.forwardRef(({ className, orientation = "vertical", ...pr
       className
     ),
     ...props,
-    children: /* @__PURE__ */ jsx30(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
+    children: /* @__PURE__ */ jsx28(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
   }
 ));
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
 
 // src/components/command.tsx
-import * as React28 from "react";
+import * as React26 from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { Search } from "lucide-react";
 
 // src/components/dialog.tsx
-import * as React27 from "react";
+import * as React25 from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { jsx as jsx31, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx29, jsxs as jsxs15 } from "react/jsx-runtime";
 var Dialog = DialogPrimitive.Root;
 var DialogTrigger = DialogPrimitive.Trigger;
 var DialogPortal = DialogPrimitive.Portal;
 var DialogClose = DialogPrimitive.Close;
-var DialogOverlay = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
+var DialogOverlay = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx29(
   DialogPrimitive.Overlay,
   {
     ref,
@@ -2179,17 +2094,16 @@ var DialogOverlay = React27.forwardRef(({ className, ...props }, ref) => /* @__P
   }
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React27.forwardRef(({ className, children, variant = "default", ...props }, ref) => /* @__PURE__ */ jsxs15(DialogPortal, { children: [
-  /* @__PURE__ */ jsx31(DialogOverlay, {}),
+var DialogContent = React25.forwardRef(({ className, children, variant = "default", ...props }, ref) => /* @__PURE__ */ jsxs15(DialogPortal, { children: [
+  /* @__PURE__ */ jsx29(DialogOverlay, {}),
   /* @__PURE__ */ jsxs15(
     DialogPrimitive.Content,
     {
       ref,
       className: cn(
-        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-lg duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
-        variant === "default" && "border bg-background",
-        variant === "glass" && "glass-card",
-        variant === "neu" && "neu-flat border-0",
+        // A modal genuinely floats, so this is one of the few level-2 surfaces.
+        "fixed left-[50%] top-[50%] z-modal grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 p-6 shadow-2 duration-200 data-[state=open]:animate-scale-in data-[state=closed]:animate-fade-out",
+        variant === "default" && "border border-border bg-popover",
         "rounded-lg",
         className
       ),
@@ -2211,12 +2125,12 @@ var DialogContent = React27.forwardRef(({ className, children, variant = "defaul
               strokeLinejoin: "round",
               className: "h-4 w-4",
               children: [
-                /* @__PURE__ */ jsx31("path", { d: "M18 6 6 18" }),
-                /* @__PURE__ */ jsx31("path", { d: "m6 6 12 12" })
+                /* @__PURE__ */ jsx29("path", { d: "M18 6 6 18" }),
+                /* @__PURE__ */ jsx29("path", { d: "m6 6 12 12" })
               ]
             }
           ),
-          /* @__PURE__ */ jsx31("span", { className: "sr-only", children: "Close" })
+          /* @__PURE__ */ jsx29("span", { className: "sr-only", children: "Close" })
         ] })
       ]
     }
@@ -2226,7 +2140,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 var DialogHeader = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx31(
+}) => /* @__PURE__ */ jsx29(
   "div",
   {
     className: cn(
@@ -2240,7 +2154,7 @@ DialogHeader.displayName = "DialogHeader";
 var DialogFooter = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx31(
+}) => /* @__PURE__ */ jsx29(
   "div",
   {
     className: cn(
@@ -2251,7 +2165,7 @@ var DialogFooter = ({
   }
 );
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
+var DialogTitle = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx29(
   DialogPrimitive.Title,
   {
     ref,
@@ -2263,7 +2177,7 @@ var DialogTitle = React27.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
+var DialogDescription = React25.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx29(
   DialogPrimitive.Description,
   {
     ref,
@@ -2274,8 +2188,8 @@ var DialogDescription = React27.forwardRef(({ className, ...props }, ref) => /* 
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 // src/components/command.tsx
-import { jsx as jsx32, jsxs as jsxs16 } from "react/jsx-runtime";
-var Command = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
+import { jsx as jsx30, jsxs as jsxs16 } from "react/jsx-runtime";
+var Command = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx30(
   CommandPrimitive,
   {
     ref,
@@ -2287,10 +2201,10 @@ var Command = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ 
   }
 ));
 Command.displayName = CommandPrimitive.displayName;
-var CommandDialog = ({ children, ...props }) => /* @__PURE__ */ jsx32(Dialog, { ...props, children: /* @__PURE__ */ jsx32(DialogContent, { className: "overflow-hidden p-0 shadow-lg", children: /* @__PURE__ */ jsx32(Command, { className: "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children }) }) });
-var CommandInput = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs16("div", { className: "flex items-center border-b px-3", "data-cmdk-input-wrapper": "", children: [
-  /* @__PURE__ */ jsx32(Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
-  /* @__PURE__ */ jsx32(
+var CommandDialog = ({ children, ...props }) => /* @__PURE__ */ jsx30(Dialog, { ...props, children: /* @__PURE__ */ jsx30(DialogContent, { className: "overflow-hidden p-0 shadow-lg", children: /* @__PURE__ */ jsx30(Command, { className: "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5", children }) }) });
+var CommandInput = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxs16("div", { className: "flex items-center border-b px-3", "data-cmdk-input-wrapper": "", children: [
+  /* @__PURE__ */ jsx30(Search, { className: "mr-2 h-4 w-4 shrink-0 opacity-50" }),
+  /* @__PURE__ */ jsx30(
     CommandPrimitive.Input,
     {
       ref,
@@ -2303,7 +2217,7 @@ var CommandInput = React28.forwardRef(({ className, ...props }, ref) => /* @__PU
   )
 ] }));
 CommandInput.displayName = CommandPrimitive.Input.displayName;
-var CommandList = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
+var CommandList = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx30(
   CommandPrimitive.List,
   {
     ref,
@@ -2312,9 +2226,9 @@ var CommandList = React28.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 CommandList.displayName = CommandPrimitive.List.displayName;
-var CommandEmpty = React28.forwardRef((props, ref) => /* @__PURE__ */ jsx32(CommandPrimitive.Empty, { ref, className: "py-6 text-center text-sm", ...props }));
+var CommandEmpty = React26.forwardRef((props, ref) => /* @__PURE__ */ jsx30(CommandPrimitive.Empty, { ref, className: "py-6 text-center text-sm", ...props }));
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
-var CommandGroup = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
+var CommandGroup = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx30(
   CommandPrimitive.Group,
   {
     ref,
@@ -2326,7 +2240,7 @@ var CommandGroup = React28.forwardRef(({ className, ...props }, ref) => /* @__PU
   }
 ));
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
-var CommandSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
+var CommandSeparator = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx30(
   CommandPrimitive.Separator,
   {
     ref,
@@ -2335,7 +2249,7 @@ var CommandSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @
   }
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
-var CommandItem = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
+var CommandItem = React26.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx30(
   CommandPrimitive.Item,
   {
     ref,
@@ -2350,7 +2264,7 @@ CommandItem.displayName = CommandPrimitive.Item.displayName;
 var CommandShortcut = ({
   className,
   ...props
-}) => /* @__PURE__ */ jsx32(
+}) => /* @__PURE__ */ jsx30(
   "span",
   {
     className: cn("ml-auto text-xs tracking-widest text-muted-foreground", className),
@@ -2360,12 +2274,12 @@ var CommandShortcut = ({
 CommandShortcut.displayName = "CommandShortcut";
 
 // src/components/navigation-menu.tsx
-import * as React29 from "react";
+import * as React27 from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { ChevronDown } from "lucide-react";
-import { cva as cva15 } from "class-variance-authority";
-import { jsx as jsx33, jsxs as jsxs17 } from "react/jsx-runtime";
-var NavigationMenu = React29.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs17(
+import { cva as cva14 } from "class-variance-authority";
+import { jsx as jsx31, jsxs as jsxs17 } from "react/jsx-runtime";
+var NavigationMenu = React27.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs17(
   NavigationMenuPrimitive.Root,
   {
     ref,
@@ -2376,12 +2290,12 @@ var NavigationMenu = React29.forwardRef(({ className, children, ...props }, ref)
     ...props,
     children: [
       children,
-      /* @__PURE__ */ jsx33(NavigationMenuViewport, {})
+      /* @__PURE__ */ jsx31(NavigationMenuViewport, {})
     ]
   }
 ));
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName;
-var NavigationMenuList = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx33(
+var NavigationMenuList = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
   NavigationMenuPrimitive.List,
   {
     ref,
@@ -2391,10 +2305,10 @@ var NavigationMenuList = React29.forwardRef(({ className, ...props }, ref) => /*
 ));
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 var NavigationMenuItem = NavigationMenuPrimitive.Item;
-var navigationMenuTriggerStyle = cva15(
+var navigationMenuTriggerStyle = cva14(
   "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
 );
-var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs17(
+var NavigationMenuTrigger = React27.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs17(
   NavigationMenuPrimitive.Trigger,
   {
     ref,
@@ -2402,7 +2316,7 @@ var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props 
     ...props,
     children: [
       children,
-      /* @__PURE__ */ jsx33(
+      /* @__PURE__ */ jsx31(
         ChevronDown,
         {
           className: "relative top-[1px] ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180",
@@ -2413,7 +2327,7 @@ var NavigationMenuTrigger = React29.forwardRef(({ className, children, ...props 
   }
 ));
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
-var NavigationMenuContent = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx33(
+var NavigationMenuContent = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
   NavigationMenuPrimitive.Content,
   {
     ref,
@@ -2426,7 +2340,7 @@ var NavigationMenuContent = React29.forwardRef(({ className, ...props }, ref) =>
 ));
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 var NavigationMenuLink = NavigationMenuPrimitive.Link;
-var NavigationMenuViewport = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx33("div", { className: cn("absolute left-0 top-full flex justify-center"), children: /* @__PURE__ */ jsx33(
+var NavigationMenuViewport = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31("div", { className: cn("absolute left-0 top-full flex justify-center"), children: /* @__PURE__ */ jsx31(
   NavigationMenuPrimitive.Viewport,
   {
     ref,
@@ -2438,7 +2352,7 @@ var NavigationMenuViewport = React29.forwardRef(({ className, ...props }, ref) =
   }
 ) }));
 NavigationMenuViewport.displayName = NavigationMenuPrimitive.Viewport.displayName;
-var NavigationMenuIndicator = React29.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx33(
+var NavigationMenuIndicator = React27.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx31(
   NavigationMenuPrimitive.Indicator,
   {
     ref,
@@ -2447,20 +2361,20 @@ var NavigationMenuIndicator = React29.forwardRef(({ className, ...props }, ref) 
       className
     ),
     ...props,
-    children: /* @__PURE__ */ jsx33("div", { className: "relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" })
+    children: /* @__PURE__ */ jsx31("div", { className: "relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" })
   }
 ));
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName;
 
 // src/components/select.tsx
-import * as React30 from "react";
+import * as React28 from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check as Check2, ChevronDown as ChevronDown2, ChevronUp } from "lucide-react";
-import { jsx as jsx34, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx32, jsxs as jsxs18 } from "react/jsx-runtime";
 var Select = SelectPrimitive.Root;
 var SelectGroup = SelectPrimitive.Group;
 var SelectValue = SelectPrimitive.Value;
-var SelectTrigger = React30.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs18(
+var SelectTrigger = React28.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs18(
   SelectPrimitive.Trigger,
   {
     ref,
@@ -2471,32 +2385,32 @@ var SelectTrigger = React30.forwardRef(({ className, children, ...props }, ref) 
     ...props,
     children: [
       children,
-      /* @__PURE__ */ jsx34(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx34(ChevronDown2, { className: "h-4 w-4 opacity-50" }) })
+      /* @__PURE__ */ jsx32(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx32(ChevronDown2, { className: "h-4 w-4 opacity-50" }) })
     ]
   }
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
-var SelectScrollUpButton = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx34(
+var SelectScrollUpButton = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
   SelectPrimitive.ScrollUpButton,
   {
     ref,
     className: cn("flex cursor-default items-center justify-center py-1", className),
     ...props,
-    children: /* @__PURE__ */ jsx34(ChevronUp, { className: "h-4 w-4" })
+    children: /* @__PURE__ */ jsx32(ChevronUp, { className: "h-4 w-4" })
   }
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-var SelectScrollDownButton = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx34(
+var SelectScrollDownButton = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
   SelectPrimitive.ScrollDownButton,
   {
     ref,
     className: cn("flex cursor-default items-center justify-center py-1", className),
     ...props,
-    children: /* @__PURE__ */ jsx34(ChevronDown2, { className: "h-4 w-4" })
+    children: /* @__PURE__ */ jsx32(ChevronDown2, { className: "h-4 w-4" })
   }
 ));
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
-var SelectContent = React30.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx34(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs18(
+var SelectContent = React28.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx32(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs18(
   SelectPrimitive.Content,
   {
     ref,
@@ -2508,8 +2422,8 @@ var SelectContent = React30.forwardRef(({ className, children, position = "poppe
     position,
     ...props,
     children: [
-      /* @__PURE__ */ jsx34(SelectScrollUpButton, {}),
-      /* @__PURE__ */ jsx34(
+      /* @__PURE__ */ jsx32(SelectScrollUpButton, {}),
+      /* @__PURE__ */ jsx32(
         SelectPrimitive.Viewport,
         {
           className: cn(
@@ -2519,12 +2433,12 @@ var SelectContent = React30.forwardRef(({ className, children, position = "poppe
           children
         }
       ),
-      /* @__PURE__ */ jsx34(SelectScrollDownButton, {})
+      /* @__PURE__ */ jsx32(SelectScrollDownButton, {})
     ]
   }
 ) }));
 SelectContent.displayName = SelectPrimitive.Content.displayName;
-var SelectLabel = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx34(
+var SelectLabel = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
   SelectPrimitive.Label,
   {
     ref,
@@ -2533,7 +2447,7 @@ var SelectLabel = React30.forwardRef(({ className, ...props }, ref) => /* @__PUR
   }
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
-var SelectItem = React30.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs18(
+var SelectItem = React28.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs18(
   SelectPrimitive.Item,
   {
     ref,
@@ -2543,13 +2457,13 @@ var SelectItem = React30.forwardRef(({ className, children, ...props }, ref) => 
     ),
     ...props,
     children: [
-      /* @__PURE__ */ jsx34("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx34(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx34(Check2, { className: "h-4 w-4" }) }) }),
-      /* @__PURE__ */ jsx34(SelectPrimitive.ItemText, { children })
+      /* @__PURE__ */ jsx32("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx32(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx32(Check2, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ jsx32(SelectPrimitive.ItemText, { children })
     ]
   }
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-var SelectSeparator = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx34(
+var SelectSeparator = React28.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx32(
   SelectPrimitive.Separator,
   {
     ref,
@@ -2560,22 +2474,20 @@ var SelectSeparator = React30.forwardRef(({ className, ...props }, ref) => /* @_
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 // src/components/tooltip.tsx
-import * as React31 from "react";
+import * as React29 from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { jsx as jsx35 } from "react/jsx-runtime";
+import { jsx as jsx33 } from "react/jsx-runtime";
 var TooltipProvider = TooltipPrimitive.Provider;
 var Tooltip = TooltipPrimitive.Root;
 var TooltipTrigger = TooltipPrimitive.Trigger;
-var TooltipContent = React31.forwardRef(({ className, sideOffset = 4, variant = "default", ...props }, ref) => /* @__PURE__ */ jsx35(
+var TooltipContent = React29.forwardRef(({ className, sideOffset = 4, variant = "default", ...props }, ref) => /* @__PURE__ */ jsx33(
   TooltipPrimitive.Content,
   {
     ref,
     sideOffset,
     className: cn(
       "z-tooltip overflow-hidden rounded-md px-3 py-1.5 text-sm animate-fade-in",
-      variant === "default" && "border bg-popover text-popover-foreground shadow-md",
-      variant === "glass" && "glass text-foreground",
-      variant === "neu" && "shadow-neu-sm bg-background text-foreground",
+      variant === "default" && "border border-border bg-popover text-popover-foreground shadow-2",
       className
     ),
     ...props
@@ -2584,20 +2496,18 @@ var TooltipContent = React31.forwardRef(({ className, sideOffset = 4, variant = 
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 // src/components/tabs.tsx
-import * as React32 from "react";
+import * as React30 from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { cva as cva16 } from "class-variance-authority";
-import { jsx as jsx36 } from "react/jsx-runtime";
+import { cva as cva15 } from "class-variance-authority";
+import { jsx as jsx34 } from "react/jsx-runtime";
 var Tabs = TabsPrimitive.Root;
-var tabsListVariants = cva16(
+var tabsListVariants = cva15(
   "inline-flex items-center justify-center rounded-md p-1 text-muted-foreground",
   {
     variants: {
       variant: {
         default: "bg-muted",
         ghost: "bg-transparent gap-2",
-        neu: "shadow-neu-inset bg-background",
-        glass: "glass",
         underline: "bg-transparent gap-4 p-0 rounded-none border-b"
       }
     },
@@ -2606,7 +2516,7 @@ var tabsListVariants = cva16(
     }
   }
 );
-var TabsList = React32.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx36(
+var TabsList = React30.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx34(
   TabsPrimitive.List,
   {
     ref,
@@ -2615,16 +2525,16 @@ var TabsList = React32.forwardRef(({ className, variant, ...props }, ref) => /* 
   }
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
-var tabsTriggerVariants = cva16(
+var tabsTriggerVariants = cva15(
   "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default: "rounded-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-        ghost: "rounded-md hover:bg-muted data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
-        neu: "rounded-md data-[state=active]:shadow-neu-sm data-[state=active]:bg-background data-[state=active]:text-foreground",
-        glass: "rounded-md data-[state=active]:bg-white/20 data-[state=active]:text-foreground",
-        underline: "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-primary data-[state=active]:text-foreground"
+        ghost: "rounded-sm hover:bg-accent data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
+        // The category-tab pill (AI Apps / Web Apps), per DESIGN.md.
+        pill: "rounded-pill-category data-[state=active]:bg-card data-[state=active]:text-foreground",
+        underline: "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-brand data-[state=active]:text-foreground"
       }
     },
     defaultVariants: {
@@ -2632,7 +2542,7 @@ var tabsTriggerVariants = cva16(
     }
   }
 );
-var TabsTrigger = React32.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx36(
+var TabsTrigger = React30.forwardRef(({ className, variant, ...props }, ref) => /* @__PURE__ */ jsx34(
   TabsPrimitive.Trigger,
   {
     ref,
@@ -2641,7 +2551,7 @@ var TabsTrigger = React32.forwardRef(({ className, variant, ...props }, ref) => 
   }
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
-var TabsContent = React32.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx36(
+var TabsContent = React30.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx34(
   TabsPrimitive.Content,
   {
     ref,
@@ -2654,1058 +2564,26 @@ var TabsContent = React32.forwardRef(({ className, ...props }, ref) => /* @__PUR
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-// src/components/magnetic-button.tsx
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useRef as useRef2, useState as useState5 } from "react";
-import { jsx as jsx37, jsxs as jsxs19 } from "react/jsx-runtime";
-function MagneticButton({
-  children,
-  className = "",
-  strength = 0.5,
-  as: Component2 = "button",
-  onClick,
-  href
-}) {
-  const ref = useRef2(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springConfig = { damping: 15, stiffness: 150 };
-  const springX = useSpring(x, springConfig);
-  const springY = useSpring(y, springConfig);
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left - rect.width / 2) * strength);
-    y.set((e.clientY - rect.top - rect.height / 2) * strength);
-  };
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-  const MotionComponent = motion[Component2];
-  return /* @__PURE__ */ jsx37(
-    MotionComponent,
-    {
-      ref,
-      className,
-      style: { x: springX, y: springY },
-      onMouseMove: handleMouseMove,
-      onMouseLeave: handleMouseLeave,
-      onClick,
-      whileHover: { scale: 1.05 },
-      whileTap: { scale: 0.95 },
-      ...href && { href },
-      children
-    }
-  );
-}
-function RippleButton({ children, className = "", onClick, disabled = false }) {
-  const ref = useRef2(null);
-  const [ripples, setRipples] = useState5([]);
-  const handleClick = (e) => {
-    if (disabled) return;
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    const newRipple = { id: Date.now(), x: e.clientX - rect.left, y: e.clientY - rect.top };
-    setRipples((prev) => [...prev, newRipple]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== newRipple.id)), 600);
-    onClick?.();
-  };
-  return /* @__PURE__ */ jsxs19(motion.button, { ref, type: "button", className: `relative overflow-hidden ${className}`, onClick: handleClick, disabled, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    ripples.map((ripple) => /* @__PURE__ */ jsx37(motion.span, { className: "absolute rounded-full bg-white/30 pointer-events-none", style: { left: ripple.x, top: ripple.y, transform: "translate(-50%, -50%)" }, initial: { scale: 0, opacity: 0.5 }, animate: { scale: 4, opacity: 0 }, transition: { duration: 0.6, ease: "easeOut" } }, ripple.id)),
-    children
-  ] });
-}
-function GlowButton({ children, className = "", glowColor = "rgba(124, 58, 237, 0.5)", onClick }) {
-  const [position, setPosition] = useState5({ x: 0, y: 0 });
-  const ref = useRef2(null);
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-  return /* @__PURE__ */ jsxs19(motion.button, { ref, type: "button", className: `relative overflow-hidden ${className}`, onMouseMove: handleMouseMove, onClick, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    /* @__PURE__ */ jsx37(motion.div, { className: "absolute pointer-events-none rounded-full blur-xl", style: { width: 150, height: 150, left: position.x - 75, top: position.y - 75, background: glowColor }, initial: { opacity: 0 }, whileHover: { opacity: 1 }, transition: { duration: 0.2 } }),
-    /* @__PURE__ */ jsx37("span", { className: "relative z-10", children })
-  ] });
-}
-function BorderBeamButton({ children, className = "", borderColor = "hsl(var(--primary))", onClick }) {
-  return /* @__PURE__ */ jsxs19(motion.button, { type: "button", className: `relative group ${className}`, onClick, whileHover: { scale: 1.02 }, whileTap: { scale: 0.98 }, children: [
-    /* @__PURE__ */ jsx37("span", { className: "absolute inset-0 rounded-xl overflow-hidden", children: /* @__PURE__ */ jsx37(motion.span, { className: "absolute inset-[-100%] rounded-xl", style: { background: `conic-gradient(from 0deg, transparent 0deg, ${borderColor} 60deg, transparent 120deg)` }, animate: { rotate: 360 }, transition: { duration: 3, ease: "linear", repeat: Infinity } }) }),
-    /* @__PURE__ */ jsx37("span", { className: "relative block m-[2px] rounded-[10px] bg-background px-6 py-3", children })
-  ] });
-}
-
-// src/components/cursor-glow.tsx
-import { useEffect as useEffect4, useState as useState6 } from "react";
-import { motion as motion2, useMotionValue as useMotionValue2, useSpring as useSpring2 } from "framer-motion";
-import { jsx as jsx38, jsxs as jsxs20 } from "react/jsx-runtime";
-function checkIsMobile() {
-  if (typeof window === "undefined") return true;
-  return window.matchMedia("(hover: none)").matches;
-}
-function checkPrefersReducedMotion() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-function CursorGlow({
-  size = 600,
-  opacity = 0.15,
-  color = "hsl(var(--primary))",
-  containerRef,
-  className = "",
-  zIndex = 0
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = useState6(false);
-  const mouseX = useMotionValue2(0);
-  const mouseY = useMotionValue2(0);
-  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
-  const springX = useSpring2(mouseX, springConfig);
-  const springY = useSpring2(mouseY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile();
-  const prefersReducedMotion = isClient2 && checkPrefersReducedMotion();
-  useEffect4(() => {
-    if (isMobile || prefersReducedMotion) return;
-    const container = containerRef?.current;
-    const handleMouseMove = (e) => {
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
-        setIsVisible(isInside);
-        if (isInside) {
-          mouseX.set(x);
-          mouseY.set(y);
-        }
-      } else {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
-        setIsVisible(true);
-      }
-    };
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-    const handleMouseEnter = () => {
-      if (!container) {
-        setIsVisible(true);
-      }
-    };
-    const target = container || document;
-    target.addEventListener("mousemove", handleMouseMove);
-    if (container) {
-      container.addEventListener("mouseleave", handleMouseLeave);
-      container.addEventListener("mouseenter", handleMouseEnter);
-    } else {
-      document.addEventListener("mouseleave", handleMouseLeave);
-      document.addEventListener("mouseenter", handleMouseEnter);
-    }
-    return () => {
-      target.removeEventListener("mousemove", handleMouseMove);
-      if (container) {
-        container.removeEventListener("mouseleave", handleMouseLeave);
-        container.removeEventListener("mouseenter", handleMouseEnter);
-      } else {
-        document.removeEventListener("mouseleave", handleMouseLeave);
-        document.removeEventListener("mouseenter", handleMouseEnter);
-      }
-    };
-  }, [isMobile, prefersReducedMotion, mouseX, mouseY, containerRef]);
-  if (isMobile || prefersReducedMotion) return null;
-  const isScoped = !!containerRef;
-  return /* @__PURE__ */ jsx38(
-    motion2.div,
-    {
-      className: `pointer-events-none ${isScoped ? "absolute" : "fixed"} inset-0 overflow-hidden ${className}`,
-      style: { zIndex },
-      initial: { opacity: 0 },
-      animate: { opacity: isVisible ? 1 : 0 },
-      transition: { duration: 0.3 },
-      children: /* @__PURE__ */ jsx38(
-        motion2.div,
-        {
-          className: "absolute rounded-full",
-          style: {
-            width: size,
-            height: size,
-            x: springX,
-            y: springY,
-            translateX: "-50%",
-            translateY: "-50%",
-            background: `radial-gradient(circle at center, ${color} 0%, transparent 70%)`,
-            opacity
-          }
-        }
-      )
-    }
-  );
-}
-function GradientCursorGlow({
-  size = 800,
-  opacity = 0.12,
-  primaryColor = "rgba(100, 200, 100, 0.4)",
-  secondaryColor = "rgba(59, 130, 246, 0.2)",
-  containerRef,
-  zIndex = 0
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = useState6(false);
-  const mouseX = useMotionValue2(0);
-  const mouseY = useMotionValue2(0);
-  const springConfig = { damping: 30, stiffness: 120, mass: 0.8 };
-  const springX = useSpring2(mouseX, springConfig);
-  const springY = useSpring2(mouseY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile();
-  const prefersReducedMotion = isClient2 && checkPrefersReducedMotion();
-  useEffect4(() => {
-    if (isMobile || prefersReducedMotion) return;
-    const container = containerRef?.current;
-    const handleMouseMove = (e) => {
-      if (container) {
-        const rect = container.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
-        setIsVisible(isInside);
-        if (isInside) {
-          mouseX.set(x);
-          mouseY.set(y);
-        }
-      } else {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
-        setIsVisible(true);
-      }
-    };
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => {
-      if (!container) setIsVisible(true);
-    };
-    const target = container || document;
-    target.addEventListener("mousemove", handleMouseMove);
-    if (container) {
-      container.addEventListener("mouseleave", handleMouseLeave);
-      container.addEventListener("mouseenter", handleMouseEnter);
-    } else {
-      document.addEventListener("mouseleave", handleMouseLeave);
-      document.addEventListener("mouseenter", handleMouseEnter);
-    }
-    return () => {
-      target.removeEventListener("mousemove", handleMouseMove);
-      if (container) {
-        container.removeEventListener("mouseleave", handleMouseLeave);
-        container.removeEventListener("mouseenter", handleMouseEnter);
-      } else {
-        document.removeEventListener("mouseleave", handleMouseLeave);
-        document.removeEventListener("mouseenter", handleMouseEnter);
-      }
-    };
-  }, [isMobile, prefersReducedMotion, mouseX, mouseY, containerRef]);
-  if (isMobile || prefersReducedMotion) return null;
-  const isScoped = !!containerRef;
-  return /* @__PURE__ */ jsxs20(
-    motion2.div,
-    {
-      className: `pointer-events-none ${isScoped ? "absolute" : "fixed"} inset-0 overflow-hidden`,
-      style: { zIndex },
-      initial: { opacity: 0 },
-      animate: { opacity: isVisible ? 1 : 0 },
-      transition: { duration: 0.3 },
-      children: [
-        /* @__PURE__ */ jsx38(
-          motion2.div,
-          {
-            className: "absolute rounded-full blur-3xl",
-            style: {
-              width: size,
-              height: size,
-              x: springX,
-              y: springY,
-              translateX: "-50%",
-              translateY: "-50%",
-              background: `radial-gradient(circle at center, ${primaryColor} 0%, transparent 60%)`,
-              opacity
-            }
-          }
-        ),
-        /* @__PURE__ */ jsx38(
-          motion2.div,
-          {
-            className: "absolute rounded-full blur-3xl",
-            style: {
-              width: size * 0.7,
-              height: size * 0.7,
-              x: springX,
-              y: springY,
-              translateX: "-30%",
-              translateY: "-30%",
-              background: `radial-gradient(circle at center, ${secondaryColor} 0%, transparent 60%)`,
-              opacity: opacity * 0.8
-            }
-          }
-        )
-      ]
-    }
-  );
-}
-
-// src/components/cursor-follower.tsx
-import { motion as motion3, useMotionValue as useMotionValue3, useSpring as useSpring3 } from "framer-motion";
-import { useEffect as useEffect5, useState as useState7 } from "react";
-import { Fragment as Fragment3, jsx as jsx39 } from "react/jsx-runtime";
-function checkIsMobile2() {
-  if (typeof window === "undefined") return true;
-  return window.matchMedia("(hover: none)").matches;
-}
-function CursorFollower({
-  size = 20,
-  color = "hsl(var(--primary))",
-  mixBlendMode = "difference"
-}) {
-  const isClient2 = useIsClient();
-  const [isVisible, setIsVisible] = useState7(false);
-  const [isHovering, setIsHovering] = useState7(false);
-  const cursorX = useMotionValue3(-100);
-  const cursorY = useMotionValue3(-100);
-  const springConfig = { damping: 25, stiffness: 200 };
-  const springX = useSpring3(cursorX, springConfig);
-  const springY = useSpring3(cursorY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile2();
-  useEffect5(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX - size / 2);
-      cursorY.set(e.clientY - size / 2);
-      setIsVisible(true);
-    };
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-    };
-    const handleMouseEnter = () => {
-      setIsVisible(true);
-    };
-    const handleElementHover = (e) => {
-      const target = e.target;
-      const isInteractive = target.tagName === "A" || target.tagName === "BUTTON" || target.closest("a") || target.closest("button") || target.closest("[role='button']") || target.dataset.cursorHover === "true";
-      setIsHovering(!!isInteractive);
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseover", handleElementHover);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mouseover", handleElementHover);
-    };
-  }, [cursorX, cursorY, size, isMobile]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ jsx39(
-    motion3.div,
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[9999] rounded-full",
-      style: {
-        x: springX,
-        y: springY,
-        width: size,
-        height: size,
-        backgroundColor: color,
-        mixBlendMode
-      },
-      animate: {
-        scale: isHovering ? 2.5 : 1,
-        opacity: isVisible ? 1 : 0
-      },
-      transition: {
-        scale: { type: "spring", stiffness: 300, damping: 20 },
-        opacity: { duration: 0.2 }
-      }
-    }
-  );
-}
-function SpotlightCursor({
-  size = 400,
-  opacity = 0.15,
-  color = "hsl(var(--primary))"
-}) {
-  const isClient2 = useIsClient();
-  const cursorX = useMotionValue3(-1e3);
-  const cursorY = useMotionValue3(-1e3);
-  const springConfig = { damping: 30, stiffness: 100 };
-  const springX = useSpring3(cursorX, springConfig);
-  const springY = useSpring3(cursorY, springConfig);
-  const isMobile = !isClient2 || checkIsMobile2();
-  useEffect5(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX - size / 2);
-      cursorY.set(e.clientY - size / 2);
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [cursorX, cursorY, size, isMobile]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ jsx39(
-    motion3.div,
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[1] rounded-full blur-3xl",
-      style: {
-        x: springX,
-        y: springY,
-        width: size,
-        height: size,
-        background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
-        opacity
-      }
-    }
-  );
-}
-function TrailCursor({
-  dotCount = 8,
-  dotSize = 10,
-  color = "hsl(var(--primary))"
-}) {
-  const isClient2 = useIsClient();
-  const [mousePosition, setMousePosition] = useState7({ x: -100, y: -100 });
-  const [trail, setTrail] = useState7(
-    Array(dotCount).fill({ x: -100, y: -100 })
-  );
-  const isMobile = !isClient2 || checkIsMobile2();
-  useEffect5(() => {
-    if (isMobile) return;
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [isMobile]);
-  useEffect5(() => {
-    let rafId;
-    const animateTrail = () => {
-      setTrail((prevTrail) => {
-        const newTrail = [...prevTrail];
-        newTrail[0] = mousePosition;
-        for (let i = 1; i < newTrail.length; i++) {
-          const dx = newTrail[i - 1].x - newTrail[i].x;
-          const dy = newTrail[i - 1].y - newTrail[i].y;
-          newTrail[i] = {
-            x: newTrail[i].x + dx * 0.35,
-            y: newTrail[i].y + dy * 0.35
-          };
-        }
-        return newTrail;
-      });
-    };
-    const animate = () => {
-      animateTrail();
-      rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [mousePosition]);
-  if (isMobile) return null;
-  return /* @__PURE__ */ jsx39(Fragment3, { children: trail.map((dot, index) => /* @__PURE__ */ jsx39(
-    "div",
-    {
-      className: "fixed top-0 left-0 pointer-events-none z-[9999] rounded-full",
-      style: {
-        transform: `translate(${dot.x - dotSize / 2}px, ${dot.y - dotSize / 2}px)`,
-        width: dotSize * (1 - index * 0.1),
-        height: dotSize * (1 - index * 0.1),
-        backgroundColor: color,
-        opacity: 1 - index * 0.12,
-        mixBlendMode: "difference"
-      }
-    },
-    index
-  )) });
-}
-
-// src/components/glow-section.tsx
-import { useRef as useRef3 } from "react";
-import { jsx as jsx40, jsxs as jsxs21 } from "react/jsx-runtime";
-function GlowSection({
-  children,
-  className = "",
-  variant = "default",
-  size,
-  opacity,
-  color,
-  primaryColor,
-  secondaryColor,
-  enabled = true,
-  as: Component2 = "section"
-}) {
-  const containerRef = useRef3(null);
-  return /* @__PURE__ */ jsxs21(Component2, { className: `relative ${className}`, children: [
-    /* @__PURE__ */ jsxs21("div", { ref: containerRef, className: "absolute inset-0 pointer-events-none", "aria-hidden": "true", children: [
-      enabled && variant === "default" && /* @__PURE__ */ jsx40(
-        CursorGlow,
-        {
-          containerRef,
-          size,
-          opacity,
-          color
-        }
-      ),
-      enabled && variant === "gradient" && /* @__PURE__ */ jsx40(
-        GradientCursorGlow,
-        {
-          containerRef,
-          size,
-          opacity,
-          primaryColor,
-          secondaryColor
-        }
-      )
-    ] }),
-    children
-  ] });
-}
-function HeroGlowSection({ children, className = "" }) {
-  return /* @__PURE__ */ jsx40(
-    GlowSection,
-    {
-      className,
-      variant: "default",
-      size: 700,
-      opacity: 0.18,
-      color: "hsl(var(--primary))",
-      children
-    }
-  );
-}
-function SubtleGlowSection({ children, className = "" }) {
-  return /* @__PURE__ */ jsx40(
-    GlowSection,
-    {
-      className,
-      variant: "default",
-      size: 500,
-      opacity: 0.1,
-      color: "hsl(var(--primary))",
-      children
-    }
-  );
-}
-
-// src/components/animated-text.tsx
-import { motion as motion4, useInView } from "framer-motion";
-import { useRef as useRef4 } from "react";
-import { jsx as jsx41 } from "react/jsx-runtime";
-var charVariants = {
-  hidden: {
-    opacity: 0,
-    y: 50,
-    rotateX: -90
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0
-  }
-};
-function AnimatedHeading({
-  children,
-  as: Component2 = "h2",
-  className = "",
-  once = true,
-  staggerDelay = 0.03
-}) {
-  const ref = useRef4(null);
-  const isInView = useInView(ref, { once, margin: "-100px" });
-  const characters = children.split("");
-  return /* @__PURE__ */ jsx41(Component2, { ref, className, children: /* @__PURE__ */ jsx41(
-    motion4.span,
-    {
-      className: "inline-flex flex-wrap",
-      initial: "hidden",
-      animate: isInView ? "visible" : "hidden",
-      transition: { staggerChildren: staggerDelay },
-      children: characters.map((char, index) => /* @__PURE__ */ jsx41(
-        motion4.span,
-        {
-          className: "inline-block",
-          variants: charVariants,
-          transition: {
-            duration: 0.4,
-            ease: [0.22, 1, 0.36, 1]
-          },
-          style: {
-            perspective: 1e3,
-            whiteSpace: char === " " ? "pre" : "normal"
-          },
-          children: char === " " ? "\xA0" : char
-        },
-        `${char}-${index}`
-      ))
-    }
-  ) });
-}
-function GradientText({
-  children,
-  className = ""
-}) {
-  return /* @__PURE__ */ jsx41(
-    motion4.span,
-    {
-      className: `inline-block text-primary font-bold ${className}`,
-      initial: { opacity: 0, y: 10 },
-      animate: { opacity: 1, y: 0 },
-      transition: {
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
-      },
-      children
-    }
-  );
-}
-
-// src/components/floating-elements.tsx
-import { motion as motion5 } from "framer-motion";
-import { useMemo } from "react";
-import { jsx as jsx42, jsxs as jsxs22 } from "react/jsx-runtime";
-function seededRandom(seed) {
-  const x = Math.sin(seed * 9999) * 1e4;
-  return x - Math.floor(x);
-}
-function FloatingElement({
-  children,
-  className = "",
-  duration = 3,
-  distance = 10,
-  delay = 0
-}) {
-  return /* @__PURE__ */ jsx42(
-    motion5.div,
-    {
-      className,
-      animate: { y: [0, -distance, 0] },
-      transition: {
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut"
-      },
-      children
-    }
-  );
-}
-function RotatingElement({
-  children,
-  className = "",
-  duration = 10,
-  direction = "cw"
-}) {
-  const rotation = direction === "cw" ? 360 : -360;
-  return /* @__PURE__ */ jsx42(
-    motion5.div,
-    {
-      className,
-      animate: { rotate: rotation },
-      transition: {
-        duration,
-        repeat: Infinity,
-        ease: "linear"
-      },
-      children
-    }
-  );
-}
-function PulsingElement({
-  children,
-  className = "",
-  duration = 2,
-  scale = 1.05
-}) {
-  return /* @__PURE__ */ jsx42(
-    motion5.div,
-    {
-      className,
-      animate: { scale: [1, scale, 1] },
-      transition: {
-        duration,
-        repeat: Infinity,
-        ease: "easeInOut"
-      },
-      children
-    }
-  );
-}
-function OrbitElement({
-  children,
-  className = "",
-  radius = 100,
-  duration = 10,
-  delay = 0,
-  direction = "cw"
-}) {
-  const angle = direction === "cw" ? [0, 360] : [360, 0];
-  return /* @__PURE__ */ jsx42(
-    motion5.div,
-    {
-      className: `absolute ${className}`,
-      animate: { rotate: angle },
-      transition: {
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "linear"
-      },
-      style: { transformOrigin: `center ${radius}px` },
-      children: /* @__PURE__ */ jsx42(
-        motion5.div,
-        {
-          animate: { rotate: direction === "cw" ? [0, -360] : [-360, 0] },
-          transition: {
-            duration,
-            delay,
-            repeat: Infinity,
-            ease: "linear"
-          },
-          children
-        }
-      )
-    }
-  );
-}
-function AnimatedBlob({
-  className = "",
-  color = "hsl(var(--primary) / 0.3)",
-  size = 400
-}) {
-  return /* @__PURE__ */ jsx42(
-    motion5.div,
-    {
-      className: `absolute rounded-full blur-3xl ${className}`,
-      style: {
-        width: size,
-        height: size,
-        backgroundColor: color
-      },
-      animate: {
-        scale: [1, 1.1, 0.95, 1.05, 1],
-        x: [0, 30, -20, 10, 0],
-        y: [0, -20, 30, -10, 0],
-        borderRadius: [
-          "60% 40% 30% 70%/60% 30% 70% 40%",
-          "30% 60% 70% 40%/50% 60% 30% 60%",
-          "60% 40% 30% 70%/60% 30% 70% 40%"
-        ]
-      },
-      transition: {
-        duration: 8,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  );
-}
-function AnimatedGrid({
-  className = "",
-  gridSize = 50,
-  color = "hsl(var(--primary) / 0.05)"
-}) {
-  return /* @__PURE__ */ jsxs22(
-    motion5.div,
-    {
-      className: `absolute inset-0 overflow-hidden ${className}`,
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { duration: 1 },
-      children: [
-        /* @__PURE__ */ jsx42(
-          "div",
-          {
-            className: "absolute inset-0",
-            style: {
-              backgroundImage: `linear-gradient(${color} 1px, transparent 1px), linear-gradient(90deg, ${color} 1px, transparent 1px)`,
-              backgroundSize: `${gridSize}px ${gridSize}px`
-            }
-          }
-        ),
-        /* @__PURE__ */ jsx42(
-          motion5.div,
-          {
-            className: "absolute inset-0",
-            style: {
-              background: `radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 70%)`
-            }
-          }
-        )
-      ]
-    }
-  );
-}
-function AnimatedShapes({
-  className = "",
-  count: count2 = 5
-}) {
-  const shapeConfigs = useMemo(() => {
-    const shapes = ["circle", "square", "triangle"];
-    return Array.from({ length: count2 }).map((_, i) => ({
-      shape: shapes[i % shapes.length],
-      size: 20 + seededRandom(i * 1) * 40,
-      left: seededRandom(i * 2) * 100,
-      top: seededRandom(i * 3) * 100,
-      duration: 15 + seededRandom(i * 4) * 10,
-      delay: seededRandom(i * 5) * 5
-    }));
-  }, [count2]);
-  return /* @__PURE__ */ jsx42("div", { className: `absolute inset-0 overflow-hidden pointer-events-none ${className}`, children: shapeConfigs.map((config, i) => {
-    const { shape, size, left, top, duration, delay } = config;
-    return /* @__PURE__ */ jsxs22(
-      motion5.div,
-      {
-        className: "absolute",
-        style: {
-          left: `${left}%`,
-          top: `${top}%`,
-          width: size,
-          height: size
-        },
-        animate: {
-          y: [0, -100, 0],
-          x: [0, 30, -30, 0],
-          rotate: [0, 180, 360],
-          opacity: [0.2, 0.5, 0.2]
-        },
-        transition: {
-          duration,
-          delay,
-          repeat: Infinity,
-          ease: "easeInOut"
-        },
-        children: [
-          shape === "circle" && /* @__PURE__ */ jsx42("div", { className: "w-full h-full rounded-full border border-primary/20" }),
-          shape === "square" && /* @__PURE__ */ jsx42("div", { className: "w-full h-full border border-primary/20 rotate-45" }),
-          shape === "triangle" && /* @__PURE__ */ jsx42("div", { className: "w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-primary/20" })
-        ]
-      },
-      i
-    );
-  }) });
-}
-function ParticlesBackground({
-  className = "",
-  particleCount = 30,
-  color = "hsl(var(--primary))"
-}) {
-  const particleConfigs = useMemo(
-    () => Array.from({ length: particleCount }).map((_, i) => ({
-      size: 2 + seededRandom(i * 10) * 4,
-      left: seededRandom(i * 11) * 100,
-      duration: 10 + seededRandom(i * 12) * 20,
-      delay: seededRandom(i * 13) * 10,
-      opacity: 0.3 + seededRandom(i * 14) * 0.4,
-      xOffset: (seededRandom(i * 15) - 0.5) * 100
-    })),
-    [particleCount]
-  );
-  return /* @__PURE__ */ jsx42("div", { className: `absolute inset-0 overflow-hidden pointer-events-none ${className}`, children: particleConfigs.map((config, i) => {
-    const { size, left, duration, delay, opacity, xOffset } = config;
-    return /* @__PURE__ */ jsx42(
-      motion5.div,
-      {
-        className: "absolute rounded-full",
-        style: {
-          width: size,
-          height: size,
-          left: `${left}%`,
-          bottom: -10,
-          backgroundColor: color,
-          opacity
-        },
-        animate: {
-          y: [0, -1e3],
-          x: [0, xOffset]
-        },
-        transition: {
-          duration,
-          delay,
-          repeat: Infinity,
-          ease: "linear"
-        }
-      },
-      i
-    );
-  }) });
-}
-function WaveAnimation({
-  className = "",
-  color = "hsl(var(--primary))",
-  amplitude = 20,
-  frequency = 0.02
-}) {
-  const points = 100;
-  const width = 1e3;
-  const generatePath = (offset) => {
-    let path = `M 0 ${amplitude}`;
-    for (let i = 0; i <= points; i++) {
-      const x = i / points * width;
-      const y = amplitude + Math.sin(i * frequency * Math.PI * 2 + offset) * amplitude;
-      path += ` L ${x} ${y}`;
-    }
-    return path;
-  };
-  return /* @__PURE__ */ jsx42("div", { className: `absolute inset-x-0 overflow-hidden ${className}`, children: /* @__PURE__ */ jsxs22(
-    "svg",
-    {
-      viewBox: `0 0 ${width} ${amplitude * 2 + 10}`,
-      className: "w-full h-auto",
-      preserveAspectRatio: "none",
-      children: [
-        /* @__PURE__ */ jsx42(
-          motion5.path,
-          {
-            d: generatePath(0),
-            fill: "none",
-            stroke: color,
-            strokeWidth: "2",
-            strokeOpacity: "0.3",
-            animate: {
-              d: [
-                generatePath(0),
-                generatePath(Math.PI),
-                generatePath(Math.PI * 2)
-              ]
-            },
-            transition: {
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear"
-            }
-          }
-        ),
-        /* @__PURE__ */ jsx42(
-          motion5.path,
-          {
-            d: generatePath(Math.PI / 2),
-            fill: "none",
-            stroke: color,
-            strokeWidth: "2",
-            strokeOpacity: "0.2",
-            animate: {
-              d: [
-                generatePath(Math.PI / 2),
-                generatePath(Math.PI * 1.5),
-                generatePath(Math.PI * 2.5)
-              ]
-            },
-            transition: {
-              duration: 5,
-              repeat: Infinity,
-              ease: "linear"
-            }
-          }
-        )
-      ]
-    }
-  ) });
-}
-
-// src/components/parallax-scroll.tsx
-import { useScroll, useTransform } from "framer-motion";
-import { useRef as useRef5, useMemo as useMemo2, memo } from "react";
-import { motion as motion6 } from "framer-motion";
-import { jsx as jsx43, jsxs as jsxs23 } from "react/jsx-runtime";
-var ParallaxScrollComponent = ({
-  images,
-  className,
-  renderImage
-}) => {
-  const gridRef = useRef5(null);
-  const { scrollYProgress } = useScroll({
-    container: gridRef,
-    offset: ["start start", "end start"]
-  });
-  const translateYFirst = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const translateXFirst = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const rotateXFirst = useTransform(scrollYProgress, [0, 1], [0, -20]);
-  const translateYThird = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const translateXThird = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const rotateXThird = useTransform(scrollYProgress, [0, 1], [0, 20]);
-  const { firstPart, secondPart, thirdPart } = useMemo2(() => {
-    const third = Math.ceil(images.length / 3);
-    return {
-      firstPart: images.slice(0, third),
-      secondPart: images.slice(third, 2 * third),
-      thirdPart: images.slice(2 * third)
-    };
-  }, [images]);
-  const defaultRenderImage = (src, index) => /* @__PURE__ */ jsx43(
-    "img",
-    {
-      src,
-      className: "h-80 w-full object-cover object-left-top rounded-lg !m-0 !p-0",
-      alt: `Image ${index + 1}`
-    }
-  );
-  const render = renderImage || defaultRenderImage;
-  return /* @__PURE__ */ jsx43(
-    "div",
-    {
-      className: cn("h-[40rem] items-start overflow-y-auto w-full", className),
-      ref: gridRef,
-      children: /* @__PURE__ */ jsxs23("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start max-w-5xl mx-auto gap-10 py-40 px-10", children: [
-        /* @__PURE__ */ jsx43("div", { className: "grid gap-10", children: firstPart.map((el, idx) => /* @__PURE__ */ jsx43(
-          motion6.div,
-          {
-            style: {
-              y: translateYFirst,
-              x: translateXFirst,
-              rotateZ: rotateXFirst
-            },
-            children: render(el, idx)
-          },
-          "grid-1" + idx
-        )) }),
-        /* @__PURE__ */ jsx43("div", { className: "grid gap-10", children: secondPart.map((el, idx) => /* @__PURE__ */ jsx43(motion6.div, { children: render(el, idx + firstPart.length) }, "grid-2" + idx)) }),
-        /* @__PURE__ */ jsx43("div", { className: "grid gap-10", children: thirdPart.map((el, idx) => /* @__PURE__ */ jsx43(
-          motion6.div,
-          {
-            style: {
-              y: translateYThird,
-              x: translateXThird,
-              rotateZ: rotateXThird
-            },
-            children: render(el, idx + firstPart.length + secondPart.length)
-          },
-          "grid-3" + idx
-        )) })
-      ] })
-    }
-  );
-};
-var ParallaxScroll = memo(ParallaxScrollComponent);
-
 // src/components/reading-progress.tsx
-import { useEffect as useEffect6, useState as useState8 } from "react";
-import { motion as motion7, useScroll as useScroll2, useSpring as useSpring4 } from "framer-motion";
-import { jsx as jsx44 } from "react/jsx-runtime";
+import { useEffect as useEffect4, useState as useState4 } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { jsx as jsx35 } from "react/jsx-runtime";
 function ReadingProgress() {
-  const [isVisible, setIsVisible] = useState8(false);
-  const { scrollYProgress } = useScroll2();
-  const scaleX = useSpring4(scrollYProgress, {
+  const [isVisible, setIsVisible] = useState4(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 1e-3
   });
-  useEffect6(() => {
+  useEffect4(() => {
     const unsubscribe = scrollYProgress.on("change", (value) => {
       setIsVisible(value > 0.05);
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
-  return /* @__PURE__ */ jsx44(
-    motion7.div,
+  return /* @__PURE__ */ jsx35(
+    motion.div,
     {
       className: "fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left",
       style: {
@@ -3718,9 +2596,9 @@ function ReadingProgress() {
 }
 
 // src/components/command-palette.tsx
-import { useState as useState9, useEffect as useEffect7, useCallback as useCallback2, useRef as useRef6, useMemo as useMemo3 } from "react";
+import { useState as useState5, useEffect as useEffect5, useCallback as useCallback2, useRef, useMemo } from "react";
 import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
-import { Fragment as Fragment4, jsx as jsx45, jsxs as jsxs24 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx36, jsxs as jsxs19 } from "react/jsx-runtime";
 var EMPTY_CATEGORIES = {};
 function CommandPalette({
   className,
@@ -3731,11 +2609,11 @@ function CommandPalette({
   triggerLabel = "Search",
   shortcutKey = "k"
 }) {
-  const [isOpen, setIsOpen] = useState9(false);
-  const [query, setQuery] = useState9("");
-  const [selectedIndex, setSelectedIndex] = useState9(0);
-  const inputRef = useRef6(null);
-  const listRef = useRef6(null);
+  const [isOpen, setIsOpen] = useState5(false);
+  const [query, setQuery] = useState5("");
+  const [selectedIndex, setSelectedIndex] = useState5(0);
+  const inputRef = useRef(null);
+  const listRef = useRef(null);
   const closePalette = useCallback2(() => {
     setIsOpen(false);
     setQuery("");
@@ -3754,7 +2632,7 @@ function CommandPalette({
     },
     [closePalette]
   );
-  const filteredCommands = useMemo3(() => {
+  const filteredCommands = useMemo(() => {
     if (!query.trim()) return commands;
     const lowerQuery = query.toLowerCase();
     const filtered = commands.filter((cmd) => {
@@ -3806,14 +2684,14 @@ function CommandPalette({
     },
     [closePalette, filteredCommands, isOpen, openPalette, runCommand, selectedIndex, shortcutKey]
   );
-  useEffect7(() => {
+  useEffect5(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
-  useEffect7(() => {
+  useEffect5(() => {
     setSelectedIndex(0);
   }, [filteredCommands.length]);
-  useEffect7(() => {
+  useEffect5(() => {
     if (listRef.current && filteredCommands.length > 0) {
       const selectedElement = listRef.current.querySelector(
         `[data-index="${selectedIndex}"]`
@@ -3821,7 +2699,7 @@ function CommandPalette({
       selectedElement?.scrollIntoView({ block: "nearest" });
     }
   }, [selectedIndex, filteredCommands.length]);
-  const groupedCommands = useMemo3(() => {
+  const groupedCommands = useMemo(() => {
     const groups = {};
     filteredCommands.forEach((cmd) => {
       if (!groups[cmd.category]) {
@@ -3835,8 +2713,8 @@ function CommandPalette({
     return categories[category] || category.charAt(0).toUpperCase() + category.slice(1);
   };
   let globalIndex = -1;
-  return /* @__PURE__ */ jsxs24(LazyMotion, { features: domAnimation, children: [
-    /* @__PURE__ */ jsxs24(
+  return /* @__PURE__ */ jsxs19(LazyMotion, { features: domAnimation, children: [
+    /* @__PURE__ */ jsxs19(
       "button",
       {
         type: "button",
@@ -3848,20 +2726,20 @@ function CommandPalette({
         ),
         "aria-label": "Open command palette",
         children: [
-          /* @__PURE__ */ jsxs24("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-            /* @__PURE__ */ jsx45("circle", { cx: "11", cy: "11", r: "8" }),
-            /* @__PURE__ */ jsx45("path", { d: "m21 21-4.3-4.3" })
+          /* @__PURE__ */ jsxs19("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
+            /* @__PURE__ */ jsx36("circle", { cx: "11", cy: "11", r: "8" }),
+            /* @__PURE__ */ jsx36("path", { d: "m21 21-4.3-4.3" })
           ] }),
-          /* @__PURE__ */ jsx45("span", { className: "hidden sm:inline", children: triggerLabel }),
-          /* @__PURE__ */ jsxs24("kbd", { className: "hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium", children: [
-            /* @__PURE__ */ jsx45("span", { className: "text-xs", children: "\u2318" }),
+          /* @__PURE__ */ jsx36("span", { className: "hidden sm:inline", children: triggerLabel }),
+          /* @__PURE__ */ jsxs19("kbd", { className: "hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium", children: [
+            /* @__PURE__ */ jsx36("span", { className: "text-xs", children: "\u2318" }),
             shortcutKey.toUpperCase()
           ] })
         ]
       }
     ),
-    /* @__PURE__ */ jsx45(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsxs24(Fragment4, { children: [
-      /* @__PURE__ */ jsx45(
+    /* @__PURE__ */ jsx36(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsxs19(Fragment3, { children: [
+      /* @__PURE__ */ jsx36(
         m.div,
         {
           initial: { opacity: 0 },
@@ -3871,7 +2749,7 @@ function CommandPalette({
           className: "fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
         }
       ),
-      /* @__PURE__ */ jsx45(
+      /* @__PURE__ */ jsx36(
         m.div,
         {
           initial: { opacity: 0, scale: 0.95, y: -20 },
@@ -3879,13 +2757,13 @@ function CommandPalette({
           exit: { opacity: 0, scale: 0.95, y: -20 },
           transition: { duration: 0.15 },
           className: "fixed left-1/2 top-[20%] -translate-x-1/2 w-full max-w-xl z-50 px-4",
-          children: /* @__PURE__ */ jsxs24("div", { className: "bg-popover border border-border rounded-xl shadow-2xl overflow-hidden", children: [
-            /* @__PURE__ */ jsxs24("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-border", children: [
-              /* @__PURE__ */ jsxs24("svg", { className: "h-5 w-5 text-muted-foreground shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-                /* @__PURE__ */ jsx45("circle", { cx: "11", cy: "11", r: "8" }),
-                /* @__PURE__ */ jsx45("path", { d: "m21 21-4.3-4.3" })
+          children: /* @__PURE__ */ jsxs19("div", { className: "bg-popover border border-border rounded-xl shadow-2xl overflow-hidden", children: [
+            /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-border", children: [
+              /* @__PURE__ */ jsxs19("svg", { className: "h-5 w-5 text-muted-foreground shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
+                /* @__PURE__ */ jsx36("circle", { cx: "11", cy: "11", r: "8" }),
+                /* @__PURE__ */ jsx36("path", { d: "m21 21-4.3-4.3" })
               ] }),
-              /* @__PURE__ */ jsx45(
+              /* @__PURE__ */ jsx36(
                 "input",
                 {
                   ref: inputRef,
@@ -3896,38 +2774,38 @@ function CommandPalette({
                   className: "flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
                 }
               ),
-              query && /* @__PURE__ */ jsx45(
+              query && /* @__PURE__ */ jsx36(
                 "button",
                 {
                   type: "button",
                   onClick: () => setQuery(""),
                   className: "text-muted-foreground hover:text-foreground",
-                  children: /* @__PURE__ */ jsx45("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx45("path", { d: "M18 6 6 18M6 6l12 12" }) })
+                  children: /* @__PURE__ */ jsx36("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx36("path", { d: "M18 6 6 18M6 6l12 12" }) })
                 }
               ),
-              /* @__PURE__ */ jsx45("kbd", { className: "hidden sm:inline-flex h-5 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground", children: "ESC" })
+              /* @__PURE__ */ jsx36("kbd", { className: "hidden sm:inline-flex h-5 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground", children: "ESC" })
             ] }),
-            /* @__PURE__ */ jsx45(
+            /* @__PURE__ */ jsx36(
               "div",
               {
                 ref: listRef,
                 className: "max-h-[60vh] overflow-y-auto p-2",
                 role: "listbox",
-                children: filteredCommands.length === 0 ? /* @__PURE__ */ jsxs24("div", { className: "py-8 text-center text-muted-foreground", children: [
-                  /* @__PURE__ */ jsxs24("p", { children: [
+                children: filteredCommands.length === 0 ? /* @__PURE__ */ jsxs19("div", { className: "py-8 text-center text-muted-foreground", children: [
+                  /* @__PURE__ */ jsxs19("p", { children: [
                     'No results found for "',
                     query,
                     '"'
                   ] }),
-                  /* @__PURE__ */ jsx45("p", { className: "text-sm mt-1", children: "Try searching for something else" })
+                  /* @__PURE__ */ jsx36("p", { className: "text-sm mt-1", children: "Try searching for something else" })
                 ] }) : Object.entries(groupedCommands).map(([category, cmds]) => {
                   if (cmds.length === 0) return null;
-                  return /* @__PURE__ */ jsxs24("div", { className: "mb-2", children: [
-                    /* @__PURE__ */ jsx45("div", { className: "px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider", children: getCategoryLabel(category) }),
+                  return /* @__PURE__ */ jsxs19("div", { className: "mb-2", children: [
+                    /* @__PURE__ */ jsx36("div", { className: "px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider", children: getCategoryLabel(category) }),
                     cmds.map((cmd) => {
                       globalIndex++;
                       const isSelected = globalIndex === selectedIndex;
-                      return /* @__PURE__ */ jsxs24(
+                      return /* @__PURE__ */ jsxs19(
                         "button",
                         {
                           type: "button",
@@ -3941,7 +2819,7 @@ function CommandPalette({
                           role: "option",
                           "aria-selected": isSelected,
                           children: [
-                            cmd.icon && /* @__PURE__ */ jsx45(
+                            cmd.icon && /* @__PURE__ */ jsx36(
                               "div",
                               {
                                 className: cn(
@@ -3951,11 +2829,11 @@ function CommandPalette({
                                 children: cmd.icon
                               }
                             ),
-                            /* @__PURE__ */ jsxs24("div", { className: "flex-1 min-w-0", children: [
-                              /* @__PURE__ */ jsx45("div", { className: "font-medium text-foreground truncate", children: cmd.title }),
-                              cmd.description && /* @__PURE__ */ jsx45("div", { className: "text-sm text-muted-foreground truncate", children: cmd.description })
+                            /* @__PURE__ */ jsxs19("div", { className: "flex-1 min-w-0", children: [
+                              /* @__PURE__ */ jsx36("div", { className: "font-medium text-foreground truncate", children: cmd.title }),
+                              cmd.description && /* @__PURE__ */ jsx36("div", { className: "text-sm text-muted-foreground truncate", children: cmd.description })
                             ] }),
-                            isSelected && /* @__PURE__ */ jsx45("svg", { className: "h-4 w-4 shrink-0 text-primary", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx45("path", { d: "M5 12h14M12 5l7 7-7 7" }) })
+                            isSelected && /* @__PURE__ */ jsx36("svg", { className: "h-4 w-4 shrink-0 text-primary", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ jsx36("path", { d: "M5 12h14M12 5l7 7-7 7" }) })
                           ]
                         },
                         cmd.id
@@ -3965,19 +2843,19 @@ function CommandPalette({
                 })
               }
             ),
-            /* @__PURE__ */ jsx45("div", { className: "px-4 py-2 border-t border-border bg-muted/30", children: /* @__PURE__ */ jsxs24("div", { className: "flex items-center justify-between text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ jsxs24("div", { className: "flex items-center gap-4", children: [
-                /* @__PURE__ */ jsxs24("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ jsx45("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u2191\u2193" }),
+            /* @__PURE__ */ jsx36("div", { className: "px-4 py-2 border-t border-border bg-muted/30", children: /* @__PURE__ */ jsxs19("div", { className: "flex items-center justify-between text-xs text-muted-foreground", children: [
+              /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-4", children: [
+                /* @__PURE__ */ jsxs19("span", { className: "flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsx36("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u2191\u2193" }),
                   "navigate"
                 ] }),
-                /* @__PURE__ */ jsxs24("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ jsx45("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u21B5" }),
+                /* @__PURE__ */ jsxs19("span", { className: "flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsx36("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u21B5" }),
                   "select"
                 ] })
               ] }),
-              /* @__PURE__ */ jsxs24("span", { className: "flex items-center gap-1", children: [
-                /* @__PURE__ */ jsx45("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "esc" }),
+              /* @__PURE__ */ jsxs19("span", { className: "flex items-center gap-1", children: [
+                /* @__PURE__ */ jsx36("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "esc" }),
                 "close"
               ] })
             ] }) })
@@ -3989,9 +2867,9 @@ function CommandPalette({
 }
 
 // src/components/breadcrumb-nav.tsx
-import { jsx as jsx46, jsxs as jsxs25 } from "react/jsx-runtime";
+import { jsx as jsx37, jsxs as jsxs20 } from "react/jsx-runtime";
 function DefaultLink({ href, className, children }) {
-  return /* @__PURE__ */ jsx46("a", { href, className, children });
+  return /* @__PURE__ */ jsx37("a", { href, className, children });
 }
 function BreadcrumbNav({
   items,
@@ -4000,10 +2878,10 @@ function BreadcrumbNav({
   linkComponent: LinkComponent = DefaultLink
 }) {
   if (items.length === 0) return null;
-  const defaultSeparator = /* @__PURE__ */ jsx46("svg", { className: "mx-2 h-4 w-4 text-muted-foreground", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx46("path", { d: "m9 18 6-6-6-6" }) });
-  return /* @__PURE__ */ jsx46("nav", { "aria-label": "Breadcrumb", className: cn("mb-6 text-sm", className), children: /* @__PURE__ */ jsx46("ol", { className: "flex items-center space-x-2", children: items.map((item, index) => /* @__PURE__ */ jsxs25("li", { className: "flex items-center", children: [
+  const defaultSeparator = /* @__PURE__ */ jsx37("svg", { className: "mx-2 h-4 w-4 text-muted-foreground", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx37("path", { d: "m9 18 6-6-6-6" }) });
+  return /* @__PURE__ */ jsx37("nav", { "aria-label": "Breadcrumb", className: cn("mb-6 text-sm", className), children: /* @__PURE__ */ jsx37("ol", { className: "flex items-center space-x-2", children: items.map((item, index) => /* @__PURE__ */ jsxs20("li", { className: "flex items-center", children: [
     index > 0 && (separator || defaultSeparator),
-    index === items.length - 1 ? /* @__PURE__ */ jsx46("span", { className: "font-medium text-foreground", "aria-current": "page", children: item.label }) : /* @__PURE__ */ jsx46(
+    index === items.length - 1 ? /* @__PURE__ */ jsx37("span", { className: "font-medium text-foreground", "aria-current": "page", children: item.label }) : /* @__PURE__ */ jsx37(
       LinkComponent,
       {
         href: item.href,
@@ -4015,9 +2893,9 @@ function BreadcrumbNav({
 }
 
 // src/components/expandable-card.tsx
-import { motion as motion8, AnimatePresence as AnimatePresence2 } from "framer-motion";
-import { useState as useState10 } from "react";
-import { Fragment as Fragment5, jsx as jsx47, jsxs as jsxs26 } from "react/jsx-runtime";
+import { motion as motion2, AnimatePresence as AnimatePresence2 } from "framer-motion";
+import { useState as useState6 } from "react";
+import { Fragment as Fragment4, jsx as jsx38, jsxs as jsxs21 } from "react/jsx-runtime";
 function ExpandableCard({
   title,
   description,
@@ -4028,9 +2906,9 @@ function ExpandableCard({
   className = "",
   defaultExpanded = false
 }) {
-  const [isExpanded, setIsExpanded] = useState10(defaultExpanded);
-  return /* @__PURE__ */ jsxs26(
-    motion8.div,
+  const [isExpanded, setIsExpanded] = useState6(defaultExpanded);
+  return /* @__PURE__ */ jsxs21(
+    motion2.div,
     {
       layout: true,
       className: `group relative w-full bg-secondary/50 rounded-xl overflow-hidden flex flex-col h-full ${className}`,
@@ -4039,16 +2917,16 @@ function ExpandableCard({
       viewport: { once: true, margin: "-100px" },
       transition: { duration: 0.3 },
       children: [
-        thumbnail && /* @__PURE__ */ jsx47(motion8.div, { layout: true, className: "relative aspect-square w-full overflow-hidden", children: thumbnail }),
-        /* @__PURE__ */ jsx47(motion8.div, { layout: true, className: "p-4 flex flex-col flex-grow", children: /* @__PURE__ */ jsxs26(motion8.div, { layout: true, className: "flex flex-col gap-3 h-full", children: [
-          /* @__PURE__ */ jsxs26("div", { className: "flex items-start justify-between gap-3", children: [
-            /* @__PURE__ */ jsxs26("div", { className: "space-y-1", children: [
-              /* @__PURE__ */ jsx47("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
-              description && /* @__PURE__ */ jsx47("p", { className: "text-muted-foreground text-sm line-clamp-2", children: description })
+        thumbnail && /* @__PURE__ */ jsx38(motion2.div, { layout: true, className: "relative aspect-square w-full overflow-hidden", children: thumbnail }),
+        /* @__PURE__ */ jsx38(motion2.div, { layout: true, className: "p-4 flex flex-col flex-grow", children: /* @__PURE__ */ jsxs21(motion2.div, { layout: true, className: "flex flex-col gap-3 h-full", children: [
+          /* @__PURE__ */ jsxs21("div", { className: "flex items-start justify-between gap-3", children: [
+            /* @__PURE__ */ jsxs21("div", { className: "space-y-1", children: [
+              /* @__PURE__ */ jsx38("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
+              description && /* @__PURE__ */ jsx38("p", { className: "text-muted-foreground text-sm line-clamp-2", children: description })
             ] }),
             actions
           ] }),
-          tags && tags.length > 0 && /* @__PURE__ */ jsx47("div", { className: "flex flex-wrap gap-1.5 mt-auto pt-3", children: tags.map((tag) => /* @__PURE__ */ jsx47(
+          tags && tags.length > 0 && /* @__PURE__ */ jsx38("div", { className: "flex flex-wrap gap-1.5 mt-auto pt-3", children: tags.map((tag) => /* @__PURE__ */ jsx38(
             "span",
             {
               className: "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground",
@@ -4056,15 +2934,15 @@ function ExpandableCard({
             },
             tag
           )) }),
-          children && /* @__PURE__ */ jsxs26(Fragment5, { children: [
-            /* @__PURE__ */ jsxs26(
+          children && /* @__PURE__ */ jsxs21(Fragment4, { children: [
+            /* @__PURE__ */ jsxs21(
               "button",
               {
                 onClick: () => setIsExpanded(!isExpanded),
                 className: "flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors mt-2",
                 children: [
-                  /* @__PURE__ */ jsx47("span", { children: isExpanded ? "Show less" : "Learn more" }),
-                  /* @__PURE__ */ jsx47(
+                  /* @__PURE__ */ jsx38("span", { children: isExpanded ? "Show less" : "Learn more" }),
+                  /* @__PURE__ */ jsx38(
                     "svg",
                     {
                       className: `h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`,
@@ -4074,21 +2952,21 @@ function ExpandableCard({
                       strokeWidth: 2,
                       strokeLinecap: "round",
                       strokeLinejoin: "round",
-                      children: /* @__PURE__ */ jsx47("path", { d: "m6 9 6 6 6-6" })
+                      children: /* @__PURE__ */ jsx38("path", { d: "m6 9 6 6 6-6" })
                     }
                   )
                 ]
               }
             ),
-            /* @__PURE__ */ jsx47(AnimatePresence2, { children: isExpanded && /* @__PURE__ */ jsx47(
-              motion8.div,
+            /* @__PURE__ */ jsx38(AnimatePresence2, { children: isExpanded && /* @__PURE__ */ jsx38(
+              motion2.div,
               {
                 initial: { height: 0, opacity: 0 },
                 animate: { height: "auto", opacity: 1 },
                 exit: { height: 0, opacity: 0 },
                 transition: { duration: 0.3 },
                 className: "overflow-hidden",
-                children: /* @__PURE__ */ jsx47("div", { className: "pt-2", children })
+                children: /* @__PURE__ */ jsx38("div", { className: "pt-2", children })
               }
             ) })
           ] })
@@ -4099,12 +2977,12 @@ function ExpandableCard({
 }
 
 // src/components/scroll-to-top.tsx
-import { useState as useState11, useEffect as useEffect8 } from "react";
-import { motion as motion9, AnimatePresence as AnimatePresence3 } from "framer-motion";
-import { jsx as jsx48 } from "react/jsx-runtime";
+import { useState as useState7, useEffect as useEffect6 } from "react";
+import { motion as motion3, AnimatePresence as AnimatePresence3 } from "framer-motion";
+import { jsx as jsx39 } from "react/jsx-runtime";
 function ScrollToTop({ threshold = 300, className = "" }) {
-  const [isVisible, setIsVisible] = useState11(false);
-  useEffect8(() => {
+  const [isVisible, setIsVisible] = useState7(false);
+  useEffect6(() => {
     const toggleVisibility = () => {
       if (window.pageYOffset > threshold) {
         setIsVisible(true);
@@ -4123,21 +3001,21 @@ function ScrollToTop({ threshold = 300, className = "" }) {
       behavior: "smooth"
     });
   };
-  return /* @__PURE__ */ jsx48(AnimatePresence3, { children: isVisible && /* @__PURE__ */ jsx48(
-    motion9.div,
+  return /* @__PURE__ */ jsx39(AnimatePresence3, { children: isVisible && /* @__PURE__ */ jsx39(
+    motion3.div,
     {
       initial: { opacity: 0, scale: 0.8, y: 20 },
       animate: { opacity: 1, scale: 1, y: 0 },
       exit: { opacity: 0, scale: 0.8, y: 20 },
       transition: { duration: 0.2 },
       className: `fixed bottom-8 right-8 z-40 ${className}`,
-      children: /* @__PURE__ */ jsx48(
+      children: /* @__PURE__ */ jsx39(
         "button",
         {
           onClick: scrollToTop,
           className: "h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center",
           "aria-label": "Scroll to top",
-          children: /* @__PURE__ */ jsx48("svg", { className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx48("path", { d: "m18 15-6-6-6 6" }) })
+          children: /* @__PURE__ */ jsx39("svg", { className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx39("path", { d: "m18 15-6-6-6 6" }) })
         }
       )
     }
@@ -4145,9 +3023,9 @@ function ScrollToTop({ threshold = 300, className = "" }) {
 }
 
 // src/components/page-transition.tsx
-import { motion as motion10, AnimatePresence as AnimatePresence4, useScroll as useScroll3, useTransform as useTransform2 } from "framer-motion";
-import { useRef as useRef7 } from "react";
-import { jsx as jsx49 } from "react/jsx-runtime";
+import { motion as motion4, AnimatePresence as AnimatePresence4, useScroll as useScroll2, useTransform } from "framer-motion";
+import { useRef as useRef2 } from "react";
+import { jsx as jsx40 } from "react/jsx-runtime";
 var variants = {
   fade: {
     initial: { opacity: 0 },
@@ -4181,8 +3059,8 @@ function PageTransition({
   variant = "slideUp",
   transitionKey
 }) {
-  return /* @__PURE__ */ jsx49(AnimatePresence4, { mode: "wait", children: /* @__PURE__ */ jsx49(
-    motion10.div,
+  return /* @__PURE__ */ jsx40(AnimatePresence4, { mode: "wait", children: /* @__PURE__ */ jsx40(
+    motion4.div,
     {
       className,
       initial: "initial",
@@ -4224,8 +3102,8 @@ function SectionReveal({
   once = true
 }) {
   const variant = directionVariants[direction];
-  return /* @__PURE__ */ jsx49(
-    motion10.div,
+  return /* @__PURE__ */ jsx40(
+    motion4.div,
     {
       className,
       initial: variant.initial,
@@ -4247,8 +3125,8 @@ function StaggerContainer({
   delayChildren = 0.2,
   once = true
 }) {
-  return /* @__PURE__ */ jsx49(
-    motion10.div,
+  return /* @__PURE__ */ jsx40(
+    motion4.div,
     {
       className,
       initial: "hidden",
@@ -4269,8 +3147,8 @@ function StaggerContainer({
   );
 }
 function StaggerItem({ children, className = "" }) {
-  return /* @__PURE__ */ jsx49(
-    motion10.div,
+  return /* @__PURE__ */ jsx40(
+    motion4.div,
     {
       className,
       variants: {
@@ -4294,32 +3172,32 @@ function ParallaxSection({
   speed = 0.5,
   direction = "up"
 }) {
-  const ref = useRef7(null);
-  const { scrollYProgress } = useScroll3({
+  const ref = useRef2(null);
+  const { scrollYProgress } = useScroll2({
     target: ref,
     offset: ["start end", "end start"]
   });
   const multiplier = direction === "up" ? -1 : 1;
-  const y = useTransform2(
+  const y = useTransform(
     scrollYProgress,
     [0, 1],
     [100 * speed * multiplier, -100 * speed * multiplier]
   );
-  return /* @__PURE__ */ jsx49(motion10.div, { ref, className, style: { y }, children });
+  return /* @__PURE__ */ jsx40(motion4.div, { ref, className, style: { y }, children });
 }
 function ScaleOnScroll({
   children,
   className = "",
   scaleRange = [0.8, 1]
 }) {
-  const ref = useRef7(null);
-  const { scrollYProgress } = useScroll3({
+  const ref = useRef2(null);
+  const { scrollYProgress } = useScroll2({
     target: ref,
     offset: ["start end", "center center"]
   });
-  const scale = useTransform2(scrollYProgress, [0, 1], scaleRange);
-  const opacity = useTransform2(scrollYProgress, [0, 0.5], [0, 1]);
-  return /* @__PURE__ */ jsx49(motion10.div, { ref, className, style: { scale, opacity }, children });
+  const scale = useTransform(scrollYProgress, [0, 1], scaleRange);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
+  return /* @__PURE__ */ jsx40(motion4.div, { ref, className, style: { scale, opacity }, children });
 }
 function MaskReveal({
   children,
@@ -4346,8 +3224,8 @@ function MaskReveal({
     }
   };
   const clipPath = clipPaths[direction];
-  return /* @__PURE__ */ jsx49(
-    motion10.div,
+  return /* @__PURE__ */ jsx40(
+    motion4.div,
     {
       className,
       initial: { clipPath: clipPath.initial },
@@ -4365,7 +3243,7 @@ function MaskReveal({
 
 // src/components/error-boundary.tsx
 import { Component } from "react";
-import { jsx as jsx50, jsxs as jsxs27 } from "react/jsx-runtime";
+import { jsx as jsx41, jsxs as jsxs22 } from "react/jsx-runtime";
 var ErrorBoundary = class extends Component {
   constructor(props) {
     super(props);
@@ -4390,7 +3268,7 @@ var ErrorBoundary = class extends Component {
       if (fallback) {
         return fallback;
       }
-      return /* @__PURE__ */ jsx50(
+      return /* @__PURE__ */ jsx41(
         DefaultErrorFallback,
         {
           error,
@@ -4407,8 +3285,8 @@ function DefaultErrorFallback({
   title = "Something went wrong",
   description = "We encountered an unexpected error. Please try again."
 }) {
-  return /* @__PURE__ */ jsx50("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ jsxs27("div", { className: "neu-card rounded-2xl p-8 sm:p-12 max-w-md w-full text-center", children: [
-    /* @__PURE__ */ jsx50("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ jsx50("div", { className: "neu-pressed rounded-full p-4", children: /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsx41("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ jsxs22("div", { className: "rounded-lg border border-border bg-card p-8 sm:p-12 max-w-md w-full text-center", children: [
+    /* @__PURE__ */ jsx41("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ jsx41("div", { className: "rounded-full border border-border bg-muted p-4", children: /* @__PURE__ */ jsx41(
       "svg",
       {
         className: "h-8 w-8 text-destructive",
@@ -4417,7 +3295,7 @@ function DefaultErrorFallback({
         stroke: "currentColor",
         strokeWidth: 2,
         "aria-hidden": "true",
-        children: /* @__PURE__ */ jsx50(
+        children: /* @__PURE__ */ jsx41(
           "path",
           {
             strokeLinecap: "round",
@@ -4427,13 +3305,13 @@ function DefaultErrorFallback({
         )
       }
     ) }) }),
-    /* @__PURE__ */ jsx50("h2", { className: "text-section-title mb-3", children: title }),
-    /* @__PURE__ */ jsx50("p", { className: "text-description mb-6", children: description }),
-    /* @__PURE__ */ jsx50("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ jsx50(
+    /* @__PURE__ */ jsx41("h2", { className: "text-heading-2 mb-3", children: title }),
+    /* @__PURE__ */ jsx41("p", { className: "text-body-sm text-muted-foreground mb-6", children: description }),
+    /* @__PURE__ */ jsx41("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ jsx41(
       "button",
       {
         onClick: reset,
-        className: "cta-primary px-6 py-3 rounded-xl focus-ring",
+        className: "bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-6 rounded-sm text-body-sm font-medium transition-colors focus-ring",
         children: "Try again"
       }
     ) })
@@ -4458,16 +3336,10 @@ export {
   AlertDialogTitle,
   AlertDialogTrigger,
   AlertTitle,
-  AnimatedBlob,
-  AnimatedCard,
-  AnimatedGrid,
-  AnimatedHeading,
-  AnimatedShapes,
   Avatar,
   AvatarFallback,
   AvatarImage,
   Badge,
-  BorderBeamButton,
   BorderSpinner,
   BreadcrumbNav,
   Button,
@@ -4494,8 +3366,6 @@ export {
   CommandSeparator,
   CommandShortcut,
   Container,
-  CursorFollower,
-  CursorGlow,
   DefaultErrorFallback,
   Dialog,
   DialogClose,
@@ -4524,17 +3394,9 @@ export {
   DropdownMenuTrigger,
   ErrorBoundary,
   ExpandableCard,
-  FloatingElement,
-  GlassCard,
-  GlowButton,
-  GlowSection,
-  GradientCursorGlow,
-  GradientText,
   Heading,
-  HeroGlowSection,
   Input,
   Label,
-  MagneticButton,
   MaskReveal,
   NavigationMenu,
   NavigationMenuContent,
@@ -4544,21 +3406,15 @@ export {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-  OrbitElement,
   PageSpinner,
   PageTransition,
-  ParallaxScroll,
   ParallaxSection,
-  ParticlesBackground,
   Progress,
   ProgressCircle,
   ProgressCircleSkeleton,
-  PulsingElement,
   RadioGroup2 as RadioGroup,
   RadioGroupItem,
   ReadingProgress,
-  RippleButton,
-  RotatingElement,
   ScaleOnScroll,
   ScrollArea,
   ScrollBar,
@@ -4583,11 +3439,9 @@ export {
   SkeletonInput,
   SkeletonText,
   Spinner,
-  SpotlightCursor,
   StaggerContainer,
   StaggerItem,
   StatusBadge,
-  SubtleGlowSection,
   Switch,
   Tabs,
   TabsContent,
@@ -4608,8 +3462,6 @@ export {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  TrailCursor,
-  WaveAnimation,
   alertVariants,
   avatarVariants,
   badgeVariants,
@@ -4624,7 +3476,6 @@ export {
   formatCurrency,
   formatRelativeTime,
   generateId,
-  glassCardVariants,
   headingVariants,
   iconPop,
   inputVariants,

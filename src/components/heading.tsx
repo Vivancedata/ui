@@ -2,9 +2,12 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
-const headingVariants = cva("font-bold tracking-tight text-balance", {
+// Weight is 600, never bold(700) -- the type scale carries its own weight and
+// tracking, so this only sets colour and balance.
+const headingVariants = cva("text-balance", {
   variants: {
     level: {
+      "display-xl": "text-display-xl",
       display: "text-display",
       h1: "text-heading-1",
       h2: "text-heading-2",
@@ -14,8 +17,7 @@ const headingVariants = cva("font-bold tracking-tight text-balance", {
     variant: {
       default: "text-foreground",
       muted: "text-muted-foreground",
-      gradient:
-        "bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent",
+      brand: "text-brand",
     },
   },
   defaultVariants: {
@@ -35,7 +37,11 @@ export interface HeadingProps
 const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
   ({ className, level, variant, as, children, ...props }, ref) => {
     // Map level to semantic HTML element
-    const Component: HeadingLevel = as || (level === "display" ? "h1" : (level as HeadingLevel) || "h1");
+    const Component: HeadingLevel =
+      as ||
+      (level === "display" || level === "display-xl"
+        ? "h1"
+        : (level as HeadingLevel) || "h1");
 
     return (
       <Component

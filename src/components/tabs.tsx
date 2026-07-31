@@ -14,8 +14,6 @@ const tabsListVariants = cva(
       variant: {
         default: "bg-muted",
         ghost: "bg-transparent gap-2",
-        neu: "shadow-neu-inset bg-background",
-        glass: "glass",
         underline: "bg-transparent gap-4 p-0 rounded-none border-b",
       },
     },
@@ -46,12 +44,12 @@ const tabsTriggerVariants = cva(
         default:
           "rounded-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
         ghost:
-          "rounded-md hover:bg-muted data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
-        neu: "rounded-md data-[state=active]:shadow-neu-sm data-[state=active]:bg-background data-[state=active]:text-foreground",
-        glass:
-          "rounded-md data-[state=active]:bg-white/20 data-[state=active]:text-foreground",
+          "rounded-sm hover:bg-accent data-[state=active]:bg-accent data-[state=active]:text-accent-foreground",
+        // The category-tab pill (AI Apps / Web Apps), per DESIGN.md.
+        pill:
+          "rounded-pill-category data-[state=active]:bg-card data-[state=active]:text-foreground",
         underline:
-          "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-primary data-[state=active]:text-foreground",
+          "rounded-none border-b-2 border-transparent pb-3 pt-2 data-[state=active]:border-brand data-[state=active]:text-foreground",
       },
     },
     defaultVariants: {
