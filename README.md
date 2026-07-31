@@ -742,3 +742,42 @@ The package exposes three entry points:
 GPL-3.0 -- See [LICENSE](./LICENSE) for details.
 
 Copyright (c) Vivancedata
+
+## Publishing
+
+Consumers currently resolve this package from a **GitHub release tarball**:
+
+```json
+"@vivancedata/ui": "https://github.com/Vivancedata/ui/archive/refs/tags/v0.2.0.tar.gz"
+```
+
+That works in a standalone Vercel build with no registry auth, which is why it
+was chosen: the apps each deploy from their own repository, where a sibling
+`../ui` directory does not exist. Reaching this package by a path that only
+exists on a developer laptop is what kept `vivancedata` un-deployable from
+2026-02-22 to 2026-07-31.
+
+`dist/` is committed for exactly this reason — a git archive contains the
+repository, not an npm-packed artifact, so the built output has to be in the
+tree for the tarball to be consumable.
+
+### Cutting a release
+
+1. Bump `version` in `package.json`.
+2. Update `.react-doctor-baseline` if the score improved.
+3. Merge to `main`, then `gh release create vX.Y.Z`.
+4. Update the tarball URL in `vivancedata`, `learn`, and `crm`, and regenerate
+   each lockfile with **npm 10** — the major that Node 22 ships and CI runs. A
+   lockfile written by npm 11 is rejected by npm 10's `npm ci`.
+
+### Moving to npm (optional)
+
+`.github/workflows/release.yml` already publishes to npm on any `v*` tag,
+verifying that the tag matches `package.json` before it does. It needs one
+thing: an **`NPM_TOKEN`** secret on this repository (an npm automation token
+with publish rights to the `@vivancedata` scope).
+
+Once that exists, tagging publishes automatically, and the three consumers can
+move from the tarball URL to a semver range (`^0.2.0`). That is strictly nicer —
+ranges, provenance, and no URL to bump per release — but it is an improvement,
+not a prerequisite. The tarball resolves correctly today.
