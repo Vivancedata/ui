@@ -58,7 +58,7 @@ jobs:
         run: npm run typecheck
 
   react_doctor:
-    name: React Doctor (100/100)
+    name: React Doctor (ratchet)
     runs-on: ubuntu-latest
     needs: lint
     steps:
