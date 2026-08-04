@@ -53,7 +53,6 @@ __export(index_exports, {
   AvatarImage: () => AvatarImage,
   Badge: () => Badge,
   BorderSpinner: () => BorderSpinner,
-  BreadcrumbNav: () => BreadcrumbNav,
   Button: () => Button,
   Card: () => Card,
   CardContent: () => CardContent,
@@ -74,7 +73,6 @@ __export(index_exports, {
   CommandInput: () => CommandInput,
   CommandItem: () => CommandItem,
   CommandList: () => CommandList,
-  CommandPalette: () => CommandPalette,
   CommandSeparator: () => CommandSeparator,
   CommandShortcut: () => CommandShortcut,
   Container: () => Container,
@@ -105,11 +103,9 @@ __export(index_exports, {
   DropdownMenuSubTrigger: () => DropdownMenuSubTrigger,
   DropdownMenuTrigger: () => DropdownMenuTrigger,
   ErrorBoundary: () => ErrorBoundary,
-  ExpandableCard: () => ExpandableCard,
   Heading: () => Heading,
   Input: () => Input,
   Label: () => Label,
-  MaskReveal: () => MaskReveal,
   NavigationMenu: () => NavigationMenu,
   NavigationMenuContent: () => NavigationMenuContent,
   NavigationMenuIndicator: () => NavigationMenuIndicator,
@@ -119,20 +115,14 @@ __export(index_exports, {
   NavigationMenuTrigger: () => NavigationMenuTrigger,
   NavigationMenuViewport: () => NavigationMenuViewport,
   PageSpinner: () => PageSpinner,
-  PageTransition: () => PageTransition,
-  ParallaxSection: () => ParallaxSection,
   Progress: () => Progress,
   ProgressCircle: () => ProgressCircle,
   ProgressCircleSkeleton: () => ProgressCircleSkeleton,
   RadioGroup: () => RadioGroup2,
   RadioGroupItem: () => RadioGroupItem,
-  ReadingProgress: () => ReadingProgress,
-  ScaleOnScroll: () => ScaleOnScroll,
   ScrollArea: () => ScrollArea,
   ScrollBar: () => ScrollBar,
-  ScrollToTop: () => ScrollToTop,
   Section: () => Section,
-  SectionReveal: () => SectionReveal,
   Select: () => Select,
   SelectContent: () => SelectContent,
   SelectGroup: () => SelectGroup,
@@ -151,8 +141,6 @@ __export(index_exports, {
   SkeletonInput: () => SkeletonInput,
   SkeletonText: () => SkeletonText,
   Spinner: () => Spinner,
-  StaggerContainer: () => StaggerContainer,
-  StaggerItem: () => StaggerItem,
   StatusBadge: () => StatusBadge,
   Switch: () => Switch,
   Tabs: () => Tabs,
@@ -2798,687 +2786,10 @@ var TabsContent = React30.forwardRef(({ className, ...props }, ref) => /* @__PUR
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-// src/components/reading-progress.tsx
-var import_react3 = require("react");
-var import_framer_motion = require("framer-motion");
-var import_jsx_runtime35 = require("react/jsx-runtime");
-function ReadingProgress() {
-  const [isVisible, setIsVisible] = (0, import_react3.useState)(false);
-  const { scrollYProgress } = (0, import_framer_motion.useScroll)();
-  const scaleX = (0, import_framer_motion.useSpring)(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 1e-3
-  });
-  (0, import_react3.useEffect)(() => {
-    const unsubscribe = scrollYProgress.on("change", (value) => {
-      setIsVisible(value > 0.05);
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
-    import_framer_motion.motion.div,
-    {
-      className: "fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left",
-      style: {
-        scaleX,
-        opacity: isVisible ? 1 : 0
-      },
-      transition: { opacity: { duration: 0.2 } }
-    }
-  );
-}
-
-// src/components/command-palette.tsx
-var import_react4 = require("react");
-var import_framer_motion2 = require("framer-motion");
-var import_jsx_runtime36 = require("react/jsx-runtime");
-var EMPTY_CATEGORIES = {};
-function CommandPalette({
-  className,
-  commands,
-  categories = EMPTY_CATEGORIES,
-  placeholder = "Search commands...",
-  onSearch,
-  triggerLabel = "Search",
-  shortcutKey = "k"
-}) {
-  const [isOpen, setIsOpen] = (0, import_react4.useState)(false);
-  const [query, setQuery] = (0, import_react4.useState)("");
-  const [selectedIndex, setSelectedIndex] = (0, import_react4.useState)(0);
-  const inputRef = (0, import_react4.useRef)(null);
-  const listRef = (0, import_react4.useRef)(null);
-  const closePalette = (0, import_react4.useCallback)(() => {
-    setIsOpen(false);
-    setQuery("");
-    setSelectedIndex(0);
-  }, []);
-  const openPalette = (0, import_react4.useCallback)(() => {
-    setIsOpen(true);
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-  }, []);
-  const runCommand = (0, import_react4.useCallback)(
-    (command) => {
-      command.action();
-      closePalette();
-    },
-    [closePalette]
-  );
-  const filteredCommands = (0, import_react4.useMemo)(() => {
-    if (!query.trim()) return commands;
-    const lowerQuery = query.toLowerCase();
-    const filtered = commands.filter((cmd) => {
-      const titleMatch = cmd.title.toLowerCase().includes(lowerQuery);
-      const descMatch = cmd.description?.toLowerCase().includes(lowerQuery);
-      const keywordMatch = cmd.keywords?.some(
-        (k) => k.toLowerCase().includes(lowerQuery)
-      );
-      return titleMatch || descMatch || keywordMatch;
-    });
-    const searchResults = onSearch ? onSearch(query) : [];
-    return [...filtered, ...searchResults];
-  }, [query, commands, onSearch]);
-  const handleKeyDown = (0, import_react4.useCallback)(
-    (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === shortcutKey) {
-        e.preventDefault();
-        if (isOpen) {
-          closePalette();
-        } else {
-          openPalette();
-        }
-        return;
-      }
-      if (!isOpen) return;
-      switch (e.key) {
-        case "Escape":
-          closePalette();
-          break;
-        case "ArrowDown":
-          e.preventDefault();
-          setSelectedIndex(
-            (prev) => prev < filteredCommands.length - 1 ? prev + 1 : 0
-          );
-          break;
-        case "ArrowUp":
-          e.preventDefault();
-          setSelectedIndex(
-            (prev) => prev > 0 ? prev - 1 : filteredCommands.length - 1
-          );
-          break;
-        case "Enter":
-          e.preventDefault();
-          if (filteredCommands[selectedIndex]) {
-            runCommand(filteredCommands[selectedIndex]);
-          }
-          break;
-      }
-    },
-    [closePalette, filteredCommands, isOpen, openPalette, runCommand, selectedIndex, shortcutKey]
-  );
-  (0, import_react4.useEffect)(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
-  (0, import_react4.useEffect)(() => {
-    setSelectedIndex(0);
-  }, [filteredCommands.length]);
-  (0, import_react4.useEffect)(() => {
-    if (listRef.current && filteredCommands.length > 0) {
-      const selectedElement = listRef.current.querySelector(
-        `[data-index="${selectedIndex}"]`
-      );
-      selectedElement?.scrollIntoView({ block: "nearest" });
-    }
-  }, [selectedIndex, filteredCommands.length]);
-  const groupedCommands = (0, import_react4.useMemo)(() => {
-    const groups = {};
-    filteredCommands.forEach((cmd) => {
-      if (!groups[cmd.category]) {
-        groups[cmd.category] = [];
-      }
-      groups[cmd.category].push(cmd);
-    });
-    return groups;
-  }, [filteredCommands]);
-  const getCategoryLabel = (category) => {
-    return categories[category] || category.charAt(0).toUpperCase() + category.slice(1);
-  };
-  let globalIndex = -1;
-  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_framer_motion2.LazyMotion, { features: import_framer_motion2.domAnimation, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
-      "button",
-      {
-        type: "button",
-        onClick: openPalette,
-        className: cn(
-          "flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground",
-          "bg-muted/50 hover:bg-muted rounded-lg border border-border/50 transition-colors",
-          className
-        ),
-        "aria-label": "Open command palette",
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "m21 21-4.3-4.3" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "hidden sm:inline", children: triggerLabel }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("kbd", { className: "hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-xs", children: "\u2318" }),
-            shortcutKey.toUpperCase()
-          ] })
-        ]
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(import_framer_motion2.AnimatePresence, { children: isOpen && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-        import_framer_motion2.m.div,
-        {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          exit: { opacity: 0 },
-          onClick: closePalette,
-          className: "fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-        import_framer_motion2.m.div,
-        {
-          initial: { opacity: 0, scale: 0.95, y: -20 },
-          animate: { opacity: 1, scale: 1, y: 0 },
-          exit: { opacity: 0, scale: 0.95, y: -20 },
-          transition: { duration: 0.15 },
-          className: "fixed left-1/2 top-[20%] -translate-x-1/2 w-full max-w-xl z-50 px-4",
-          children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "bg-popover border border-border rounded-xl shadow-2xl overflow-hidden", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-border", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("svg", { className: "h-5 w-5 text-muted-foreground shrink-0", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("circle", { cx: "11", cy: "11", r: "8" }),
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "m21 21-4.3-4.3" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                "input",
-                {
-                  ref: inputRef,
-                  type: "text",
-                  value: query,
-                  onChange: (e) => setQuery(e.target.value),
-                  placeholder,
-                  className: "flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-                }
-              ),
-              query && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                "button",
-                {
-                  type: "button",
-                  onClick: () => setQuery(""),
-                  className: "text-muted-foreground hover:text-foreground",
-                  children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { className: "h-4 w-4", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M18 6 6 18M6 6l12 12" }) })
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "hidden sm:inline-flex h-5 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground", children: "ESC" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-              "div",
-              {
-                ref: listRef,
-                className: "max-h-[60vh] overflow-y-auto p-2",
-                role: "listbox",
-                children: filteredCommands.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "py-8 text-center text-muted-foreground", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("p", { children: [
-                    'No results found for "',
-                    query,
-                    '"'
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "text-sm mt-1", children: "Try searching for something else" })
-                ] }) : Object.entries(groupedCommands).map(([category, cmds]) => {
-                  if (cmds.length === 0) return null;
-                  return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "mb-2", children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider", children: getCategoryLabel(category) }),
-                    cmds.map((cmd) => {
-                      globalIndex++;
-                      const isSelected = globalIndex === selectedIndex;
-                      return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
-                        "button",
-                        {
-                          type: "button",
-                          "data-index": globalIndex,
-                          onClick: () => runCommand(cmd),
-                          onMouseEnter: () => setSelectedIndex(globalIndex),
-                          className: cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors",
-                            isSelected ? "bg-primary/10 text-foreground" : "text-muted-foreground hover:bg-muted"
-                          ),
-                          role: "option",
-                          "aria-selected": isSelected,
-                          children: [
-                            cmd.icon && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
-                              "div",
-                              {
-                                className: cn(
-                                  "shrink-0 p-1.5 rounded-md",
-                                  isSelected ? "bg-primary/20" : "bg-muted"
-                                ),
-                                children: cmd.icon
-                              }
-                            ),
-                            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex-1 min-w-0", children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "font-medium text-foreground truncate", children: cmd.title }),
-                              cmd.description && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "text-sm text-muted-foreground truncate", children: cmd.description })
-                            ] }),
-                            isSelected && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { className: "h-4 w-4 shrink-0 text-primary", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M5 12h14M12 5l7 7-7 7" }) })
-                          ]
-                        },
-                        cmd.id
-                      );
-                    })
-                  ] }, category);
-                })
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "px-4 py-2 border-t border-border bg-muted/30", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center justify-between text-xs text-muted-foreground", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center gap-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u2191\u2193" }),
-                  "navigate"
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "\u21B5" }),
-                  "select"
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("span", { className: "flex items-center gap-1", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("kbd", { className: "px-1.5 py-0.5 rounded border bg-muted font-mono", children: "esc" }),
-                "close"
-              ] })
-            ] }) })
-          ] })
-        }
-      )
-    ] }) })
-  ] });
-}
-
-// src/components/breadcrumb-nav.tsx
-var import_jsx_runtime37 = require("react/jsx-runtime");
-function DefaultLink({ href, className, children }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("a", { href, className, children });
-}
-function BreadcrumbNav({
-  items,
-  className = "",
-  separator,
-  linkComponent: LinkComponent = DefaultLink
-}) {
-  if (items.length === 0) return null;
-  const defaultSeparator = /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("svg", { className: "mx-2 h-4 w-4 text-muted-foreground", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "m9 18 6-6-6-6" }) });
-  return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("nav", { "aria-label": "Breadcrumb", className: cn("mb-6 text-sm", className), children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("ol", { className: "flex items-center space-x-2", children: items.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("li", { className: "flex items-center", children: [
-    index > 0 && (separator || defaultSeparator),
-    index === items.length - 1 ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "font-medium text-foreground", "aria-current": "page", children: item.label }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
-      LinkComponent,
-      {
-        href: item.href,
-        className: "text-muted-foreground hover:text-foreground transition-colors",
-        children: item.label
-      }
-    )
-  ] }, item.href)) }) });
-}
-
-// src/components/expandable-card.tsx
-var import_framer_motion3 = require("framer-motion");
-var import_react5 = require("react");
-var import_jsx_runtime38 = require("react/jsx-runtime");
-function ExpandableCard({
-  title,
-  description,
-  children,
-  thumbnail,
-  tags,
-  actions,
-  className = "",
-  defaultExpanded = false
-}) {
-  const [isExpanded, setIsExpanded] = (0, import_react5.useState)(defaultExpanded);
-  return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
-    import_framer_motion3.motion.div,
-    {
-      layout: true,
-      className: `group relative w-full bg-secondary/50 rounded-xl overflow-hidden flex flex-col h-full ${className}`,
-      initial: { opacity: 0, y: 20 },
-      whileInView: { opacity: 1, y: 0 },
-      viewport: { once: true, margin: "-100px" },
-      transition: { duration: 0.3 },
-      children: [
-        thumbnail && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.motion.div, { layout: true, className: "relative aspect-square w-full overflow-hidden", children: thumbnail }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.motion.div, { layout: true, className: "p-4 flex flex-col flex-grow", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_framer_motion3.motion.div, { layout: true, className: "flex flex-col gap-3 h-full", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "flex items-start justify-between gap-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "space-y-1", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { className: "text-lg font-semibold tracking-tight", children: title }),
-              description && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "text-muted-foreground text-sm line-clamp-2", children: description })
-            ] }),
-            actions
-          ] }),
-          tags && tags.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "flex flex-wrap gap-1.5 mt-auto pt-3", children: tags.map((tag) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-            "span",
-            {
-              className: "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground",
-              children: tag
-            },
-            tag
-          )) }),
-          children && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(
-              "button",
-              {
-                onClick: () => setIsExpanded(!isExpanded),
-                className: "flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors mt-2",
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: isExpanded ? "Show less" : "Learn more" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-                    "svg",
-                    {
-                      className: `h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`,
-                      fill: "none",
-                      viewBox: "0 0 24 24",
-                      stroke: "currentColor",
-                      strokeWidth: 2,
-                      strokeLinecap: "round",
-                      strokeLinejoin: "round",
-                      children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("path", { d: "m6 9 6 6 6-6" })
-                    }
-                  )
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(import_framer_motion3.AnimatePresence, { children: isExpanded && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
-              import_framer_motion3.motion.div,
-              {
-                initial: { height: 0, opacity: 0 },
-                animate: { height: "auto", opacity: 1 },
-                exit: { height: 0, opacity: 0 },
-                transition: { duration: 0.3 },
-                className: "overflow-hidden",
-                children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "pt-2", children })
-              }
-            ) })
-          ] })
-        ] }) })
-      ]
-    }
-  );
-}
-
-// src/components/scroll-to-top.tsx
-var import_react6 = require("react");
-var import_framer_motion4 = require("framer-motion");
-var import_jsx_runtime39 = require("react/jsx-runtime");
-function ScrollToTop({ threshold = 300, className = "" }) {
-  const [isVisible, setIsVisible] = (0, import_react6.useState)(false);
-  (0, import_react6.useEffect)(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > threshold) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => {
-      window.removeEventListener("scroll", toggleVisibility);
-    };
-  }, [threshold]);
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_framer_motion4.AnimatePresence, { children: isVisible && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-    import_framer_motion4.motion.div,
-    {
-      initial: { opacity: 0, scale: 0.8, y: 20 },
-      animate: { opacity: 1, scale: 1, y: 0 },
-      exit: { opacity: 0, scale: 0.8, y: 20 },
-      transition: { duration: 0.2 },
-      className: `fixed bottom-8 right-8 z-40 ${className}`,
-      children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        "button",
-        {
-          onClick: scrollToTop,
-          className: "h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center",
-          "aria-label": "Scroll to top",
-          children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("svg", { className: "h-5 w-5", fill: "none", viewBox: "0 0 24 24", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("path", { d: "m18 15-6-6-6 6" }) })
-        }
-      )
-    }
-  ) });
-}
-
-// src/components/page-transition.tsx
-var import_framer_motion5 = require("framer-motion");
-var import_react7 = require("react");
-var import_jsx_runtime40 = require("react/jsx-runtime");
-var variants = {
-  fade: {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 }
-  },
-  slide: {
-    initial: { opacity: 0, x: 20 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -20 }
-  },
-  scale: {
-    initial: { opacity: 0, scale: 0.95 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 1.05 }
-  },
-  slideUp: {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 }
-  },
-  clipReveal: {
-    initial: { clipPath: "inset(0 100% 0 0)" },
-    animate: { clipPath: "inset(0 0% 0 0)" },
-    exit: { clipPath: "inset(0 0 0 100%)" }
-  }
-};
-function PageTransition({
-  children,
-  className = "",
-  variant = "slideUp",
-  transitionKey
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.AnimatePresence, { mode: "wait", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      initial: "initial",
-      animate: "animate",
-      exit: "exit",
-      variants: variants[variant],
-      transition: {
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1]
-      },
-      children
-    },
-    transitionKey
-  ) });
-}
-var directionVariants = {
-  up: {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0 }
-  },
-  down: {
-    initial: { opacity: 0, y: -50 },
-    animate: { opacity: 1, y: 0 }
-  },
-  left: {
-    initial: { opacity: 0, x: 50 },
-    animate: { opacity: 1, x: 0 }
-  },
-  right: {
-    initial: { opacity: 0, x: -50 },
-    animate: { opacity: 1, x: 0 }
-  }
-};
-function SectionReveal({
-  children,
-  className = "",
-  delay = 0,
-  direction = "up",
-  once = true
-}) {
-  const variant = directionVariants[direction];
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      initial: variant.initial,
-      whileInView: variant.animate,
-      viewport: { once, margin: "-100px" },
-      transition: {
-        duration: 0.6,
-        delay,
-        ease: [0.22, 1, 0.36, 1]
-      },
-      children
-    }
-  );
-}
-function StaggerContainer({
-  children,
-  className = "",
-  staggerDelay = 0.1,
-  delayChildren = 0.2,
-  once = true
-}) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      initial: "hidden",
-      whileInView: "visible",
-      viewport: { once, margin: "-50px" },
-      variants: {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: staggerDelay,
-            delayChildren
-          }
-        }
-      },
-      children
-    }
-  );
-}
-function StaggerItem({ children, className = "" }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      variants: {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.5,
-            ease: [0.22, 1, 0.36, 1]
-          }
-        }
-      },
-      children
-    }
-  );
-}
-function ParallaxSection({
-  children,
-  className = "",
-  speed = 0.5,
-  direction = "up"
-}) {
-  const ref = (0, import_react7.useRef)(null);
-  const { scrollYProgress } = (0, import_framer_motion5.useScroll)({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-  const multiplier = direction === "up" ? -1 : 1;
-  const y = (0, import_framer_motion5.useTransform)(
-    scrollYProgress,
-    [0, 1],
-    [100 * speed * multiplier, -100 * speed * multiplier]
-  );
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.motion.div, { ref, className, style: { y }, children });
-}
-function ScaleOnScroll({
-  children,
-  className = "",
-  scaleRange = [0.8, 1]
-}) {
-  const ref = (0, import_react7.useRef)(null);
-  const { scrollYProgress } = (0, import_framer_motion5.useScroll)({
-    target: ref,
-    offset: ["start end", "center center"]
-  });
-  const scale = (0, import_framer_motion5.useTransform)(scrollYProgress, [0, 1], scaleRange);
-  const opacity = (0, import_framer_motion5.useTransform)(scrollYProgress, [0, 0.5], [0, 1]);
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(import_framer_motion5.motion.div, { ref, className, style: { scale, opacity }, children });
-}
-function MaskReveal({
-  children,
-  className = "",
-  direction = "left",
-  delay = 0
-}) {
-  const clipPaths = {
-    left: {
-      initial: "inset(0 100% 0 0)",
-      animate: "inset(0 0% 0 0)"
-    },
-    right: {
-      initial: "inset(0 0 0 100%)",
-      animate: "inset(0 0 0 0%)"
-    },
-    up: {
-      initial: "inset(100% 0 0 0)",
-      animate: "inset(0% 0 0 0)"
-    },
-    down: {
-      initial: "inset(0 0 100% 0)",
-      animate: "inset(0 0 0% 0)"
-    }
-  };
-  const clipPath = clipPaths[direction];
-  return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-    import_framer_motion5.motion.div,
-    {
-      className,
-      initial: { clipPath: clipPath.initial },
-      whileInView: { clipPath: clipPath.animate },
-      viewport: { once: true, margin: "-50px" },
-      transition: {
-        duration: 0.8,
-        delay,
-        ease: [0.22, 1, 0.36, 1]
-      },
-      children
-    }
-  );
-}
-
 // src/components/error-boundary.tsx
-var import_react8 = require("react");
-var import_jsx_runtime41 = require("react/jsx-runtime");
-var ErrorBoundary = class extends import_react8.Component {
+var import_react3 = require("react");
+var import_jsx_runtime35 = require("react/jsx-runtime");
+var ErrorBoundary = class extends import_react3.Component {
   constructor(props) {
     super(props);
     this.resetErrorBoundary = () => {
@@ -3502,7 +2813,7 @@ var ErrorBoundary = class extends import_react8.Component {
       if (fallback) {
         return fallback;
       }
-      return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
         DefaultErrorFallback,
         {
           error,
@@ -3519,8 +2830,8 @@ function DefaultErrorFallback({
   title = "Something went wrong",
   description = "We encountered an unexpected error. Please try again."
 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rounded-lg border border-border bg-card p-8 sm:p-12 max-w-md w-full text-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "rounded-full border border-border bg-muted p-4", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "flex min-h-[50vh] flex-col items-center justify-center px-4 py-12", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "rounded-lg border border-border bg-card p-8 sm:p-12 max-w-md w-full text-center", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "mb-6 flex justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "rounded-full border border-border bg-muted p-4", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
       "svg",
       {
         className: "h-8 w-8 text-destructive",
@@ -3529,7 +2840,7 @@ function DefaultErrorFallback({
         stroke: "currentColor",
         strokeWidth: 2,
         "aria-hidden": "true",
-        children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
           "path",
           {
             strokeLinecap: "round",
@@ -3539,9 +2850,9 @@ function DefaultErrorFallback({
         )
       }
     ) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("h2", { className: "text-heading-2 mb-3", children: title }),
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("p", { className: "text-body-sm text-muted-foreground mb-6", children: description }),
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { className: "text-heading-2 mb-3", children: title }),
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { className: "text-body-sm text-muted-foreground mb-6", children: description }),
+    /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "flex flex-col sm:flex-row gap-3 justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
       "button",
       {
         onClick: reset,
@@ -3576,7 +2887,6 @@ function DefaultErrorFallback({
   AvatarImage,
   Badge,
   BorderSpinner,
-  BreadcrumbNav,
   Button,
   Card,
   CardContent,
@@ -3597,7 +2907,6 @@ function DefaultErrorFallback({
   CommandInput,
   CommandItem,
   CommandList,
-  CommandPalette,
   CommandSeparator,
   CommandShortcut,
   Container,
@@ -3628,11 +2937,9 @@ function DefaultErrorFallback({
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   ErrorBoundary,
-  ExpandableCard,
   Heading,
   Input,
   Label,
-  MaskReveal,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuIndicator,
@@ -3642,20 +2949,14 @@ function DefaultErrorFallback({
   NavigationMenuTrigger,
   NavigationMenuViewport,
   PageSpinner,
-  PageTransition,
-  ParallaxSection,
   Progress,
   ProgressCircle,
   ProgressCircleSkeleton,
   RadioGroup,
   RadioGroupItem,
-  ReadingProgress,
-  ScaleOnScroll,
   ScrollArea,
   ScrollBar,
-  ScrollToTop,
   Section,
-  SectionReveal,
   Select,
   SelectContent,
   SelectGroup,
@@ -3674,8 +2975,6 @@ function DefaultErrorFallback({
   SkeletonInput,
   SkeletonText,
   Spinner,
-  StaggerContainer,
-  StaggerItem,
   StatusBadge,
   Switch,
   Tabs,

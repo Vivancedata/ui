@@ -3,7 +3,6 @@ import * as class_variance_authority_types from 'class-variance-authority/types'
 import * as React$1 from 'react';
 import { ReactNode, Component } from 'react';
 import { VariantProps } from 'class-variance-authority';
-import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import useEmblaCarousel, { UseEmblaCarouselType } from 'embla-carousel-react';
@@ -366,7 +365,7 @@ interface BadgeProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProp
     /** Optional icon to display before the text */
     icon?: React$1.ReactNode;
 }
-declare function Badge({ className, variant, size, icon, children, ...props }: BadgeProps): react_jsx_runtime.JSX.Element;
+declare function Badge({ className, variant, size, icon, children, ...props }: BadgeProps): React$1.JSX.Element;
 
 declare const inputVariants: (props?: ({
     variant?: "default" | "ghost" | null | undefined;
@@ -409,11 +408,11 @@ declare const AlertDialogPortal: React$1.FC<AlertDialogPrimitive.AlertDialogPort
 declare const AlertDialogOverlay: React$1.ForwardRefExoticComponent<Omit<AlertDialogPrimitive.AlertDialogOverlayProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const AlertDialogContent: React$1.ForwardRefExoticComponent<Omit<AlertDialogPrimitive.AlertDialogContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const AlertDialogHeader: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
     displayName: string;
 };
 declare const AlertDialogFooter: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
     displayName: string;
 };
 declare const AlertDialogTitle: React$1.ForwardRefExoticComponent<Omit<AlertDialogPrimitive.AlertDialogTitleProps & React$1.RefAttributes<HTMLHeadingElement>, "ref"> & React$1.RefAttributes<HTMLHeadingElement>>;
@@ -492,10 +491,10 @@ interface ProgressCircleProps extends React$1.HTMLAttributes<HTMLDivElement> {
     size?: ProgressCircleSize;
     showPercentage?: boolean;
 }
-declare function ProgressCircle({ progress, size, showPercentage, className, ...props }: ProgressCircleProps): react_jsx_runtime.JSX.Element;
+declare function ProgressCircle({ progress, size, showPercentage, className, ...props }: ProgressCircleProps): React$1.JSX.Element;
 declare function ProgressCircleSkeleton({ size }: {
     size?: ProgressCircleSize;
-}): react_jsx_runtime.JSX.Element;
+}): React$1.JSX.Element;
 
 declare const sizeClasses: {
     readonly sm: "h-4 w-4";
@@ -506,18 +505,18 @@ interface SpinnerProps extends React$1.HTMLAttributes<HTMLDivElement> {
     size?: keyof typeof sizeClasses;
     text?: string;
 }
-declare function Spinner({ size, className, text, ...props }: SpinnerProps): react_jsx_runtime.JSX.Element;
+declare function Spinner({ size, className, text, ...props }: SpinnerProps): React$1.JSX.Element;
 declare function PageSpinner({ text }: {
     text?: string;
-}): react_jsx_runtime.JSX.Element;
-declare function BorderSpinner({ size, className, ...props }: Omit<SpinnerProps, "text">): react_jsx_runtime.JSX.Element;
+}): React$1.JSX.Element;
+declare function BorderSpinner({ size, className, ...props }: Omit<SpinnerProps, "text">): React$1.JSX.Element;
 
 type StatusType = "success" | "error" | "warning" | "pending" | "info";
 interface StatusBadgeProps extends Omit<BadgeProps, "icon"> {
     status: StatusType;
     showIcon?: boolean;
 }
-declare function StatusBadge({ status, children, showIcon, className, ...props }: StatusBadgeProps): react_jsx_runtime.JSX.Element;
+declare function StatusBadge({ status, children, showIcon, className, ...props }: StatusBadgeProps): React$1.JSX.Element;
 
 interface SeparatorProps extends React$1.HTMLAttributes<HTMLDivElement> {
     orientation?: "horizontal" | "vertical";
@@ -553,7 +552,7 @@ interface ContainerProps extends React$1.HTMLAttributes<HTMLDivElement>, Variant
 }
 declare const Container: React$1.ForwardRefExoticComponent<ContainerProps & React$1.RefAttributes<HTMLDivElement>>;
 
-declare function ThemeProvider({ children, ...props }: ThemeProviderProps): react_jsx_runtime.JSX.Element;
+declare function ThemeProvider({ children, ...props }: ThemeProviderProps): React$1.JSX.Element;
 
 declare const DropdownMenu: React$1.FC<DropdownMenuPrimitive.DropdownMenuProps>;
 declare const DropdownMenuTrigger: React$1.ForwardRefExoticComponent<DropdownMenuPrimitive.DropdownMenuTriggerProps & React$1.RefAttributes<HTMLButtonElement>>;
@@ -576,7 +575,7 @@ declare const DropdownMenuLabel: React$1.ForwardRefExoticComponent<Omit<Dropdown
 } & React$1.RefAttributes<HTMLDivElement>>;
 declare const DropdownMenuSeparator: React$1.ForwardRefExoticComponent<Omit<DropdownMenuPrimitive.DropdownMenuSeparatorProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const DropdownMenuShortcut: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLSpanElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLSpanElement>): React$1.JSX.Element;
     displayName: string;
 };
 
@@ -586,9 +585,9 @@ interface ThemeToggleProps extends Omit<ButtonProps, "asChild" | "children" | "o
     align?: React$1.ComponentPropsWithoutRef<typeof DropdownMenuContent>["align"];
     showSystemOption?: boolean;
 }
-declare function ThemeToggle({ mode, variant, size, align, showSystemOption, type, ...buttonProps }: ThemeToggleProps): react_jsx_runtime.JSX.Element;
+declare function ThemeToggle({ mode, variant, size, align, showSystemOption, type, ...buttonProps }: ThemeToggleProps): React$1.JSX.Element;
 
-declare function Toaster(): react_jsx_runtime.JSX.Element;
+declare function Toaster(): React$1.JSX.Element;
 
 declare const ToastProvider: React$1.FC<ToastPrimitives.ToastProviderProps>;
 declare const ToastViewport: React$1.ForwardRefExoticComponent<Omit<ToastPrimitives.ToastViewportProps & React$1.RefAttributes<HTMLOListElement>, "ref"> & React$1.RefAttributes<HTMLOListElement>>;
@@ -690,7 +689,7 @@ declare const Command: React$1.ForwardRefExoticComponent<Omit<{
     vimBindings?: boolean;
 } & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 type CommandDialogProps = DialogProps;
-declare const CommandDialog: ({ children, ...props }: CommandDialogProps) => react_jsx_runtime.JSX.Element;
+declare const CommandDialog: ({ children, ...props }: CommandDialogProps) => React$1.JSX.Element;
 declare const CommandInput: React$1.ForwardRefExoticComponent<Omit<Omit<Pick<Pick<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, keyof React$1.InputHTMLAttributes<HTMLInputElement> | "key"> & {
     ref?: React$1.Ref<HTMLInputElement>;
 } & {
@@ -747,7 +746,7 @@ declare const CommandItem: React$1.ForwardRefExoticComponent<Omit<{
     forceMount?: boolean;
 } & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 declare const CommandShortcut: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLSpanElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLSpanElement>): React$1.JSX.Element;
     displayName: string;
 };
 
@@ -781,11 +780,11 @@ declare const DialogContent: React$1.ForwardRefExoticComponent<Omit<DialogPrimit
     variant?: "default";
 } & React$1.RefAttributes<HTMLDivElement>>;
 declare const DialogHeader: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
     displayName: string;
 };
 declare const DialogFooter: {
-    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): react_jsx_runtime.JSX.Element;
+    ({ className, ...props }: React$1.HTMLAttributes<HTMLDivElement>): React$1.JSX.Element;
     displayName: string;
 };
 declare const DialogTitle: React$1.ForwardRefExoticComponent<Omit<DialogPrimitive.DialogTitleProps & React$1.RefAttributes<HTMLHeadingElement>, "ref"> & React$1.RefAttributes<HTMLHeadingElement>>;
@@ -813,111 +812,6 @@ declare const TabsTrigger: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.
 } & class_variance_authority_types.ClassProp) | undefined) => string> & React$1.RefAttributes<HTMLButtonElement>>;
 declare const TabsContent: React$1.ForwardRefExoticComponent<Omit<TabsPrimitive.TabsContentProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
-declare function ReadingProgress(): react_jsx_runtime.JSX.Element;
-
-interface CommandPaletteItem {
-    id: string;
-    title: string;
-    description?: string;
-    icon?: ReactNode;
-    category: string;
-    action: () => void;
-    keywords?: string[];
-}
-interface CommandPaletteProps {
-    className?: string;
-    commands: CommandPaletteItem[];
-    categories?: Record<string, string>;
-    placeholder?: string;
-    onSearch?: (query: string) => CommandPaletteItem[];
-    triggerLabel?: string;
-    shortcutKey?: string;
-}
-declare function CommandPalette({ className, commands, categories, placeholder, onSearch, triggerLabel, shortcutKey, }: CommandPaletteProps): react_jsx_runtime.JSX.Element;
-
-interface BreadcrumbItem {
-    label: string;
-    href: string;
-}
-interface BreadcrumbNavProps {
-    items: BreadcrumbItem[];
-    className?: string;
-    separator?: ReactNode;
-    linkComponent?: React.ComponentType<{
-        href: string;
-        className?: string;
-        children: ReactNode;
-    }>;
-}
-declare function BreadcrumbNav({ items, className, separator, linkComponent: LinkComponent, }: BreadcrumbNavProps): react_jsx_runtime.JSX.Element | null;
-
-interface ExpandableCardProps {
-    title: string;
-    description?: string;
-    children?: ReactNode;
-    thumbnail?: ReactNode;
-    tags?: string[];
-    actions?: ReactNode;
-    className?: string;
-    defaultExpanded?: boolean;
-}
-declare function ExpandableCard({ title, description, children, thumbnail, tags, actions, className, defaultExpanded, }: ExpandableCardProps): react_jsx_runtime.JSX.Element;
-
-interface ScrollToTopProps {
-    threshold?: number;
-    className?: string;
-}
-declare function ScrollToTop({ threshold, className }: ScrollToTopProps): react_jsx_runtime.JSX.Element;
-
-interface PageTransitionProps {
-    children: ReactNode;
-    className?: string;
-    variant?: "fade" | "slide" | "scale" | "slideUp" | "clipReveal";
-    transitionKey: string;
-}
-declare function PageTransition({ children, className, variant, transitionKey, }: PageTransitionProps): react_jsx_runtime.JSX.Element;
-interface SectionRevealProps {
-    children: ReactNode;
-    className?: string;
-    delay?: number;
-    direction?: "up" | "down" | "left" | "right";
-    once?: boolean;
-}
-declare function SectionReveal({ children, className, delay, direction, once, }: SectionRevealProps): react_jsx_runtime.JSX.Element;
-interface StaggerContainerProps {
-    children: ReactNode;
-    className?: string;
-    staggerDelay?: number;
-    delayChildren?: number;
-    once?: boolean;
-}
-declare function StaggerContainer({ children, className, staggerDelay, delayChildren, once, }: StaggerContainerProps): react_jsx_runtime.JSX.Element;
-interface StaggerItemProps {
-    children: ReactNode;
-    className?: string;
-}
-declare function StaggerItem({ children, className }: StaggerItemProps): react_jsx_runtime.JSX.Element;
-interface ParallaxSectionProps {
-    children: ReactNode;
-    className?: string;
-    speed?: number;
-    direction?: "up" | "down";
-}
-declare function ParallaxSection({ children, className, speed, direction, }: ParallaxSectionProps): react_jsx_runtime.JSX.Element;
-interface ScaleOnScrollProps {
-    children: ReactNode;
-    className?: string;
-    scaleRange?: [number, number];
-}
-declare function ScaleOnScroll({ children, className, scaleRange, }: ScaleOnScrollProps): react_jsx_runtime.JSX.Element;
-interface MaskRevealProps {
-    children: ReactNode;
-    className?: string;
-    direction?: "left" | "right" | "up" | "down";
-    delay?: number;
-}
-declare function MaskReveal({ children, className, direction, delay, }: MaskRevealProps): react_jsx_runtime.JSX.Element;
-
 interface ErrorBoundaryProps {
     children: ReactNode;
     fallback?: ReactNode | ((error: Error, reset: () => void) => ReactNode);
@@ -942,4 +836,4 @@ interface DefaultErrorFallbackProps {
 }
 declare function DefaultErrorFallback({ error: _error, reset, title, description, }: DefaultErrorFallbackProps): ReactNode;
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, type AlertProps, AlertTitle, Avatar, AvatarFallback, AvatarImage, type AvatarProps, Badge, type BadgeProps, BorderSpinner, BreadcrumbNav, Button, type ButtonProps, Card, CardContent, CardDescription, CardFooter, CardHeader, type CardProps, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, Checkbox, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandPalette, type CommandPaletteItem, CommandSeparator, CommandShortcut, Container, type ContainerProps, DefaultErrorFallback, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ErrorBoundary, ExpandableCard, Heading, type HeadingProps, Input, type InputProps, Label, MaskReveal, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, PageSpinner, PageTransition, ParallaxSection, Progress, ProgressCircle, type ProgressCircleProps, type ProgressCircleSize, ProgressCircleSkeleton, type ProgressProps, RadioGroup, RadioGroupItem, ReadingProgress, ScaleOnScroll, ScrollArea, ScrollBar, ScrollToTop, Section, type SectionProps, SectionReveal, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, type SeparatorProps, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonCard, SkeletonInput, type SkeletonProps, SkeletonText, Spinner, type SpinnerProps, StaggerContainer, StaggerItem, StatusBadge, type StatusBadgeProps, type StatusType, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type ThemeToggleMode, type ThemeToggleProps, Toast, ToastAction, type ToastActionElement, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, avatarVariants, badgeVariants, buttonVariants, cardVariants, cn, containerVariants, debounce, fadeIn, fadeInScale, fadeInUp, formatCurrency, formatRelativeTime, generateId, headingVariants, iconPop, inputVariants, isClient, isServer, labelVariants, navigationMenuTriggerStyle, parallaxScroll, photoReveal, reducer, scaleUp, sectionVariants, showContainerVariants, showItemSpringVariants, showItemVariants, skeletonVariants, slideIn, slideInLeft, slideInRight, springBouncy, springGentle, springSnappy, stagger, staggerContainer, staggerContainerVariants, staggerItem, staggerItemVariants, tabsListVariants, tabsTriggerVariants, textareaVariants, toast, reducer as toastReducer, toastVariants, useIsClient, useIsDesktop, useIsMobile, useIsTablet, useMediaQuery, usePrefersDarkMode, usePrefersReducedMotion, useToast };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, type AlertProps, AlertTitle, Avatar, AvatarFallback, AvatarImage, type AvatarProps, Badge, type BadgeProps, BorderSpinner, Button, type ButtonProps, Card, CardContent, CardDescription, CardFooter, CardHeader, type CardProps, CardTitle, Carousel, type CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, Checkbox, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, Container, type ContainerProps, DefaultErrorFallback, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, ErrorBoundary, Heading, type HeadingProps, Input, type InputProps, Label, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, PageSpinner, Progress, ProgressCircle, type ProgressCircleProps, type ProgressCircleSize, ProgressCircleSkeleton, type ProgressProps, RadioGroup, RadioGroupItem, ScrollArea, ScrollBar, Section, type SectionProps, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, Separator, type SeparatorProps, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonCard, SkeletonInput, type SkeletonProps, SkeletonText, Spinner, type SpinnerProps, StatusBadge, type StatusBadgeProps, type StatusType, Switch, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, type TextareaProps, ThemeProvider, ThemeToggle, type ThemeToggleMode, type ThemeToggleProps, Toast, ToastAction, type ToastActionElement, ToastClose, ToastDescription, type ToastProps, ToastProvider, ToastTitle, ToastViewport, Toaster, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, avatarVariants, badgeVariants, buttonVariants, cardVariants, cn, containerVariants, debounce, fadeIn, fadeInScale, fadeInUp, formatCurrency, formatRelativeTime, generateId, headingVariants, iconPop, inputVariants, isClient, isServer, labelVariants, navigationMenuTriggerStyle, parallaxScroll, photoReveal, reducer, scaleUp, sectionVariants, showContainerVariants, showItemSpringVariants, showItemVariants, skeletonVariants, slideIn, slideInLeft, slideInRight, springBouncy, springGentle, springSnappy, stagger, staggerContainer, staggerContainerVariants, staggerItem, staggerItemVariants, tabsListVariants, tabsTriggerVariants, textareaVariants, toast, reducer as toastReducer, toastVariants, useIsClient, useIsDesktop, useIsMobile, useIsTablet, useMediaQuery, usePrefersDarkMode, usePrefersReducedMotion, useToast };
