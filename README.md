@@ -195,7 +195,8 @@ Everything below is exported from the package root.
 |-----------|-------|
 | `Container`, `containerVariants` | Max-width page container |
 | `Section`, `sectionVariants` | Vertical rhythm wrapper |
-| `Heading`, `headingVariants` | Renders the DESIGN.md type ladder |
+| `Heading`, `headingVariants` | Renders the DESIGN.md type ladder — `level`: display-xl…h4 · `variant`: default, muted, brand |
+| `Paragraph`, `paragraphVariants` | Body copy on the ladder — `size`: lg, default, sm · `variant`: muted (default), default |
 
 ### Theming
 

@@ -76,6 +76,7 @@ export { StatusBadge, type StatusBadgeProps, type StatusType } from "./component
 export { Separator, type SeparatorProps } from "./components/separator";
 export { Section, sectionVariants, type SectionProps } from "./components/section";
 export { Heading, headingVariants, type HeadingProps } from "./components/heading";
+export { Paragraph, paragraphVariants, type ParagraphProps } from "./components/paragraph";
 export { Container, containerVariants, type ContainerProps } from "./components/container";
 export { ThemeProvider, type ThemeProviderProps } from "./components/theme-provider";
 export { ThemeToggle, type ThemeToggleProps, type ThemeToggleMode } from "./components/theme-toggle";
