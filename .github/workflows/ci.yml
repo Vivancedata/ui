@@ -82,7 +82,11 @@ jobs:
         run: npm run react-doctor:ci
 
   coverage:
-    name: Test Coverage (>=85%)
+    # Named for what the gate does, not a number. The floors live in
+    # vitest.config.ts (measured values, ratcheted up as tests grow);
+    # embedding them in this name -- a required status-check context --
+    # is how "(>=85%)" kept claiming a bar the config no longer enforced.
+    name: Test Coverage (floors)
     runs-on: ubuntu-latest
     needs: lint
     steps:
