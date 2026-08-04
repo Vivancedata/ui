@@ -49,6 +49,8 @@
     --border: 0 0% 92%;
     --input: 0 0% 92%;
     --ring: 152 52% 20%;
+    /* Consumed by app-side arbitrary values (rounded-[calc(var(--radius)+...)]),
+     * not by the preset -- grep the consumers before calling this dead. */
     --radius: 0.75rem;
 
     /* Semantic status */

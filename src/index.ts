@@ -76,6 +76,7 @@ export { StatusBadge, type StatusBadgeProps, type StatusType } from "./component
 export { Separator, type SeparatorProps } from "./components/separator";
 export { Section, sectionVariants, type SectionProps } from "./components/section";
 export { Heading, headingVariants, type HeadingProps } from "./components/heading";
+export { Paragraph, paragraphVariants, type ParagraphProps } from "./components/paragraph";
 export { Container, containerVariants, type ContainerProps } from "./components/container";
 export { ThemeProvider, type ThemeProviderProps } from "./components/theme-provider";
 export { ThemeToggle, type ThemeToggleProps, type ThemeToggleMode } from "./components/theme-toggle";
@@ -192,21 +193,12 @@ export {
  * permits exactly one flourish -- the hero mesh, available as the `.hero-mesh`
  * class -- and re-adding a second decorative system is the specific failure
  * this guards against. See DESIGN.md.
+ *
+ * The bespoke marketing components that used to live here (CommandPalette,
+ * BreadcrumbNav, ExpandableCard, ScrollToTop, ReadingProgress, PageTransition
+ * and its reveal/stagger/parallax variants) were removed in 0.3.0: no consumer
+ * imported any of them, and every unused export is public API the package
+ * would otherwise have to keep working forever. They live in git history if a
+ * concrete need returns.
  */
-export { ReadingProgress } from "./components/reading-progress";
-
-// Layout/UI components
-export { CommandPalette, type CommandPaletteItem } from "./components/command-palette";
-export { BreadcrumbNav } from "./components/breadcrumb-nav";
-export { ExpandableCard } from "./components/expandable-card";
-export { ScrollToTop } from "./components/scroll-to-top";
-export {
-  PageTransition,
-  SectionReveal,
-  StaggerContainer,
-  StaggerItem,
-  ParallaxSection,
-  ScaleOnScroll,
-  MaskReveal,
-} from "./components/page-transition";
 export { ErrorBoundary, DefaultErrorFallback } from "./components/error-boundary";
