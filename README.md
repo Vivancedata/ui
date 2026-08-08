@@ -302,17 +302,22 @@ tree for the tarball to be consumable.
    each lockfile with **npm 10** — the major that Node 22 ships and CI runs. A
    lockfile written by npm 11 is rejected by npm 10's `npm ci`.
 
-### Moving to npm (optional)
+### Moving to npm (optional, not currently planned)
 
-`.github/workflows/release.yml` already publishes to npm on any `v*` tag,
-verifying that the tag matches `package.json` before it does. It needs one
-thing: an **`NPM_TOKEN`** secret on this repository (an npm automation token
-with publish rights to the `@vivancedata` scope).
+`.github/workflows/release.yml` only *verifies* a `v*` tag (version match,
+typecheck, tests, build) — it does not publish anywhere, because the tarball
+above **is** the distribution channel. An earlier version of the workflow
+tried to `npm publish` and failed every release at the final step for lack of
+an `NPM_TOKEN` secret nobody had.
 
-Once that exists, tagging publishes automatically, and the three consumers can
-move from the tarball URL to a semver range (`^0.3.0`). That is strictly nicer —
-ranges, provenance, and no URL to bump per release — but it is an improvement,
-not a prerequisite. The tarball resolves correctly today.
+If public npm distribution is ever wanted: create an npm automation token
+with publish rights to the `@vivancedata` scope, add it as an `NPM_TOKEN`
+repository secret, and restore a publish step
+(`npm publish --access public --provenance`, with
+`registry-url: 'https://registry.npmjs.org'` on the setup-node step and
+`id-token: write` permission). The consumers could then use a semver range
+(`^0.3.0`) instead of a URL to bump per release. Until someone wants that,
+the tarball resolves correctly and no token is needed.
 
 ## Package exports
 
