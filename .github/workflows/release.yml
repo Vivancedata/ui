@@ -9,15 +9,20 @@ env:
 
 permissions:
   contents: read
-  id-token: write # required for npm provenance
 
 concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
+# Consumers install this package from the GitHub tag tarball
+# (archive/refs/tags/vX.Y.Z.tar.gz), not from npm, so a release tag is
+# "published" the moment it exists. This workflow only verifies that the
+# tag is sound: version matches, types check, tests pass, package builds.
+# There is deliberately no npm publish step -- it required an NPM_TOKEN
+# secret nobody had and failed every release at the final step.
 jobs:
-  publish:
-    name: Publish to npm
+  verify:
+    name: Verify release tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,7 +33,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
@@ -44,7 +48,7 @@ jobs:
             echo "Tag ${GITHUB_REF_NAME} does not match package.json version ${PKG_VERSION}." >&2
             exit 1
           fi
-          echo "Publishing ${PKG_VERSION}"
+          echo "Verifying ${PKG_VERSION}"
 
       - name: Type check
         run: npm run typecheck
@@ -54,8 +58,3 @@ jobs:
 
       - name: Build package
         run: npm run build
-
-      - name: Publish
-        run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
