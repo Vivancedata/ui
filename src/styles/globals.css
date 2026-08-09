@@ -148,9 +148,22 @@
     --shadow-1: 0 1px 1px rgb(0 0 0 / 0.5);
     --shadow-2: 0 2px 2px rgb(0 0 0 / 0.5), 0 8px 16px -4px rgb(0 0 0 / 0.6);
 
-    --mesh-1: 152 45% 30%;
-    --mesh-2: 168 55% 35%;
-    --mesh-3: 187 70% 40%;
+    /* Brighter than the light-mode stops, not darker.
+     *
+     * These were 30/35/40% lightness against light mode's 35/45/55% -- dimmed
+     * for dark mode on the usual instinct. That instinct is backwards here. The
+     * mesh is an additive glow composited over `--background`, which in dark
+     * mode is pure black (0 0% 0%): a 30%-lightness green at 0.28 alpha lands
+     * around #2A6F4F on #000 and is, in practice, invisible. Measured on the
+     * live site, the one flourish this design system permits itself was not
+     * visible in the theme that loads by default.
+     *
+     * Raised until the wash reads on black while staying well short of a glow.
+     * If these ever move again, judge them rendered on the dark hero, not by
+     * their relationship to the light values. */
+    --mesh-1: 152 58% 46%;
+    --mesh-2: 168 62% 50%;
+    --mesh-3: 187 78% 56%;
   }
 
   * {

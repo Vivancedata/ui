@@ -149,6 +149,13 @@ one: no glows, no glass, no cursor effects, no floating shapes, no parallax. Tho
 components were retired from this package deliberately, and re-adding a decorative
 system is the specific failure this design guards against.
 
+The stops (`--mesh-1/2/3`) are **brighter in dark mode than in light**, which looks
+wrong in the token table and is correct on screen. The mesh is an additive wash over
+`--background`; in dark mode that ground is pure black, so stops dimmed on the usual
+instinct disappear entirely. They were 30/35/40% lightness and the flourish was
+invisible in the theme that loads by default. Judge any future change to them
+rendered on the dark hero, never by their relationship to the light values.
+
 ## Do
 
 - Keep the sheet near-white and let ink carry headings, CTAs, and borders.
