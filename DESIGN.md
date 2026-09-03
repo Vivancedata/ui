@@ -347,11 +347,16 @@ the following specific ways.
   `--shadow-1` and none on `--shadow-2`. `/pricing` cards wear two teal-tinted
   shadows (`rgba(15,118,110,0.22) 0 25px 60px -45px` and
   `rgba(13,148,136,0.55) 0 35px 80px -50px`) that exist nowhere in this contract.
-- **The dark mesh ships dim.** `/`, `/services` and `/about` paint the mesh from
-  `.hero-mesh::before`; the light stop resolves to `hsl(152 52% 35%)` as specified,
-  but the dark stop resolves to `hsl(152 45% 30%)`, the pre-correction value still in
-  the published v0.4.0 tarball. The raised stops in this repository's `globals.css`
-  have not been released.
+- **The dark mesh renders dim locally, and that is a stale install, not the
+  release.** `/`, `/services` and `/about` paint the mesh from `.hero-mesh::before`;
+  the light stop resolves to `hsl(152 52% 35%)` as specified, but the dark stop
+  resolved to `hsl(152 45% 30%)` — the pre-correction value. The cause is
+  `vivancedata/node_modules/@vivancedata/ui`, which is a **v0.3.0** directory left
+  over from before the fix and shadows the workspace symlink; the v0.4.0 tag tarball
+  and the v0.4.0 copy installed in `crm/` both carry the raised
+  `152 58% 46% / 168 62% 50% / 187 78% 56%`. Measure the mesh against a fresh
+  install: a dim dark hero on a dev server means the app's own `node_modules` is
+  behind, and `npm install` is the fix.
 
 **Key Characteristics:**
 - Near-white sheet, one ink tone for headings, CTAs and every border
