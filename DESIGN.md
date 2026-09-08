@@ -6,6 +6,9 @@ description: >
   green survives as the accent (`brand`) that Geist spends on Vercel blue; Geist Sans
   drives tightly-tracked display type, Geist Mono labels uppercase eyebrows, and
   buttons split by context (pills for marketing CTAs, 6px squares for app and nav chrome).
+  A second, opt-in world (`nightshift`) is recorded at the end of this file: a warm
+  near-black sheet, a serif display face, and green reserved for machine state.
+  Its tokens carry the `nightshift-` prefix and reach only apps that ask for them.
 colors:
   # Surfaces. Light value first; the `-dark` sibling is the same token under `.dark`.
   background: "hsl(0 0% 98%)"
@@ -80,6 +83,54 @@ colors:
   chart-4-dark: "hsl(38 91% 60%)"
   chart-5: "hsl(212 100% 48%)"
   chart-5-dark: "hsl(212 100% 65%)"
+
+  # ========================================================================
+  # The `nightshift` world (opt-in, `data-world="nightshift"` on <html>).
+  # Same convention as above: light value first, `-dark` sibling under `.dark`.
+  # The inversion is deliberate here -- dark is the canonical sheet and the
+  # light value is its daylight counterpart, not the other way round.
+  # ========================================================================
+  nightshift-background: "hsl(44 24% 96%)"
+  nightshift-background-dark: "hsl(60 8% 5%)"
+  nightshift-foreground: "hsl(48 12% 9%)"
+  nightshift-foreground-dark: "hsl(38 18% 91%)"
+  nightshift-card: "hsl(40 30% 98%)"
+  nightshift-card-dark: "hsl(60 6% 7%)"
+  nightshift-muted: "hsl(44 20% 92%)"
+  nightshift-muted-dark: "hsl(55 6% 11%)"
+  nightshift-muted-foreground: "hsl(45 6% 34%)"
+  nightshift-muted-foreground-dark: "hsl(40 5% 66%)"
+  nightshift-accent: "hsl(44 20% 93%)"
+  nightshift-accent-dark: "hsl(60 5% 12%)"
+  # Cream pill on the warm-black sheet; ink pill on the warm-paper one
+  nightshift-primary: "hsl(48 12% 9%)"
+  nightshift-primary-dark: "hsl(38 18% 91%)"
+  nightshift-primary-foreground: "hsl(44 24% 96%)"
+  nightshift-primary-foreground-dark: "hsl(60 8% 5%)"
+  # The evidence green. Same hue as the Job Ticket brand (152); lightness only
+  nightshift-brand: "hsl(152 52% 24%)"
+  nightshift-brand-dark: "hsl(152 42% 58%)"
+  nightshift-brand-foreground: "hsl(44 24% 96%)"
+  nightshift-brand-foreground-dark: "hsl(60 8% 5%)"
+  # Wall labels and field names live here, so this tier is readable, not decorative
+  nightshift-mute: "hsl(45 5% 42%)"
+  nightshift-mute-dark: "hsl(45 4% 52%)"
+  # Decorative only; `aria-hidden` texture
+  nightshift-faint: "hsl(45 5% 62%)"
+  nightshift-faint-dark: "hsl(45 4% 33%)"
+  nightshift-border: "hsl(42 16% 86%)"
+  nightshift-border-dark: "hsl(55 7% 14%)"
+  nightshift-input: "hsl(42 16% 82%)"
+  nightshift-input-dark: "hsl(55 7% 18%)"
+  # The structural material of this world, in place of the hero mesh
+  nightshift-rule: "hsl(42 16% 86%)"
+  nightshift-rule-dark: "hsl(55 7% 14%)"
+  nightshift-dot: "hsl(45 8% 74%)"
+  nightshift-dot-dark: "hsl(50 6% 31%)"
+  nightshift-warning: "hsl(32 76% 38%)"
+  nightshift-warning-dark: "hsl(38 78% 62%)"
+  nightshift-destructive: "hsl(8 68% 42%)"
+  nightshift-destructive-dark: "hsl(8 72% 62%)"
 typography:
   display-xl:
     fontFamily: "Geist, Inter, ui-sans-serif, system-ui, sans-serif"
@@ -153,6 +204,47 @@ typography:
     fontWeight: 400
     lineHeight: 1.43
     letterSpacing: "0"
+  # The serif display scale of the `nightshift` world. One weight (400); scale
+  # and italic carry emphasis, because the face has no second weight.
+  nightshift-serif-xl:
+    fontFamily: "Instrument Serif, Iowan Old Style, Palatino, Georgia, serif"
+    fontSize: "clamp(2.75rem, 7vw, 6rem)"
+    fontWeight: 400
+    lineHeight: 0.98
+    letterSpacing: "-0.02em"
+  nightshift-serif-lg:
+    fontFamily: "Instrument Serif, Iowan Old Style, Palatino, Georgia, serif"
+    fontSize: "clamp(2.125rem, 4.5vw, 3.5rem)"
+    fontWeight: 400
+    lineHeight: 1.04
+    letterSpacing: "-0.018em"
+  nightshift-serif-md:
+    fontFamily: "Instrument Serif, Iowan Old Style, Palatino, Georgia, serif"
+    fontSize: "clamp(1.75rem, 3vw, 2.375rem)"
+    fontWeight: 400
+    lineHeight: 1.1
+    letterSpacing: "-0.015em"
+  nightshift-serif-sm:
+    fontFamily: "Instrument Serif, Iowan Old Style, Palatino, Georgia, serif"
+    fontSize: "1.375rem"
+    fontWeight: 400
+    lineHeight: 1.25
+    letterSpacing: "-0.01em"
+  # Geist Mono, uppercase: controls, column heads, wall labels
+  nightshift-label:
+    fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "0.6875rem"
+    fontWeight: 500
+    lineHeight: 1.2
+    letterSpacing: "0.09em"
+  # Geist Mono at reading size: times, job numbers, extracted values, money
+  nightshift-data:
+    fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "0.8125rem"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "0.005em"
+    fontFeature: "tnum 1, calt 0"
 rounded:
   sm: "6px"
   md: "12px"
@@ -271,9 +363,96 @@ components:
     typography: "{typography.body-sm}"
     rounded: "{rounded.pill-category}"
     padding: "6px 12px"
+  # The `nightshift` control vocabulary. Every control is a pill with an
+  # uppercase mono label and a 44px minimum height.
+  nightshift-cta-primary:
+    backgroundColor: "{colors.nightshift-primary}"
+    textColor: "{colors.nightshift-primary-foreground}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.pill}"
+    padding: "0 20px"
+    height: "44px"
+  nightshift-cta-primary-hover:
+    backgroundColor: "hsl(38 18% 91% / 0.85)"
+    textColor: "{colors.nightshift-primary-foreground}"
+  nightshift-cta-secondary:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-foreground}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.pill}"
+    padding: "0 20px"
+    height: "44px"
+  nightshift-cta-secondary-hover:
+    backgroundColor: "{colors.nightshift-accent}"
+    textColor: "{colors.nightshift-foreground}"
+  nightshift-cta-quiet:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-brand}"
+    typography: "{typography.nightshift-label}"
+    height: "44px"
+  nightshift-cta-quiet-hover:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-foreground}"
+  nightshift-wall-label:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-mute}"
+    typography: "{typography.nightshift-label}"
+  nightshift-record-panel:
+    backgroundColor: "{colors.nightshift-card}"
+    textColor: "{colors.nightshift-foreground}"
+    rounded: "0px"
+    padding: "0px"
+  nightshift-record-row:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-foreground}"
+    typography: "{typography.nightshift-data}"
+    padding: "12px 24px"
+  nightshift-tab-rest:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-mute}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.pill}"
+    padding: "0 16px"
+    height: "44px"
+  nightshift-tab-selected:
+    backgroundColor: "{colors.nightshift-primary}"
+    textColor: "{colors.nightshift-primary-foreground}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.pill}"
+    padding: "0 16px"
+    height: "44px"
+  nightshift-input:
+    backgroundColor: "{colors.nightshift-background}"
+    textColor: "{colors.nightshift-foreground}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.sm}"
+    padding: "8px 12px"
+    height: "44px"
+  nightshift-nav-link:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-mute}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.sm}"
+    padding: "8px 12px"
+  nightshift-nav-link-hover:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-foreground}"
+  nightshift-demo-link:
+    backgroundColor: "transparent"
+    textColor: "{colors.nightshift-brand}"
+    typography: "{typography.nightshift-label}"
+    rounded: "{rounded.pill}"
+    padding: "0 16px"
+    height: "44px"
 ---
 
 # Design System: Vivancedata
+
+**This file contracts two worlds.** The sections immediately below are the default
+**Job Ticket** sheet that every app in the fleet loads. A second, opt-in world —
+**nightshift** — is recorded at the end of this file under its own heading; only
+`vivancedata` runs it, by setting `data-world="nightshift"` on `<html>`. Frontmatter
+tokens carrying the `nightshift-` prefix belong to that world and to no other.
 
 ## Overview
 
@@ -710,3 +889,404 @@ collapses every animation and transition to 0.01ms.
 - **Don't** add a second decorative system.
 - **Don't** reach for Tailwind's default `shadow-sm` / `shadow-lg` / `shadow-xl` or a tinted shadow; the only shadows are `--shadow-1` and `--shadow-2`.
 - **Don't** set headings at weight 700 or at `text-5xl` / `text-3xl` sizes off the ladder.
+
+
+---
+
+# Design System: Vivancedata — the "nightshift" world
+
+Everything above this line is the **Job Ticket** world: the near-white sheet every
+app in the fleet loads by default. Everything below it is `nightshift`, a second,
+**opt-in** token set that only `vivancedata` runs. The two share one package, one
+Tailwind preset, one spacing scale, one radius scale and one brand hue; they do not
+share a sheet, a display face, or a rule about what the green means.
+
+**How an app opts in.** Set `data-world="nightshift"` on `<html>`, and load the
+display face as `--font-display`. Nothing else. Apps that do not set the attribute
+resolve the tokens at the top of this file and are untouched — `crm`, `learn` and the
+three demo sites never see a nightshift value. `--rule` and `--dot` fall back to
+`--border` in those worlds, so a component built here degrades rather than breaks.
+`vivancedata` also sets `defaultTheme="dark"`, because in this world dark is the
+design and light is its daylight counterpart, not a second identity.
+
+**Which rules cross the line.** A rule stated above applies to the Job Ticket world
+unless it is restated here. Three of its prohibitions are lifted *inside* nightshift
+and nowhere else: this world sets display type in a serif, uses a real italic as its
+emphasis mechanism, and has no eyebrow. Everything else above — the hover-wash
+meaning of `--accent`, the decorative-grey floor, the one-hue discipline, the
+hairline-first depth model — holds harder here, not less.
+
+## Overview
+
+**Creative North Star: "The Night Log"**
+
+A night log is the record a system leaves behind while nobody is watching: a
+timestamp, a source, the mess that came in, and the fields something managed to fill.
+That is this world. The sheet is a warm near-black (`hsl(60 8% 5%)`) under cream ink
+(`hsl(38 18% 91%)`); the structure is a 1px hairline grid and a dot matrix; the
+display voice is Instrument Serif at one weight; every machine fact — a time, a job
+number, an extracted value, a price, a control label — is set in Geist Mono; and the
+green is spent only where a system actually did something right.
+
+The scene the dark ground was chosen from belongs in the record, because it is the
+argument for the whole world: an owner-operator reading on a phone at 9pm, in a truck
+cab or a shop office after the lights are off. It refuses the AI-consultancy hero —
+gradient wash, capability cards, logo wall — and it equally refuses the stark white
+platform sheet this site already was.
+
+Density is quiet and ruled: 96 to 128px between bands, hairlines instead of card
+edges, one measure per column set in `ch` on the element that carries the type.
+Weight is not an instrument here — the serif has one weight and the mono has two —
+so scale, italic and the hairline do the work that bold does elsewhere.
+
+**Key Characteristics:**
+- Warm near-black sheet under cream ink; dark is canonical, light is its counterpart
+- Nothing is a card and nothing casts a shadow; depth is a 1px `rule`
+- A dot matrix as atmosphere, masked so no copy is ever set on texture
+- Three faces with three jobs: Instrument Serif display, Geist Sans prose, Geist Mono facts
+- Green marks affirmative machine state only — never emphasis, never prices, never links in general
+- Emphasis is the serif's italic; one word of a sentence turns
+- Every control is a mono uppercase pill, 44px minimum
+- Browser surfaces (selection, caret, scrollbar, accent) are themed, not left to the UA
+
+## Colors
+
+Two warm neutrals carry the page — a near-black with a green cast and a cream with a
+paper cast — and one green appears at small scale as evidence. The frontmatter is
+normative; the table maps each variable to its role and its light/dark pair, with the
+**dark column canonical**.
+
+| Token | Light | Dark (canonical) | Role |
+|---|---|---|---|
+| `--background` | `44 24% 96%` | `60 8% 5%` | The sheet. Warm, never neutral grey |
+| `--card` | `40 30% 98%` | `60 6% 7%` | A panel bounded by a rule, not a card |
+| `--foreground` | `48 12% 9%` | `38 18% 91%` | Display type, filled values, ink |
+| `--muted-foreground` | `45 6% 34%` | `40 5% 66%` | Prose, leads, notes |
+| `--muted` | `44 20% 92%` | `55 6% 11%` | The one tinted column (recommended tier) |
+| `--accent` | `44 20% 93%` | `60 5% 12%` | **Neutral hover wash, as above. Not the green** |
+| `--rule` | `42 16% 86%` | `55 7% 14%` | The 1px structural hairline: the world's material |
+| `--dot` | `45 8% 74%` | `50 6% 31%` | The dot matrix behind empty half-viewports |
+| `--primary` | `48 12% 9%` | `38 18% 91%` | The CTA pill; inverts against the sheet |
+| `--brand` | `152 52% 24%` | `152 42% 58%` | Affirmative machine state. Nothing else |
+| `--mute` | `45 5% 42%` | `45 4% 52%` | Wall labels and field names — **readable tier here** |
+| `--faint` | `45 5% 62%` | `45 4% 33%` | `aria-hidden` texture only |
+
+### Primary
+- **Warm near-black** (`background`, dark `hsl(60 8% 5%)`): the sheet. Its hue is
+  pushed off neutral so it reads as a room with the lights off rather than as a
+  black rectangle. Panels sit two points above it at `card`; that two-point step and
+  a hairline are the entire depth model.
+- **Cream** (`foreground`, dark `hsl(38 18% 91%)`): display type, filled values, the
+  primary pill. Not white — white on this ground glares at 9pm.
+
+### Secondary
+- **Evidence Green** (`brand`, dark `hsl(152 42% 58%)`, light `hsl(152 52% 24%)`): the
+  only hue in the world. Same brand hue as the Job Ticket green (152); only lightness
+  moved, so this is the Vivancedata green seen at night rather than a new colour. In
+  the shipped home surface it appears in exactly three roles: the `filled` verdict
+  mark, the mono links that open a running demo, and the focus ring. It is ink, never
+  light: no glow, no large fill, no tinted panel.
+
+### Tertiary
+- **Warning amber** (`warning`, dark `hsl(38 78% 62%)`): the `flag` verdict mark —
+  a system noticed something and handed it to a person. The only other hue a reader
+  meets on a record.
+- **Destructive** (`destructive`, dark `hsl(8 72% 62%)`): form validation messages.
+  Nothing else on a marketing surface.
+
+### Neutral
+- **Prose grey** (`muted-foreground`): every paragraph, lead and note. 8.3:1 on the
+  sheet — this world's prose sits well above the floor because it is read in the dark.
+- **Wall grey** (`mute`): column heads, field names, footer column titles, nav links,
+  the resting tab. **A readable tier in this world**, not a decorative one.
+- **Texture grey** (`faint`): the drifting ledger strip and the quotation marks around
+  a sample input. `aria-hidden` by construction.
+- **Hairline** (`rule`): every divider, panel edge, band boundary and grid cell edge.
+- **Dot** (`dot`): the radial-gradient matrix, 0.75px dots on a 12px pitch.
+
+### Contrast constraints (measured, sRGB, WCAG 2.1, dark sheet)
+
+| Pair | Ratio | Verdict |
+|---|---|---|
+| `foreground` on `background` | 16.0:1 | AAA |
+| `muted-foreground` on `background` | 8.3:1 | AAA |
+| `brand` on `background` | 8.9:1 | AAA |
+| `mute` on `background` | 5.4:1 | AA |
+| `mute` on `card` | 5.2:1 | AA |
+| `mute` on `muted` (the tinted tier column) | 4.7:1 | AA |
+| `faint` on `background` | 2.6:1 | Decorative only |
+
+### Named Rules
+
+**The Evidence Green Rule.** In this world the green means one thing: *a machine got
+this right*. A value a system read and matched, a capability a tier includes, a link
+that opens one of those running systems, and the focus ring that is the browser's own
+affirmative. It is not emphasis, not a price, not a heading accent, not links in
+general, not an icon tint, not a recommendation label. Every one of those was tried
+during the build and removed. Audit test: if you cannot name the machine that
+verified the thing you just coloured, it is not green.
+
+**The Wall-Label Floor Rule.** `--mute` carries wall labels and field names in this
+world, so it is a **readable** tier and must clear 4.5:1 against `card` and against
+the tinted `muted` column, not merely against `background`. Dark `--mute` was raised
+from 45% to 52% lightness for exactly this. `--faint` keeps the decorative role the
+Job Ticket world gives both greys, and is only ever used on `aria-hidden` texture.
+
+**The Judged-On-The-Sheet Rule.** `--dot` is judged rendered on the dark sheet, never
+against its light value. At 22% lightness the field was below the threshold where it
+reads as material at all — the same markup read as a legible field in the light
+counterpart and as an empty half-viewport in the dark, which is how "atmosphere"
+becomes "unfinished". It is 31% now. This is the same class of mistake The Dark Mesh
+Rule records above; the lesson survived the world change.
+
+**The Stated Placeholder Rule.** This world states its own `::placeholder` colour
+(`hsl(var(--mute))`). The package input's `placeholder:text-faint` lands near 2:1 on
+this sheet, so inheriting it would have shipped an invisible placeholder. Any world
+with a dark canonical sheet states placeholder colour explicitly rather than
+inheriting it.
+
+## Typography
+
+**Display Font:** Instrument Serif 400, with its true italic (fallbacks: Iowan Old
+Style, Palatino Linotype, Palatino, Georgia, serif)
+**Body Font:** Geist Sans (as above)
+**Label/Data Font:** Geist Mono (as above)
+
+**Character:** Three voices with three jobs, and the split is the argument of the
+page. The serif is the human speaking; the sans explains; the mono is what the
+machine wrote down. Loaded per-app via `next/font/google` and exposed as
+`--font-display`, `--font-geist-sans`, `--font-geist-mono`. The serif is loaded
+*with* its italic, because the italic is not decoration here — it is the emphasis
+mechanism, in place of a second weight the face does not have.
+
+### Hierarchy
+- **Serif XL** (400, `clamp(2.75rem, 7vw, 6rem)`, 0.98, `-0.02em`): the page's one
+  headline. Left-set, capped at ~17ch on the element itself. 96px at desktop.
+- **Serif LG** (400, `clamp(2.125rem, 4.5vw, 3.5rem)`, 1.04, `-0.018em`): band
+  headlines.
+- **Serif MD** (400, `clamp(1.75rem, 3vw, 2.375rem)`, 1.1, `-0.015em`): the hero's
+  second beat — the italic turn under the headline.
+- **Serif SM** (400, `1.375rem`, 1.25, `-0.01em`): sub-headings, tier names, the
+  wordmark, closing lines.
+- **Body LG / Body / Body SM / Caption** (Geist Sans, 400): unchanged from the ladder
+  above. Leads are Body LG at `muted-foreground`; notes are Caption.
+- **Label** (Geist Mono 500, `0.6875rem`, 1.2, `+0.09em`, uppercase): every control,
+  column head, field name, nav link and footer column title. Never above a heading.
+- **Data** (Geist Mono 400, `0.8125rem`, 1.5, `+0.005em`, tabular): times, job
+  numbers, extracted values, the contact address. `font-variant-numeric: tabular-nums`
+  and `calt 0` are set on every mono element in this world, so figures line up in
+  columns the way measurements should.
+
+Headings in this world take `-0.015em` tracking and 1.1 line-height at the base
+layer, overriding the grotesque floor set above — a high-contrast serif closes up on
+its own at display size, and `-0.04em` would crush it.
+
+### Named Rules
+
+**The Italic Turn Rule.** Emphasis is the serif's italic, on one word or one short
+phrase of a sentence, and never more than once per band. Colouring the emphasis green
+is the obvious move and the wrong one: it would make green mean "important" instead
+of "verified" everywhere else on the page. Bold does not exist here; the display face
+has one weight.
+
+**The Mono-Is-Machine Rule.** Geist Mono is reserved for things a machine produced or
+a machine operator types: timestamps, job numbers, extracted values, addresses, and
+the controls that operate the systems. A sentence a person would speak — "One-off,
+nothing ongoing", a recommendation, a lead paragraph — is set in the sans or the
+serif. Mono on a human sentence is costume.
+
+**The Measure-On-The-Type Rule.** `ch` resolves against the element's own font, so
+every measure cap (`max-w-[52ch]`, `max-w-[17ch]`) goes on the element that carries
+the type, never on a wrapper. A measure set on a wrapper measured the 16px body sans
+while the heading set at 96px and produced a 176px column that broke the headline one
+word to a line. Caps observed in the build: 17ch display, 26ch the italic turn,
+34–46ch leads, 52–62ch prose.
+
+## Layout
+
+The spatial model is a ruled sheet, not a stack of panels. Every band is a full-bleed
+section separated from the next by a single `border-t border-rule`; inside it, the
+standard centred `container` with 16px side padding carries a 12-column grid. Bands
+run `py-3xl` (64px) on mobile and `py-4xl` (96px) from `md`. The 4px spacing scale and
+the breakpoints above are unchanged.
+
+Structure is expressed as hairlines rather than as containers: lists take
+`border-t` on the parent and `border-b` per row; grids let cells borrow neighbours'
+edges so no line is ever doubled; the pricing comparison is one grid ruled on every
+cell rather than three cards.
+
+**The Bleed-Pair Rule.** `.bleed` (`margin-inline: -1rem`) cancels the app shell's
+horizontal padding so a band's rules and dot fields reach the viewport edge. Its
+`-1rem` tracks `main`'s `px-4` in the consuming layout: **they are a pair and must
+move together.** Change one without the other and every band rule stops 16px short of
+the edge, which reads as a stack of wide cards — the exact thing this world refuses.
+
+The dot matrix occupies the half of a viewport the type leaves empty (42–50% width,
+right-aligned, `-z-10`), behind a vertical hairline where it needs something to stand
+on. It is masked top and bottom (`.field-dots-fade`, transparent → opaque at 18% →
+72%) so no copy is ever set on texture, and it is `aria-hidden` everywhere.
+
+## Elevation & Depth
+
+**There is no elevation in this world.** Nothing is a card and nothing casts a shadow.
+Depth is a 1px `rule` and a two-point tonal step from `background` to `card`;
+everything sits on the same sheet. `--shadow-1` and `--shadow-2` are still defined so
+package components that reference them resolve, but no nightshift surface uses them,
+and `.hero-mesh::before` is explicitly disabled — the grid replaced the flourish, and
+this world has no second decorative system either.
+
+### Named Rules
+
+**The Hairline-Only Rule.** A panel is bounded by `border-rule` on all four edges, or
+it is not a panel. No shadow, no glow, no lift on hover, no backdrop tint except the
+nav's own `backdrop-blur` over a translucent sheet.
+
+**The Bounded Tint Rule.** The one filled surface on the page — the recommended
+pricing column at `bg-muted` — must be closed by a rule on every edge, including the
+final CTA row. Without the closing rule its tint ends in mid-air as a hanging
+rectangle, which re-introduces the card the world refuses. Any future tinted region
+inherits this: a tint is a region of a ruled sheet, never a floating object.
+
+## Shapes
+
+Two shapes and one drawn mark set.
+
+| Form | Value | Use |
+|---|---|---|
+| Pill | `100px` (`rounded-pill`) | Every control: primary, secondary, tab, demo link |
+| Tight square | `6px` (`rounded-sm`) | Inputs, icon buttons, nav links, focus targets |
+| Square | `0px` | Record panels, grid cells, bands — everything structural |
+
+Panels and grid cells have **no radius at all**: a ruled sheet has corners, not
+rounded ones. Borders are always 1px and always `rule`. Focus is a 2px `ring`
+(`brand`) at 2px offset with a 2px radius, stated at the base layer so it applies to
+anything focusable.
+
+**Marks.** The world draws its own small marks rather than pulling them from the icon
+library, because at 12–14px the library's 2px stroke fills in and the verdicts have to
+read as one family. One grammar: square viewBox, 1.25–1.5px stroke, round caps and
+joins, `currentColor` throughout so a mark inherits the tier of the text it sits in.
+The set is one arrow (every control that goes somewhere) and four verdicts: `filled`
+(check, `brand`), `flag` (triangle, `warning`), `held` (circle-minus, `foreground`),
+`absent` (a dash, `mute`).
+
+**The Dash-Not-Cross Rule.** Absence is a rule, not a cross. A red X on a cheaper tier
+scolds the reader for reading the cheaper column; a dash says "not this one".
+
+## Components
+
+Controls feel like the buttons on a machine: mono, uppercase, pill-shaped, and quiet
+until touched. Every state change is a colour transition over `--duration-fast`
+(150ms). Nothing lifts, scales or glows. Minimum height is 44px everywhere — the
+audience is on a phone in a truck cab, not a mouse at a desk.
+
+### Buttons
+- **Shape:** pill (100px), uppercase Label type, 20px horizontal padding, 44px floor.
+- **Primary (`ctaPrimary`):** cream fill (`primary`) with sheet-coloured text; hover
+  drops to 85%. **One per band at most** — it marks the only thing to do next.
+- **Secondary (`ctaSecondary`):** transparent with a `rule` hairline; hover raises the
+  border to `mute` and takes the `accent` wash. For a real alternative, not a fallback.
+- **Quiet (`ctaQuiet`):** no container. Mono uppercase `brand` text with the arrow
+  mark, which slides 2px on hover; hover moves the text to `foreground`. This is the
+  green-link case, and it is only legitimate when the link opens a running system.
+- **Focus:** 2px `brand` ring, 2px offset, offset colour `background`.
+
+### Record panel (signature)
+The night log's record: a `card`-filled rectangle bounded by `rule`, square-cornered,
+with a mono header row (timestamp `/` source, and a wall label on the right), a
+quoted sample input in prose grey, and a definition list of extracted fields divided
+by `divide-rule`. Field names are wall labels in the left 8rem column; values are
+mono `foreground` preceded by a verdict mark. Notes sit under a value in Caption,
+indented to the value's text edge. **The `held` verdict is styled as prominently as
+`filled`** — a system that refuses to guess is the evidence, and demoting it to an
+error style would sell the opposite.
+
+### Tabs
+Pills, not a well. Resting: `rule` hairline, `mute` label, hover to `mute` border and
+`foreground` text. Selected: `primary` fill, transparent border. Roving tabindex, and
+selecting re-fires the panel's settle animation.
+
+### Inputs / Fields
+6px square, 1px `input` hairline, sheet-coloured fill (`background`, not `card`, so a
+field reads as cut into the sheet), 44px tall, label above in uppercase Label type at
+`mute`. Placeholder is `mute` by the base rule. Error state swaps the border and the
+focus ring to `destructive` and prints the message in Body SM `destructive` below.
+
+### Navigation
+Sticky, `border-b border-rule`, over a translucent sheet (`bg-background/85`, dropping
+to `/70` where `backdrop-filter` is supported). Links are uppercase Label at `mute`,
+moving to `foreground` on hover — no wash, no underline, no dropdown chrome. The
+wordmark is Serif SM beside the logo mark. The nav's one control is the primary pill.
+Mobile collapses to the same tokens in a sheet.
+
+### Footer
+Same hairline grid: column titles are wall labels, links are Body SM prose grey moving
+to `foreground`. The contact address is mono Data at `foreground`, underlined with
+`decoration-rule` at a 4px offset — **not green**, because an email address is not a
+running system. Social marks are 44px icon squares at `mute`.
+
+### Ledger strip (signature)
+A full-width band of mono paperwork marks (RFI numbers, delivery notes, permit codes)
+between two rules, drifting horizontally as pure texture: `faint` tier, `aria-hidden`,
+duplicated once so the loop closes seamlessly.
+
+### Motion
+One authored moment and one ambient drift, and that is the entire motion system.
+- **`.settle`** (620ms, `cubic-bezier(0.16, 1, 0.3, 1)`): machine-filled values settle
+  into place — opacity 0.32 → 1, 3px rise, 2px blur → 0 — staggered 70ms per row. It
+  animates **from an already-visible default**, so a failed or blocked animation still
+  leaves readable content, and it re-fires on tab selection because the motion belongs
+  to the act of reading a record, not to scrolling past a section.
+- **`.drift`** (90s linear, infinite): the ledger strip only. Decorative, `aria-hidden`.
+- `prefers-reduced-motion: reduce` kills both outright.
+
+### Browser surfaces
+The parts of the page nobody draws are drawn here, and this is a requirement of the
+world rather than a polish item: `::selection` at 28% `brand` with `foreground` text,
+`caret-color` and `accent-color` on `brand`, `scrollbar-color` on `rule` with a thin
+track (plus webkit track/thumb, the thumb inset 3px in the sheet colour and hovering
+to `mute`), `text-underline-offset: 0.22em` with a 1px decoration so underlines clear
+descenders, and tabular figures on every mono element. Left at UA defaults these
+belong to no design system at all, which is the cheapest tell that a page was
+assembled rather than built.
+
+## Do's and Don'ts
+
+These are the nightshift world's guardrails. The Job Ticket list above still governs
+every app that does not set `data-world`.
+
+### Do:
+- **Do** opt in with `data-world="nightshift"` plus `--font-display`, and ship
+  `defaultTheme="dark"`; the dark block is the design.
+- **Do** build structure out of `border-rule` hairlines — a band boundary, a row
+  divider, a grid cell edge — and let cells borrow neighbours' edges.
+- **Do** spend `--brand` only on affirmative machine state: a filled value, an
+  included capability, a link that opens a running system, the focus ring.
+- **Do** carry emphasis with the serif's italic, on one word or phrase, once per band.
+- **Do** set every machine fact in Geist Mono with tabular figures, and every human
+  sentence in the sans or the serif.
+- **Do** put measure caps in `ch` on the element that carries the type.
+- **Do** judge `--dot` and any other atmosphere value rendered on the dark sheet.
+- **Do** close a tinted region with a rule on every edge, CTA row included.
+- **Do** keep `.bleed`'s `-1rem` and the app shell's `px-4` in step; they are a pair.
+- **Do** theme the browser surfaces — selection, caret, accent, scrollbar, underline
+  offset — in any new world with a dark canonical sheet.
+- **Do** keep every control at a 44px minimum height.
+
+### Don't:
+- **Don't** put the green on emphasis, prices, headings, icons, a recommendation
+  label, or links in general. If no machine verified it, it is not green.
+- **Don't** add a card, a shadow, a hover lift or a rounded panel; depth is a hairline.
+- **Don't** set copy in `--faint` (2.6:1); it is `aria-hidden` texture only. Wall
+  labels and field names are `--mute`, which is a readable tier in this world.
+- **Don't** inherit the package input's `placeholder:text-faint` here; state the
+  placeholder colour.
+- **Don't** set copy on the dot field; it is masked away from the type on purpose.
+- **Don't** put an eyebrow or a kicker above a heading in this world. The uppercase
+  mono label is a column head or a field name, never a stacked pre-title.
+- **Don't** use bold, a second display weight, or a library glyph in place of the
+  drawn marks.
+- **Don't** animate anything but the two authored moments, and never from an invisible
+  default.
+- **Don't** carry a nightshift token into another app; the other five consume the
+  Job Ticket sheet and a nightshift value there is a fork, not a fix.

@@ -36,6 +36,17 @@ const vivanceTailwindPreset: Partial<Config> = {
           "Menlo",
           "monospace",
         ],
+        // The display voice of the `nightshift` world, loaded per-app via
+        // next/font. Apps that never set --font-display fall through to a
+        // real serif stack rather than to the platform sans.
+        display: [
+          "var(--font-display)",
+          "Iowan Old Style",
+          "Palatino Linotype",
+          "Palatino",
+          "Georgia",
+          "serif",
+        ],
       },
 
       spacing: {
@@ -99,6 +110,37 @@ const vivanceTailwindPreset: Partial<Config> = {
           "0.75rem",
           { lineHeight: "1.333", letterSpacing: "0.02em", fontWeight: "500" },
         ],
+        // The serif display scale of the `nightshift` world. Weight is 400
+        // because the face has one weight; scale and italic carry emphasis
+        // instead. Tracking stays mild -- a high-contrast serif closes up on
+        // its own at display size, and -0.04em is the floor, not the target.
+        "serif-xl": [
+          "clamp(2.75rem, 7vw, 6rem)",
+          { lineHeight: "0.98", letterSpacing: "-0.02em", fontWeight: "400" },
+        ],
+        "serif-lg": [
+          "clamp(2.125rem, 4.5vw, 3.5rem)",
+          { lineHeight: "1.04", letterSpacing: "-0.018em", fontWeight: "400" },
+        ],
+        "serif-md": [
+          "clamp(1.75rem, 3vw, 2.375rem)",
+          { lineHeight: "1.1", letterSpacing: "-0.015em", fontWeight: "400" },
+        ],
+        "serif-sm": [
+          "1.375rem",
+          { lineHeight: "1.25", letterSpacing: "-0.01em", fontWeight: "400" },
+        ],
+        // Geist Mono, uppercase, wide. Controls, column heads and wall labels
+        // -- the voice the machine and the machine's operator both use.
+        label: [
+          "0.6875rem",
+          { lineHeight: "1.2", letterSpacing: "0.09em", fontWeight: "500" },
+        ],
+        // Geist Mono at reading size, for values: times, job numbers, money.
+        data: [
+          "0.8125rem",
+          { lineHeight: "1.5", letterSpacing: "0.005em", fontWeight: "400" },
+        ],
         "body-lg": ["1.125rem", { lineHeight: "1.6" }],
         body: ["1rem", { lineHeight: "1.5" }],
         "body-sm": ["0.875rem", { lineHeight: "1.43" }],
@@ -130,6 +172,10 @@ const vivanceTailwindPreset: Partial<Config> = {
         // and placeholders only. See DESIGN.md.
         mute: "hsl(var(--mute))",
         faint: "hsl(var(--faint))",
+        // The structural hairline and the dot matrix of the `nightshift`
+        // world. They fall back to `--border` in worlds that define neither.
+        rule: "hsl(var(--rule, var(--border)))",
+        dot: "hsl(var(--dot, var(--border)))",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

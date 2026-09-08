@@ -296,3 +296,302 @@
     background-position: -200% 0;
   }
 }
+
+/* ==========================================================================
+ * The "nightshift" world — an opt-in second token set.
+ *
+ * Applied by setting `data-world="nightshift"` on <html>. Apps that do not set
+ * it are untouched, which is the point: `crm` and `learn` keep the Geist sheet
+ * above while `vivancedata` runs this one. Both blocks below define the SAME
+ * token list, because the light block sits at equal specificity to `.dark` but
+ * later in source order — a token defined in one and not the other would leak
+ * the wrong value into the other theme.
+ *
+ * The scene this was picked from: an owner-operator reading on a phone at 9pm,
+ * in a truck cab or a shop office after the lights are off. Dark is the design;
+ * the light block is its daylight counterpart, not a second identity.
+ * ========================================================================== */
+
+@layer base {
+  /* Daylight counterpart: warm paper, the same hairline grid, the same green. */
+  [data-world="nightshift"] {
+    --background: 44 24% 96%;
+    --foreground: 48 12% 9%;
+    --card: 40 30% 98%;
+    --card-foreground: 48 12% 9%;
+    --popover: 40 30% 98%;
+    --popover-foreground: 48 12% 9%;
+
+    --primary: 48 12% 9%;
+    --primary-foreground: 44 24% 96%;
+    --secondary: 40 30% 98%;
+    --secondary-foreground: 48 12% 9%;
+
+    --muted: 44 20% 92%;
+    --muted-foreground: 45 6% 34%;
+    --accent: 44 20% 93%;
+    --accent-foreground: 48 12% 9%;
+
+    --brand: 152 52% 24%;
+    --brand-foreground: 44 24% 96%;
+
+    --mute: 45 5% 42%;
+    --faint: 45 5% 62%;
+
+    --border: 42 16% 86%;
+    --input: 42 16% 82%;
+    --ring: 152 52% 24%;
+    --radius: 0.375rem;
+
+    --destructive: 8 68% 42%;
+    --destructive-foreground: 44 24% 96%;
+    --success: 152 52% 24%;
+    --success-foreground: 44 24% 96%;
+    --success-muted: 152 52% 24% / 0.1;
+    --warning: 32 76% 38%;
+    --warning-foreground: 44 24% 96%;
+    --warning-muted: 32 76% 38% / 0.1;
+    --info: 200 46% 32%;
+    --info-foreground: 44 24% 96%;
+    --info-muted: 200 46% 32% / 0.1;
+
+    --chart-1: 152 52% 26%;
+    --chart-2: 168 40% 34%;
+    --chart-3: 196 38% 40%;
+    --chart-4: 32 76% 42%;
+    --chart-5: 45 5% 48%;
+
+    --shadow-1: 0 1px 1px hsl(48 12% 9% / 0.05);
+    --shadow-2: 0 1px 2px hsl(48 12% 9% / 0.06), 0 10px 30px -12px hsl(48 12% 9% / 0.14);
+
+    /* The grid this world is built on, in place of the hero mesh. */
+    --rule: 42 16% 86%;
+    --dot: 45 8% 74%;
+  }
+
+  /* Canonical. Warm near-black under cream — sampled, not guessed. */
+  [data-world="nightshift"].dark {
+    --background: 60 8% 5%;
+    --foreground: 38 18% 91%;
+    --card: 60 6% 7%;
+    --card-foreground: 38 18% 91%;
+    --popover: 60 6% 8%;
+    --popover-foreground: 38 18% 91%;
+
+    /* The cream pill. Inverted from the sheet, as in the light world. */
+    --primary: 38 18% 91%;
+    --primary-foreground: 60 8% 5%;
+    --secondary: 60 6% 7%;
+    --secondary-foreground: 38 18% 91%;
+
+    --muted: 55 6% 11%;
+    --muted-foreground: 40 5% 66%;
+    --accent: 60 5% 12%;
+    --accent-foreground: 38 18% 91%;
+
+    /* 9.8:1 on the sheet. The brand hue is unchanged at 152; only lightness
+     * moved, so this still reads as the Vivancedata green rather than a new
+     * one. It is used as ink — never as a glow, and never as a large fill. */
+    --brand: 152 42% 58%;
+    --brand-foreground: 60 8% 5%;
+
+    --mute: 45 4% 52%;
+    --faint: 45 4% 33%;
+
+    --border: 55 7% 14%;
+    --input: 55 7% 18%;
+    --ring: 152 42% 58%;
+    --radius: 0.375rem;
+
+    --destructive: 8 72% 62%;
+    --destructive-foreground: 60 8% 5%;
+    --success: 152 42% 58%;
+    --success-foreground: 60 8% 5%;
+    --success-muted: 152 42% 58% / 0.14;
+    --warning: 38 78% 62%;
+    --warning-foreground: 60 8% 5%;
+    --warning-muted: 38 78% 62% / 0.14;
+    --info: 194 42% 62%;
+    --info-foreground: 60 8% 5%;
+    --info-muted: 194 42% 62% / 0.14;
+
+    --chart-1: 152 42% 58%;
+    --chart-2: 168 34% 50%;
+    --chart-3: 194 38% 56%;
+    --chart-4: 38 78% 62%;
+    --chart-5: 45 4% 52%;
+
+    --shadow-1: 0 1px 1px hsl(0 0% 0% / 0.6);
+    --shadow-2: 0 1px 2px hsl(0 0% 0% / 0.6), 0 14px 40px -18px hsl(0 0% 0% / 0.9);
+
+    --rule: 55 7% 14%;
+    /* Judged on the dark sheet, not against the light value. At 22% the field
+     * was below the threshold where it reads as material at all — the same
+     * markup rendered as a legible field in the light counterpart and as an
+     * empty half-viewport here, which is how "atmosphere" becomes "unfinished". */
+    --dot: 50 6% 31%;
+  }
+}
+
+/* The parts of the page nobody draws. Left at browser defaults these belong to
+ * no design system at all, which is what makes them the cheapest tell that a
+ * page was assembled rather than built. */
+@layer base {
+  [data-world="nightshift"] ::selection {
+    background-color: hsl(var(--brand) / 0.28);
+    color: hsl(var(--foreground));
+  }
+
+  [data-world="nightshift"] {
+    caret-color: hsl(var(--brand));
+    accent-color: hsl(var(--brand));
+    scrollbar-color: hsl(var(--border)) transparent;
+    scrollbar-width: thin;
+  }
+
+  [data-world="nightshift"] ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  [data-world="nightshift"] ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  [data-world="nightshift"] ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border: 3px solid hsl(var(--background));
+    border-radius: 999px;
+  }
+
+  [data-world="nightshift"] ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--mute));
+  }
+
+  /* Links carry the green as ink and an underline that clears the descenders,
+   * rather than the browser's baseline-hugging default. */
+  [data-world="nightshift"] a {
+    text-underline-offset: 0.22em;
+    text-decoration-thickness: 1px;
+  }
+
+  [data-world="nightshift"] ::placeholder {
+    color: hsl(var(--mute));
+    opacity: 1;
+  }
+
+  /* No `border-radius` here. This rule sets it on the FOCUSED ELEMENT, not on
+   * the outline, and at `[data-world] :focus-visible` it outranks the radius
+   * utilities -- so a 2px value squared off every pill on the site for as long
+   * as it held focus. Browsers already follow the element's own radius when
+   * drawing an outline, so there was nothing to gain for it either. */
+  [data-world="nightshift"] :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Figures in this world are measurements, so they line up in columns. */
+  [data-world="nightshift"] .font-mono,
+  [data-world="nightshift"] code,
+  [data-world="nightshift"] kbd {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "calt" 0;
+  }
+
+  /* Display type is a serif here; the base rule above tracks bare headings for
+   * a grotesque and crushes this face. */
+  [data-world="nightshift"] h1,
+  [data-world="nightshift"] h2,
+  [data-world="nightshift"] h3,
+  [data-world="nightshift"] h4,
+  [data-world="nightshift"] h5,
+  [data-world="nightshift"] h6 {
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+}
+
+@layer components {
+  /* The structural material of this world: a 1px rule and a dot matrix. There
+   * is no card and no shadow — depth is a hairline, and everything sits on the
+   * same sheet. `.hero-mesh` is inert here; the grid replaced it. */
+  [data-world="nightshift"] .hero-mesh::before {
+    display: none;
+  }
+
+  .field-dots {
+    background-image: radial-gradient(
+      hsl(var(--dot)) 0.75px,
+      transparent 0.75px
+    );
+    background-size: 12px 12px;
+    background-position: -1px -1px;
+  }
+
+  /* The dot field is atmosphere, not a pattern to read: it fades out where the
+   * copy sits so nothing is set on texture. */
+  .field-dots-fade {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 18%,
+      #000 72%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 18%,
+      #000 72%,
+      transparent
+    );
+  }
+
+  /* Cancels the app shell's own horizontal padding so a band's rules and
+   * fields reach the viewport edge — a ruled sheet, not a stack of cards.
+   * The value tracks `main`'s padding in the root layout; they are a pair. */
+  .bleed {
+    margin-inline: -1rem;
+  }
+}
+
+@layer utilities {
+  /* The page's one authored moment: machine-filled values settle into place
+   * once, on an exponential ease-out, from an already-visible default. */
+  @keyframes settle-in {
+    from {
+      opacity: 0.32;
+      transform: translateY(3px);
+      filter: blur(2px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  .settle {
+    animation: settle-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes drift-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .drift {
+    animation: drift-x 90s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .settle,
+  .drift {
+    animation: none !important;
+  }
+}
