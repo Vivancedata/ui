@@ -475,6 +475,21 @@
     text-decoration-thickness: 1px;
   }
 
+  /* `.eyebrow` is green in the Job Ticket world, where green is the one
+   * coloured mark on the sheet. Here green means affirmative machine state, so
+   * an eyebrow set in it is green spent on emphasis -- the case this world's
+   * OWN-WORLD line rules out by name. The class keeps its mono uppercase form
+   * and becomes a wall label: a column head or a field name.
+   *
+   * This does not license an eyebrow ABOVE a heading. That is a stacked
+   * pre-title and it stays deleted wherever it appears; the surviving call
+   * sites are labels on fields ("Challenge", "Key Benefits"), which is what
+   * the form is actually for. */
+  [data-world="nightshift"] .eyebrow {
+    color: hsl(var(--mute));
+    letter-spacing: 0.09em;
+  }
+
   [data-world="nightshift"] ::placeholder {
     color: hsl(var(--mute));
     opacity: 1;
